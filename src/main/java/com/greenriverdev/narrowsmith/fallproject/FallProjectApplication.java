@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FallProjectApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(FallProjectApplication.class, args);
+
+        System.out.println("Hello World");
     }
 
 }
