@@ -19,8 +19,6 @@ public class TrailService
             new Trail(1007, 481, "WA", "Duthie Hill", "Voodoo Child", false, TrailDifficulty.BLUE)
     ));
 
-
-
     //CREATE
     public Trail addTrail(int length, int elevation, String state, String trailSystem,
                           String name, boolean multiDirectional, TrailDifficulty difficulty)
@@ -30,7 +28,6 @@ public class TrailService
         trails.add(added);
         return added;
     }
-
 
 
     //READ
@@ -71,7 +68,6 @@ public class TrailService
     }
 
 
-
     //DELETE
     public void deleteTrail(UUID id)
     {
@@ -79,7 +75,6 @@ public class TrailService
         trails = trails.stream()
                 .filter(trail-> !trail.getTrailID().equals(id)).toList();
     }
-
 
 
     //READ
@@ -90,7 +85,6 @@ public class TrailService
                         .contains(queryValue.toLowerCase()))
                 .toList();
     }
-
 
 
     public boolean trailExists(UUID id)
