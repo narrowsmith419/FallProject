@@ -2,7 +2,6 @@ package com.greenriverdev.narrowsmith.fallproject.services;
 
 import com.greenriverdev.narrowsmith.fallproject.models.Trail;
 import com.greenriverdev.narrowsmith.fallproject.models.TrailDifficulty;
-import com.greenriverdev.narrowsmith.fallproject.models.TrailReview;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,10 +19,7 @@ public class TrailService
             new Trail(1007, 481, "WA", "Duthie Hill", "Voodoo Child", false, TrailDifficulty.BLUE)
     ));
 
-    private List<TrailReview> reviews = new ArrayList<>(List.of(
-            new TrailReview(true, "Trek Remedy", "Dry", "Evening/Sunny", "Paramount"),
-            new TrailReview(true, "Trek Remedy", "Dry", "Evening/Sunny", "Semper Dirticus")
-    ));
+
 
     //CREATE
     public Trail addTrail(int length, int elevation, String state, String trailSystem,
@@ -35,21 +31,14 @@ public class TrailService
         return added;
     }
 
-    public TrailReview addTrailReview(boolean isRatingValid, String bikeRidden, String trailConditions, String weather,
-                                      String name )
-    {
-        TrailReview added = new TrailReview(isRatingValid, bikeRidden, trailConditions, weather,
-            name);
-        reviews.add(added);
-        return added;
-    }
+
 
     //READ
     public List<Trail> allTrails()
     {
         return trails;
     }
-    public List<TrailReview> allReviews() { return reviews; }
+
 
     //UPDATE
     public Trail updateTrail(UUID id, int length, int elevation, String state, String trailSystem,
@@ -80,30 +69,7 @@ public class TrailService
         }
     }
 
-    public TrailReview updateTrailReview(UUID id, boolean isRatingValid, String bikeRidden, String trailConditions, String weather,
-                                         String name)
-    {
-        //optional is a wrapper to either store a null value or store a joke
-        Optional<TrailReview> foundTrailReview = reviews.stream()
-                .filter(review -> review.getReviewID().equals(id))
-                .findFirst();
 
-        if(foundTrailReview.isPresent()) //if it's not null
-        {
-            //update it
-            TrailReview review = foundTrailReview.get();
-            review.setRatingValid(isRatingValid);
-            review.setBikeRidden(bikeRidden);
-            review.setTrailConditions(trailConditions);
-            review.setWeather(weather);
-            review.setTrailName(name);
-            return review;
-        }
-        else
-        {
-            return null;
-        }
-    }
 
     //DELETE
     public void deleteTrail(UUID id)
@@ -113,11 +79,7 @@ public class TrailService
                 .filter(trail-> !trail.getTrailID().equals(id)).toList();
     }
 
-    public void deleteReview(UUID id)
-    {
-        reviews = reviews.stream()
-                .filter(review -> !review.getReviewID().equals(id)).toList();
-    }
+
 
     //READ
     public List<Trail> searchTrails(String queryValue)
@@ -128,13 +90,7 @@ public class TrailService
                 .toList();
     }
 
-    public List<TrailReview> searchReviews(String queryValue)
-    {
-        return reviews.stream()
-                .filter(review -> review.getTrailName().toLowerCase()
-                        .contains(queryValue.toLowerCase()))
-                .toList();
-    }
+
 
     public boolean trailExists(UUID id)
     {
@@ -144,10 +100,5 @@ public class TrailService
 
     }
 
-    public boolean reviewExists(UUID id)
-    {
-        return reviews.stream()
-                .anyMatch(review -> review.getReviewID().equals(id));
 
-    }
 }

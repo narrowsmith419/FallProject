@@ -1,4 +1,10 @@
 package com.greenriverdev.narrowsmith.fallproject.controllers;
 
-public class WebApi {
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+
+public class WebApi
+{
+
 }
