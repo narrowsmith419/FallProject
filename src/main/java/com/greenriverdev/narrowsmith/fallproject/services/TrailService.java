@@ -53,6 +53,7 @@ public class TrailService
         {
             //update it
             Trail trail = foundTrail.get();
+            trail.setTrailID(id);
             trail.setDifficulty(difficulty);
             trail.setLength(length);
             trail.setElevation(elevation);
