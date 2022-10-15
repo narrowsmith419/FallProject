@@ -77,8 +77,10 @@ public class WebApiTrail
         }
 
         //if they are able to post return 201
-        return new ResponseEntity<>(service.addTrail(tempTrail.getLength(), tempTrail.getElevation(), tempTrail.getState(), tempTrail.getTrailSystem(),
-                tempTrail.getName(), tempTrail.isMultiDirectional(), tempTrail.getDifficulty()), HttpStatus.CREATED);
+        return new ResponseEntity<>(service.addTrail(tempTrail.getLength(), tempTrail.getElevation(),
+                tempTrail.getState(), tempTrail.getTrailSystem(),
+                tempTrail.getName(), tempTrail.isMultiDirectional(),
+                tempTrail.getDifficulty()), HttpStatus.CREATED);
     }
 
     @PutMapping("")

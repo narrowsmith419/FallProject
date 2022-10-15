@@ -19,7 +19,7 @@ public class ReviewService
 
     //CREATE
     public TrailReview addTrailReview(boolean isRatingValid, String bikeRidden, String trailConditions, String weather,
-                                      String name )
+                                      String name)
     {
         TrailReview added = new TrailReview(isRatingValid, bikeRidden, trailConditions, weather,
                 name);
