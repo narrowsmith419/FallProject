@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 
 /**
  * Trail Review subclass of Review
@@ -17,9 +19,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TrailReview extends Review
 {
+    private UUID reviewID; //unique id for review lookup
     private boolean isRatingValid;
     private String bikeRidden;
     private String trailConditions;
     private String weather;
+    private String trailName;
 
+    public TrailReview( boolean isRatingValid, String bikeRidden, String trailConditions, String weather,
+                  String name )
+    {
+        reviewID = UUID.randomUUID();
+        this.isRatingValid = isRatingValid;
+        this.bikeRidden = bikeRidden;
+        this.trailConditions = trailConditions;
+        this.weather = weather;
+        this.trailName = name;
+    }
 }
