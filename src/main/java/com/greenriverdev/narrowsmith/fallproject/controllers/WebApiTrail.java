@@ -37,6 +37,12 @@ public class WebApiTrail
             return new ResponseEntity<>("the string cannot be null", HttpStatus.BAD_REQUEST);
         }
 
+        //if not found
+        if(service.searchTrails(query.getQueryValue()) == null || service.searchTrails(query.getQueryValue()).isEmpty())
+        {
+            return new ResponseEntity<>("No trail found with matching name", HttpStatus.BAD_REQUEST);
+        }
+
         //alternative using factory methods
         return ResponseEntity.ok(service.searchTrails(query.getQueryValue()));
     }

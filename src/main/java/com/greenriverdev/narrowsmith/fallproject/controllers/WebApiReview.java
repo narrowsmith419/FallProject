@@ -33,6 +33,12 @@ public class WebApiReview
             return new ResponseEntity<>("the string cannot be null / key must be queryValue", HttpStatus.BAD_REQUEST);
         }
 
+        //if not found
+        if(service.searchReviews(query.getQueryValue()) == null || service.searchReviews(query.getQueryValue()).isEmpty())
+        {
+            return new ResponseEntity<>("No Review found with matching trail name", HttpStatus.BAD_REQUEST);
+        }
+
         //alternative using factory methods
         return ResponseEntity.ok(service.searchReviews(query.getQueryValue()));
     }
