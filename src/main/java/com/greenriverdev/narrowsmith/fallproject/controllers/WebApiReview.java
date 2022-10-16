@@ -44,10 +44,11 @@ public class WebApiReview
     }
 
 
+
     @PostMapping("")
     public ResponseEntity<Object> addAReview(@RequestBody TrailReview tempReview)
     {
-        //dont allow an empty trail name
+
         if(tempReview.getTrailName() == null || tempReview.getTrailName().isEmpty())
         {
             return new ResponseEntity<>("the trail name cannot be empty/null", HttpStatus.BAD_REQUEST);
