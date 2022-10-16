@@ -27,6 +27,17 @@ public class TrailReview extends Review
     private String weather;
     private String trailName;
 
+    /**
+     * @param score score of trail 1-5
+     * @param author author of review
+     * @param dateReviewed date trail was ridden
+     * @param wouldRecommend boolean whether author liked/disliked trail
+     * @param isRatingValid boolean was the posted difficulty accurate to the author
+     * @param bikeRidden type of bike ridden on trail
+     * @param trailConditions dirt/air conditions on day trail ridden
+     * @param weather season/whether raining/time of day
+     * @param name name of the trail ridden
+     */
     public TrailReview(int score, String author, LocalDate dateReviewed, boolean wouldRecommend , boolean isRatingValid, String bikeRidden, String trailConditions, String weather,
                        String name )
     {
