@@ -6,6 +6,8 @@ import com.greenriverdev.narrowsmith.fallproject.services.TrailService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDate;
+
 @SpringBootApplication
 public class FallProjectApplication {
 
@@ -20,8 +22,10 @@ public class FallProjectApplication {
         System.out.println(trailService.allTrails());
         System.out.println();
         System.out.println(reviewService.allReviews());
-        trailService.addTrail(2, 700, "OR", "Sandy Ridge", "Jonny Royale", false, TrailDifficulty.DOUBLE_BLACK);
-        reviewService.addTrailReview(true, "Trek Remedy", "loamy", "Wet/Morning", "Jonny Royale");
+        trailService.addTrail(2, 700, "OR", "Sandy Ridge", "Jonny Royale",
+                false, TrailDifficulty.DOUBLE_BLACK);
+        reviewService.addTrailReview(5, "Nathan", LocalDate.now(),true, true,
+                "Trek Remedy", "loamy", "Wet/Morning", "Jonny Royale");
 
     }
 

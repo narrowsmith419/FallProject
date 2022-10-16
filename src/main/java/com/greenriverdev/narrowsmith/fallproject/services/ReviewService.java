@@ -13,15 +13,15 @@ import java.util.UUID;
 public class ReviewService
 {
     private List<TrailReview> reviews = new ArrayList<>(List.of(
-            new TrailReview(true, "Trek Remedy", "Dry", "Evening/Sunny", "Paramount"),
-            new TrailReview(true, "Trek Remedy", "Dry", "Evening/Sunny", "Semper Dirticus")
+            new TrailReview(5,"Nathan A", LocalDate.now(),true,true, "Trek Remedy", "Dry", "Evening/Sunny", "Paramount"),
+            new TrailReview(5,"Nathan A", LocalDate.now(),true,true, "Trek Remedy", "Dry", "Evening/Sunny", "Semper Dirticus")
     ));
 
     //CREATE
-    public TrailReview addTrailReview(boolean isRatingValid, String bikeRidden, String trailConditions, String weather,
+    public TrailReview addTrailReview(int score, String author, LocalDate dateReviewed, boolean wouldRecommend , boolean isRatingValid, String bikeRidden, String trailConditions, String weather,
                                       String name)
     {
-        TrailReview added = new TrailReview(isRatingValid, bikeRidden, trailConditions, weather,
+        TrailReview added = new TrailReview(score, author, dateReviewed, wouldRecommend, isRatingValid, bikeRidden, trailConditions, weather,
                 name);
         reviews.add(added);
         return added;
@@ -31,10 +31,11 @@ public class ReviewService
     public List<TrailReview> allReviews() { return reviews; }
 
     //UPDATE
-    public TrailReview updateTrailReview(UUID id, boolean isRatingValid, String bikeRidden, String trailConditions, String weather,
+    public TrailReview updateTrailReview(UUID id, int score, String author, LocalDate dateReviewed, boolean wouldRecommend,
+                                         boolean isRatingValid, String bikeRidden, String trailConditions, String weather,
                                          String name)
     {
-        //optional is a wrapper to either store a null value or store a joke
+        //optional is a wrapper to either store a null value or store a review
         Optional<TrailReview> foundTrailReview = reviews.stream()
                 .filter(review -> review.getReviewID().equals(id))
                 .findFirst();
@@ -43,6 +44,10 @@ public class ReviewService
         {
             //update it
             TrailReview review = foundTrailReview.get();
+            review.setScore(score);
+            review.setAuthor(author);
+            review.setDateReviewed(dateReviewed);
+            review.setWouldRecommend(wouldRecommend);
             review.setRatingValid(isRatingValid);
             review.setBikeRidden(bikeRidden);
             review.setTrailConditions(trailConditions);
@@ -64,10 +69,18 @@ public class ReviewService
     }
 
     //READ
-    public List<TrailReview> searchReviews(String queryValue)
+    public List<TrailReview> searchReviewsTrailName(String queryValue)
     {
         return reviews.stream()
                 .filter(review -> review.getTrailName().toLowerCase()
+                        .contains(queryValue.toLowerCase()))
+                .toList();
+    }
+
+    public List<TrailReview> searchReviewsAuthorName(String queryValue)
+    {
+        return reviews.stream()
+                .filter(review -> review.getAuthor().toLowerCase()
                         .contains(queryValue.toLowerCase()))
                 .toList();
     }

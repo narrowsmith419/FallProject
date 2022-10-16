@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 
@@ -26,10 +27,15 @@ public class TrailReview extends Review
     private String weather;
     private String trailName;
 
-    public TrailReview( boolean isRatingValid, String bikeRidden, String trailConditions, String weather,
-                  String name )
+    public TrailReview(int score, String author, LocalDate dateReviewed, boolean wouldRecommend , boolean isRatingValid, String bikeRidden, String trailConditions, String weather,
+                       String name )
     {
         reviewID = UUID.randomUUID();
+
+        this.setScore(score);
+        this.setAuthor(author);
+        this.setDateReviewed(dateReviewed);
+        this.setWouldRecommend(wouldRecommend);
         this.isRatingValid = isRatingValid;
         this.bikeRidden = bikeRidden;
         this.trailConditions = trailConditions;

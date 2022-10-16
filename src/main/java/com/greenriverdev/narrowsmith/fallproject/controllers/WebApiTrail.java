@@ -92,12 +92,12 @@ public class WebApiTrail
     @PutMapping("")
     public ResponseEntity<Object> editATrail(@RequestBody Trail tempTrail)
     {
-        //make sure the ID of the joke is found
+
         if(!service.trailExists(tempTrail.getTrailID()))
         {
             return new ResponseEntity<>("Trail does not exist", HttpStatus.NOT_FOUND);
         }
-        //make sure not to add an empty joke
+
         else if(tempTrail.getName() == null || tempTrail.getName().isEmpty())
         {
             return new ResponseEntity<>("the trail name cannot be empty/null", HttpStatus.BAD_REQUEST);

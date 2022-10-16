@@ -32,4 +32,13 @@ public class Review
         this.dateReviewed = dateReviewed;
         this.wouldRecommend = wouldRecommend;
     }
+
+    public void setScore(int score)
+    {
+        if(score < 0 || score > maxScore)
+        {
+            throw new IllegalArgumentException("Score must be 0 - 5!");
+        }
+        this.score = score;
+    }
 }
