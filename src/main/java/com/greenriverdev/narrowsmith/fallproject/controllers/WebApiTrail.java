@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * a RESTful Controller that provides access to Trail objects through HTTP
+ * @author Nathan Arrowsmith
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("api/v1/trail")
 public class WebApiTrail
@@ -16,18 +21,27 @@ public class WebApiTrail
 
     private TrailService service;
 
+    /**
+     * @param service ReviewService object responsible for model object CRUD logic
+     */
     public WebApiTrail(TrailService service)
     {
         this.service = service;
     }
 
+    /**
+     * @return all model objects of type Trail
+     */
     @GetMapping("")
     public ResponseEntity<List<Trail>> allTrails()
     {
         return new ResponseEntity<>(service.allTrails(), HttpStatus.OK);
     }
 
-    //getMapping with request
+    /**
+     * @param query a Trail name
+     * @return all Trail objects with matching trail name
+     */
     @GetMapping("query")
     public ResponseEntity<Object> filterTrails(@RequestBody Query query)
     {
@@ -47,7 +61,10 @@ public class WebApiTrail
         return ResponseEntity.ok(service.searchTrails(query.getQueryValue()));
     }
 
-    //requestBody
+    /**
+     * @param tempTrail a new Trailobject
+     * @return the Trail object just created
+     */
     @PostMapping("")
     public ResponseEntity<Object> addATrail(@RequestBody Trail tempTrail)
     {
@@ -89,6 +106,10 @@ public class WebApiTrail
                 tempTrail.getDifficulty()), HttpStatus.CREATED);
     }
 
+    /**
+     * @param tempTrail a pre-existing Trail object with values altered
+     * @return the Trail object just altered
+     */
     @PutMapping("")
     public ResponseEntity<Object> editATrail(@RequestBody Trail tempTrail)
     {
@@ -132,10 +153,13 @@ public class WebApiTrail
                 tempTrail.getName(), tempTrail.isMultiDirectional(), tempTrail.getDifficulty()), HttpStatus.OK);
     }
 
+    /**
+     * @param tempTrail the reviewID of Trail object to be deleted
+     * @return status OK if successfully deleted
+     */
     @DeleteMapping("")
     public ResponseEntity<Object> deleteATrail(@RequestBody Trail tempTrail)
     {
-        //make sure the ID of the trail is found
         if(!service.trailExists(tempTrail.getTrailID()))
         {
             return new ResponseEntity<>("Trail does not exist", HttpStatus.NOT_FOUND);
@@ -144,5 +168,12 @@ public class WebApiTrail
         service.deleteTrail(tempTrail.getTrailID());
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+    @Override
+    public String toString() {
+        return "WebApiTrail{" +
+                "service=" + service +
+                '}';
     }
 }

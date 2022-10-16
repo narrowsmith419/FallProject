@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * a RESTful Controller that provides access to model objects through HTTP
+ * a RESTful Controller that provides access to TrailReview objects through HTTP
  * @author Nathan Arrowsmith
  * @version 1.0
  */
