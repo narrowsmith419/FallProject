@@ -19,3 +19,6 @@ This application will hold information and media regarding mountain
 bike trails in the Pacific Northwest. Author Nathan Arrowsmith will 
 discuss tips/reviews of popular trails and trail systems he has ridden. 
 
+### Web API Documentation
+[POSTMAN](https://documenter.getpostman.com/view/20790516/2s847BTvgw)
+
