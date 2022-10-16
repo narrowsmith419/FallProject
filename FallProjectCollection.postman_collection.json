@@ -1,0 +1,319 @@
+{
+	"info": {
+		"_postman_id": "398a4454-4feb-4571-a900-cddd7576bcb2",
+		"name": "FallProjectCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20790516"
+	},
+	"item": [
+		{
+			"name": "Get all Trails",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"queryValue\" : \"paramount\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/trail/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"trail",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Trails by name",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"queryValue\": \"Paramount\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/trail/query",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"trail",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a Trail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"length\": 813,\n        \"elevation\": 483,\n        \"state\": \"WA\",\n        \"trailSystem\": \"Duthie Hill\",\n        \"name\": \"new trail\",\n        \"multiDirectional\": false,\n        \"difficulty\": \"DOUBLE_BLACK\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/trail/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"trail",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a Trail",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"trailID\": \"b4d813e8-207b-427d-a0be-eb59fd116ea8\",\n        \"length\": 813,\n        \"elevation\": 483,\n        \"state\": \"LA\",\n        \"trailSystem\": \"Duthie Hill\",\n        \"name\": \"Paramount\",\n        \"multiDirectional\": false,\n        \"difficulty\": \"DOUBLE_BLACK\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/trail/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"trail",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a trail",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"trailID\": \"b4d813e8-207b-427d-a0be-eb59fd116ea8\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/trail/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"trail",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Reviews",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/review",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Reviews by name",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"queryValue\" : \"Semper Dirticus\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/review/query",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"review",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a Review",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"bikeRidden\": \"Trek Remedy\",\n        \"trailConditions\": \"Wet\",\n        \"weather\": \"Afternoon\",\n        \"trailName\": \"Gravy Train\",\n        \"isRatingValid\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/review/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"review",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a Review",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"maxScore\": 5,\n        \"score\": 0,\n        \"author\": null,\n        \"dateReviewed\": null,\n        \"wouldRecommend\": false,\n        \"reviewID\": \"efb55d88-0953-40a5-82e7-a964e672f49a\",\n        \"bikeRidden\": \"Trek Remedy\",\n        \"trailConditions\": \"Dry\",\n        \"weather\": \"Evening/Sunny\",\n        \"trailName\": \"Semper Dirticus\",\n        \"ratingValid\": false\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/review/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"review",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Review",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reviewID\": \"efb55d88-0953-40a5-82e7-a964e672f49a\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/review/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"review",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
