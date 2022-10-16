@@ -1,0 +1,330 @@
+{
+	"info": {
+		"_postman_id": "398a4454-4feb-4571-a900-cddd7576bcb2",
+		"name": "FallProjectCollection",
+		"description": "### **Spring App Collection**\n\na mock api for tracking/updating Trails and Trail Reviews\n\n###### Author: Nathan Arrowsmith\n\n###### Class: SDEV 372\n\n###### Quarter: Fall 2022 Quarter\n\n#### Endpoints:\n\n- /api/v1/trail\n- /api/v1/review",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20790516"
+	},
+	"item": [
+		{
+			"name": "Get all Trails",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/trail/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"trail",
+						""
+					]
+				},
+				"description": "Retrieves all trails in the system\n\nresponses:\n\n- 200 (OK) - All known trails returned"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Trails by name",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"queryValue\": \"Paramount\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/trail/query",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"trail",
+						"query"
+					]
+				},
+				"description": "Retrieves a Trail that matches the name entered as a \"queryValue\".\n\n#### Responses:\n\n- 200 (OK) - Trail found by name searched\n- 400 (BAD REQUEST) - Trail not found by name or search value was blank\n    \n\nHere is an example request body:"
+			},
+			"response": []
+		},
+		{
+			"name": "Add a Trail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"length\": 813,\n        \"elevation\": 483,\n        \"state\": \"WA\",\n        \"trailSystem\": \"Duthie Hill\",\n        \"name\": \"new trail\",\n        \"multiDirectional\": false,\n        \"difficulty\": \"DOUBLE_BLACK\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/trail/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"trail",
+						""
+					]
+				},
+				"description": "Adds a new trail to the system.\n\n#### Responses:\n\n- 201 (CREATED) - New trail created\n- 400 (BAD REQUEST) - A value of a Trail object was of incorrect type/empty\n    \n\nHere is an example request body:"
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a Trail",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"trailID\": \"b4d813e8-207b-427d-a0be-eb59fd116ea8\",\n        \"length\": 813,\n        \"elevation\": 483,\n        \"state\": \"LA\",\n        \"trailSystem\": \"Duthie Hill\",\n        \"name\": \"Paramount\",\n        \"multiDirectional\": false,\n        \"difficulty\": \"DOUBLE_BLACK\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/trail/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"trail",
+						""
+					]
+				},
+				"description": "Updates an existing trail in the system\n\n#### Responses:\n\n- 200 (OK) - Trail successfully updated\n- 400 (BAD REQUEST) - A value of the Trail object was of incorrect type/empty\n- 404 (NOT FOUND) - The Trail doesn't exist in the system\n    \n\nHere is an example request body:"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a trail",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"trailID\": \"b4d813e8-207b-427d-a0be-eb59fd116ea8\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/trail/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"trail",
+						""
+					]
+				},
+				"description": "Removes a Trail from the system\n\n#### Responses:\n\n- 200 (OK) - Trail removed successfully\n- 404 (NOT FOUND) - Trail did not exist in the system\n    \n\nHere is an example request body:"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Reviews",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/review",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"review"
+					]
+				},
+				"description": "Retrieves all reviews in the system\n\nresponses:\n\n- 200 (OK) - All known reviews returned"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Reviews by name",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"queryValue\" : \"Semper Dirticus\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/review/query",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"review",
+						"query"
+					]
+				},
+				"description": "Retrieves a Review that matches the name entered as a \"queryValue\".\n\n#### Responses:\n\n- 200 (OK) - Review found by name searched\n- 400 (BAD REQUEST) - Review not found by name or search value was blank\n    \n\nHere is an example request body:"
+			},
+			"response": []
+		},
+		{
+			"name": "Add a Review",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"bikeRidden\": \"Trek Remedy\",\n        \"trailConditions\": \"Wet\",\n        \"weather\": \"Afternoon\",\n        \"trailName\": \"Gravy Train\",\n        \"isRatingValid\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/review/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"review",
+						""
+					]
+				},
+				"description": "Adds a new review to the system.\n\n#### Responses:\n\n- 201 (CREATED) - New review created\n- 400 (BAD REQUEST) - A value of a Review object was of incorrect type/empty\n    \n\nHere is an example request body:"
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a Review",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"maxScore\": 5,\n        \"score\": 0,\n        \"author\": null,\n        \"dateReviewed\": null,\n        \"wouldRecommend\": false,\n        \"reviewID\": \"efb55d88-0953-40a5-82e7-a964e672f49a\",\n        \"bikeRidden\": \"Trek Remedy\",\n        \"trailConditions\": \"Dry\",\n        \"weather\": \"Evening/Sunny\",\n        \"trailName\": \"Semper Dirticus\",\n        \"ratingValid\": false\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/review/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"review",
+						""
+					]
+				},
+				"description": "Updates an existing Review in the system\n\n#### Responses:\n\n- 200 (OK) - Review successfully updated\n- 400 (BAD REQUEST) - A value of the Review object was of incorrect type/empty\n- 404 (NOT FOUND) - The Review doesn't exist in the system\n    \n\nHere is an example request body:"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Review",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reviewID\": \"efb55d88-0953-40a5-82e7-a964e672f49a\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/review/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"review",
+						""
+					]
+				},
+				"description": "Removes a Review from the system\n\n#### Responses:\n\n- 200 (OK) - Review removed successfully\n- 404 (NOT FOUND) - Review did not exist in the system\n    \n\nHere is an example request body:"
+			},
+			"response": []
+		}
+	]
+}
