@@ -10,8 +10,9 @@ body{
     border-radius: 0%; !important;
 }
 
-.test-img{
-    background-image: url('../images/stevensBanner.jpg');
+.card{
+    background-color: #232323;
+    width: 75%;
 }
 
 .nav-link{
@@ -28,8 +29,6 @@ img{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 5%;
-
 }
 
 .title{
