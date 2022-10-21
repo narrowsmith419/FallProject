@@ -23,9 +23,11 @@ public class FallProjectApplication {
         System.out.println();
         System.out.println(reviewService.allReviews());
         trailService.addTrail(2, 700, "OR", "Sandy Ridge", "Jonny Royale",
+                "../images/paramountTrail.jpeg",
                 false, TrailDifficulty.DOUBLE_BLACK);
         reviewService.addTrailReview(5, "Nathan", LocalDate.now(),true, true,
                 "Trek Remedy", "loamy", "Wet/Morning", "Jonny Royale");
+
 
     }
 

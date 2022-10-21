@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.crypto.dom.DOMCryptoContext;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * a RESTful Controller that provides access to Trail objects through HTTP
@@ -61,6 +63,14 @@ public class WebApiTrail
         return ResponseEntity.ok(service.searchTrails(query.getQueryValue()));
     }
 
+    //TODO
+        //ADD ERROR REPORTING
+    @GetMapping("{id}")
+    public ResponseEntity<Object> getTrail(@PathVariable UUID id)
+    {
+        return ResponseEntity.ok(service.searchTrailsByID(id));
+    }
+
     /**
      * @param tempTrail a new Trailobject
      * @return the Trail object just created
@@ -102,7 +112,7 @@ public class WebApiTrail
         //if they are able to post return 201
         return new ResponseEntity<>(service.addTrail(tempTrail.getLength(), tempTrail.getElevation(),
                 tempTrail.getState(), tempTrail.getTrailSystem(),
-                tempTrail.getName(), tempTrail.isMultiDirectional(),
+                tempTrail.getName(), tempTrail.getImageLink(), tempTrail.isMultiDirectional(),
                 tempTrail.getDifficulty()), HttpStatus.CREATED);
     }
 
@@ -149,8 +159,10 @@ public class WebApiTrail
             return new ResponseEntity<>("the trail difficulty cannot be null", HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(service.updateTrail(tempTrail.getTrailID(), tempTrail.getLength(), tempTrail.getElevation(), tempTrail.getState(), tempTrail.getTrailSystem(),
-                tempTrail.getName(), tempTrail.isMultiDirectional(), tempTrail.getDifficulty()), HttpStatus.OK);
+        return new ResponseEntity<>(service.updateTrail(tempTrail.getTrailID(), tempTrail.getLength(),
+                tempTrail.getElevation(), tempTrail.getState(), tempTrail.getTrailSystem(),
+                tempTrail.getName(), tempTrail.getImageLink(), tempTrail.isMultiDirectional(),
+                tempTrail.getDifficulty()), HttpStatus.OK);
     }
 
     /**

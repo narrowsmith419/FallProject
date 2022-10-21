@@ -2,25 +2,85 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="css/styles.css">
         <title>Mountain Biking Trail Guide</title>
+
     </head>
 
-    <body class="center">
+    <body>
+        <div class="center">
+        <!-- jumbo and nav -->
+        <div class="jumbotron m-0">
+            <h1 class="display-3 font-weight-bold overflow-hidden text-left">trailHub</h1>
+            <h1 class="lead display-3 font-weight-bold" id="jumbo"></h1>
+        </div>
 
-    <br>
-            <h1 class="title" >Trail Guide Test</h1>
-    <br>
+        <!-- nav -->
+        <nav class="navbar navbar-dark bg-dark navbar-expand-sm pl-2 pl-sm-2 pl-xs-2">
+            <div class="container ml-0 pl-1 pl-sm-2 pl-xs-2">
+
+                <!-- if you put button above this <a> tag like where im typing this comment, the hamburger will appear on the left -->
+                <a href="#" class="navbar-brand"></a>
+
+                <button class="navbar-toggler" type="button"
+                        data-toggle="collapse" data-target="#myTogglerNav"
+                        aria-controls="myTogglerNav"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="myTogglerNav">
+                    <div class="navbar-nav mr-auto">
+                        <a class="nav-item nav-link" href="#begin_trail_read">Trails</a>
+                        <a class="nav-item nav-link" href="#begin_review_read">Reviews</a>
+                        <a class="nav-item nav-link" href="https://github.com/narrowsmith419" target="_blank">Map</a>
+                    </div><!-- navbar -->
+                </div><!-- collapse -->
+            </div><!-- container -->
+        </nav><!-- nav -->
+        <!-- end nav -->
+
+
+        <div class="container mt-5 text-center">
+
             <div class="imgBlock">
-                    <img src="images/mtb_image.png"  width="100" height="100" alt="Person on Mountain Bike">
+                <img class="img-fluid" width="250" src="images/paramount.jpg"  alt="Biker in the air">
             </div>
-            <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 
-                Why do we use it?
-                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-            </p>
-    <br>
+            <div class="container" id="trails">
+                <a id="begin_trail_read"></a>
 
+                <!--drop down trail selector-->
+                <div >
+                    <div id="trail-drop">
+                    </div>
+                    <button class="btn btn-success mt-2" type="submit" id="submitButton">Select Trail</button>
+                </div>
+                <!-- result for trail selector -->
+                <div class="test-img my-2 shadow">
+                    <div class="text-left" id="trail-result"></div>
+                </div>
+
+                <!-- test dump of trails -->
+                <div class="text-left" id="trail-list"></div>
+
+            </div>
+
+            <div class="container" id="reviews">
+                <a id="begin_review_read"></a>
+                <p>some review text here..</p>
+
+                <p>end review lirum</p>
+            </div>
+
+
+
+        </div>
+            <script src="js/load_data.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+        </div>
     </body>
 </html>

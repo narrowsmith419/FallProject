@@ -20,10 +20,13 @@ public class TrailService
 {
     private List<Trail> trails = new ArrayList<>(List.of(
             new Trail(813, 483, "WA", "Duthie Hill", "Paramount",
+                    "../images/paramountTrail.jpeg",
                     false, TrailDifficulty.DOUBLE_BLACK),
             new Trail(758, 465, "WA", "Duthie Hill", "Semper Dirticus",
+                    "../images/semperTrail.jpeg",
                     false, TrailDifficulty.DOUBLE_BLACK),
             new Trail(1007, 481, "WA", "Duthie Hill", "Voodoo Child",
+                    "../images/voodooTrail.jpeg",
                     false, TrailDifficulty.BLUE)
     ));
 
@@ -39,10 +42,10 @@ public class TrailService
      */
     //CREATE
     public Trail addTrail(int length, int elevation, String state, String trailSystem,
-                          String name, boolean multiDirectional, TrailDifficulty difficulty)
+                          String name, String imgLink, boolean multiDirectional, TrailDifficulty difficulty)
     {
         Trail added = new Trail(length, elevation, state, trailSystem,
-            name, multiDirectional, difficulty);
+            name, imgLink, multiDirectional, difficulty);
         trails.add(added);
         return added;
     }
@@ -71,7 +74,7 @@ public class TrailService
      */
     //UPDATE
     public Trail updateTrail(UUID id, int length, int elevation, String state, String trailSystem,
-                             String name, boolean multiDirectional, TrailDifficulty difficulty)
+                             String name, String imgLink, boolean multiDirectional, TrailDifficulty difficulty)
     {
         //optional is a wrapper to either store a null value or store a joke
         Optional<Trail> foundTrail = trails.stream()
@@ -89,6 +92,7 @@ public class TrailService
             trail.setState(state);
             trail.setTrailSystem(trailSystem);
             trail.setName(name);
+            trail.setImageLink(imgLink);
             trail.setMultiDirectional(multiDirectional);
             return trail;
         }
@@ -122,6 +126,15 @@ public class TrailService
         return trails.stream()
                 .filter(trail -> trail.getName().toLowerCase()
                         .contains(queryValue.toLowerCase()))
+                .toList();
+    }
+
+    //READ
+    public List<Trail> searchTrailsByID(UUID id)
+    {
+        return trails.stream()
+                .filter(trail -> trail.getTrailID()
+                        .equals(id))
                 .toList();
     }
 

@@ -23,6 +23,7 @@ public class Trail
     private String state; //state where trail is located
     private String trailSystem; //trail system where trail is located
     private String name; //name of the trail
+    private String imageLink; //location of image of trail
     private boolean multiDirectional; //is it a one way or two-way trail?
     private TrailDifficulty difficulty; //rating of trail
 
@@ -37,7 +38,7 @@ public class Trail
      * @param difficulty { GREEN, BLUE, BLACK, DOUBLE_BLACK, PRO }
      */
     public Trail( int length, int elevation, String state, String trailSystem,
-                 String name, boolean multiDirectional, TrailDifficulty difficulty)
+                 String name, String imageLink, boolean multiDirectional, TrailDifficulty difficulty)
     {
         trailID = UUID.randomUUID();
         this.length = length;
@@ -45,6 +46,7 @@ public class Trail
         this.state = state;
         this.trailSystem = trailSystem;
         this.name = name;
+        this.imageLink = imageLink;
         this.multiDirectional = multiDirectional;
         this.difficulty = difficulty;
     }
