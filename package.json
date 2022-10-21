@@ -1,7 +1,0 @@
-{
-  "name": "FallProject",
-  "version": "1.0.0",
-  "dependencies": {
-    "bootstrap": "^5.2.2"
-  }
-}
