@@ -7,7 +7,8 @@ mvnw
 mvnw.cmd
 .mvn/wrapper
 .gitignore
-
+package-lock.json
+package.json
 ### STS ###
 .apt_generated
 .classpath
