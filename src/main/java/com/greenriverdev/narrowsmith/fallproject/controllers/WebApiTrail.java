@@ -63,8 +63,8 @@ public class WebApiTrail
         return ResponseEntity.ok(service.searchTrails(query.getQueryValue()));
     }
 
-    //TODO
-        //ADD ERROR REPORTING
+    //TODO: ADD ERROR REPORTING
+
     @GetMapping("{id}")
     public ResponseEntity<Object> getTrail(@PathVariable UUID id)
     {

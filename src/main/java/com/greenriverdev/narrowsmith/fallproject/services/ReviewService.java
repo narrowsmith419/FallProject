@@ -1,5 +1,6 @@
 package com.greenriverdev.narrowsmith.fallproject.services;
 
+import com.greenriverdev.narrowsmith.fallproject.models.Trail;
 import com.greenriverdev.narrowsmith.fallproject.models.TrailReview;
 import org.springframework.stereotype.Service;
 
@@ -139,6 +140,15 @@ public class ReviewService
         return reviews.stream()
                 .filter(review -> review.getAuthor().toLowerCase()
                         .contains(queryValue.toLowerCase()))
+                .toList();
+    }
+
+    //READ
+    public List<TrailReview> searchReviewsByTrailName(String trailName)
+    {
+        return reviews.stream()
+                .filter(review -> review.getTrailName()
+                        .equals(trailName))
                 .toList();
     }
 

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * a RESTful Controller that provides access to TrailReview objects through HTTP
@@ -81,6 +82,13 @@ public class WebApiReview
         }
 
         return ResponseEntity.ok(service.searchReviewsAuthorName(query.getQueryValue()));
+    }
+
+    //TODO: ADD ERROR REPORTING
+    @GetMapping("{trailName}")
+    public ResponseEntity<Object> getTrail(@PathVariable String trailName)
+    {
+        return ResponseEntity.ok(service.searchReviewsByTrailName(trailName));
     }
 
     /**
