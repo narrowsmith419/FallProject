@@ -21,6 +21,14 @@ public class ReviewService
     private List<TrailReview> reviews = new ArrayList<>(List.of(
             new TrailReview(5,"Nathan A", LocalDate.now(),true,true,
                     "Trek Remedy", "Dry", "Evening/Sunny", "Paramount"),
+            new TrailReview(2,"Bill B", LocalDate.now(),false,true,
+                    "Forbidden Druid", "Wet", "Afternoon/Overcast", "Paramount"),
+            new TrailReview(4,"Charles M", LocalDate.now(),true,true,
+                    "Santa Cruz Nomad", "Loam", "Evening/Sunny", "Paramount"),
+            new TrailReview(2,"Nathan A", LocalDate.now(),true,true,
+                    "Trek Remedy", "Dry", "Afternoon/Sunny", "Paramount"),
+            new TrailReview(5,"Nathan A", LocalDate.now(),true,true,
+                    "Trek Remedy", "Dry", "Evening/Sunny", "Paramount"),
             new TrailReview(5,"Nathan A", LocalDate.now(),true,true,
                     "Trek Remedy", "Dry", "Evening/Sunny", "Semper Dirticus")
     ));

@@ -17,6 +17,7 @@ window.onload = function () {
 
 };
 
+
 function showTrails(data) {
 
     //access the list in our HTML
@@ -100,6 +101,7 @@ function trailDropDown(data) {
  * @type {*[]}
  */
 let trails = [];
+let activeTrail;
 let count = 0;
 let submitButton = document.querySelector("#submitButton");
 submitButton.addEventListener("click", buttonClick, false);
@@ -110,56 +112,38 @@ function buttonClick(event) {
 }
 
 function fetchTrail() {
+
+    //get value from dropdown
     let trailName = document.getElementById("trailNameDrop").value;
-    let img = document.getElementById("cardImage");
+
+    //store active card trail for reviewGrid
+    activeTrail = trailName;
 
     //for bootstrap card
     let trailCard = document.getElementById("trailCard");
 
-
-    trailCard.classList.add("card");
-    let cardImg = document.createElement("img");
-    cardImg.classList.add("card-img-top");
-    cardImg.setAttribute('id', 'cardImage');
-    let cardDiv = document.createElement("div");
-    cardDiv.setAttribute('id', "trail-result");
-    trailCard.appendChild(cardImg);
-    trailCard.appendChild(cardDiv);
-
-
-    /*//create json object of GET query
-    let jsonObj = {
-        queryValue: trailName
+    //if fresh page load then create a card
+    if(count === 0) {
+        trailCard.classList.add("card");
+        let cardImg = document.createElement("img");
+        cardImg.classList.add("card-img-top");
+        cardImg.setAttribute('id', 'cardImage');
+        let cardDiv = document.createElement("div");
+        cardDiv.setAttribute('id', "trail-result");
+        cardDiv.classList.add("card-body");
+        trailCard.appendChild(cardImg);
+        trailCard.appendChild(cardDiv);
     }
 
-    //retrieve Trail object by passed in name
-    let uri = "http://localhost:8080/api/v1/trail/query";
-    let params = {
-        method: "get",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(jsonObj)
-    };
-
-    fetch(uri, params) //get response
-        .then(function(response)
-        {
-            return response.json(); //ask for response to be converted to json
-        })
-        .then(function(data){ //receive the text when promise is complete
-            singleTrail(data);
-        });*/
+    let img = document.getElementById("cardImage");
 
     for (let i = 0; i < trails.length; i++) {
         let trail = trails[i];
         console.log(trail.name);
         if (trail.name === trailName) {
             singleTrail(trail);
-            //document.getElementById("img-card").style.backgroundImage = "url('"+ trail.imageLink +"')";
-            //img.src = trail.imageLink;
-            cardImg.src = trail.imageLink;
-            cardImg.setAttribute('alt', trailName + " trail at the " + trail.trailSystem + " bike park");
+            img.src = trail.imageLink;
+            img.setAttribute('alt', trailName + " trail at the " + trail.trailSystem + " bike park");
             break;
         }
     }
@@ -210,3 +194,57 @@ function singleTrail(data) {
     count++;
 }
 
+function getReviews() {
+
+    //access the list in our HTML
+    let allReviews = document.getElementById("reviewGrid");
+    allReviews.innerHTML = ""; //clear existing reviews
+
+    for (let i = 0; i < trails.length; i++) {
+        let trail = trails[i];
+        if (trail.name === activeTrail) {
+
+            //create all elements
+            let section = document.createElement("section");
+            let h4 = document.createElement("h4");
+            let ul = document.createElement("ul")
+            let li = document.createElement("li");
+            let li1 = document.createElement("li");
+            let li2 = document.createElement("li");
+            let li3 = document.createElement("li");
+            let li4 = document.createElement("li");
+            let li5 = document.createElement("li");
+
+            //add contents
+            h4.innerText = "Trail: " + trail.name;
+            li.innerText = "Rider: " + trail.trailSystem;
+            li1.innerText = "State: " + trail.state;
+            li2.innerText = "Difficulty: " + trail.difficulty;
+            li3.innerText = "Length: " + trail.length + "ft";
+            li4.innerText = "Elevation: " + trail.elevation + "ft";
+            li5.innerText = "BiDirectional: " + trail.multiDirectional;
+
+            //construct list
+            ul.appendChild(li);
+            ul.appendChild(li1);
+            ul.appendChild(li2);
+            ul.appendChild(li3);
+            ul.appendChild(li4);
+            ul.appendChild(li5);
+
+            //connect them
+            section.appendChild(h2);
+            section.appendChild(ul);
+
+            //add the section to the list
+            allReviews.appendChild(section);
+
+
+
+
+        }
+    }
+
+
+
+}

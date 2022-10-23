@@ -15,6 +15,19 @@ body{
     width: 75%;
 }
 
+.reviewGrid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; /*three column layout, middle column bigger than others*/
+}
+
+.reviewSection {
+    background-color: #9a86b0;
+    border: 2px solid darkgreen;
+    padding: 8px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
 .nav-link{
     color: white; !important;
 }

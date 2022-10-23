@@ -44,35 +44,31 @@
 
         <div class="container mt-5 text-center">
 
-            <div class="imgBlock">
+            <!--<div class="imgBlock">
                 <img class="img-fluid" width="250" src="images/paramount.jpg"  alt="Biker in the air">
-            </div>
+            </div>-->
 
             <div class="container" id="trails">
                 <a id="begin_trail_read"></a>
 
                 <!--drop down trail selector-->
-                <div >
-                    <div id="trail-drop">
+                <div class="my-2">
+                    <div class="row">
+                        <div id="trail-drop" class="col-sm-6"></div>
+
+                        <div class="col-sm-2 ">
+                            <button class="btn btn-success mt-2" type="submit"
+                                    id="submitButton">Select Trail</button>
+                        </div>
                     </div>
-                    <button class="btn btn-success mt-2" type="submit" id="submitButton">Select Trail</button>
-                </div>
-                <!-- result for trail selector -->
-                <div id="img-card" class="img-fluid rounded my-2 pb-5 shadow">
-                    <!--<div class="text-left" id="trail-result"></div>-->
                 </div>
 
+                <div id="trailCard" class="text-left shadow m-auto">
+                 <!--user selected trail card-->
+                </div>
 
-                <!-- test bootstrap card -->
-                <!--<div class="card text-left" >
-                    <img id="cardImage" class="card-img-top" src="../images/mtb_image.png" alt="Card image cap">
-                    <div class="card-body">
-                        <div id="trail-result"></div>
-                    </div>
-                </div>-->
-
-                <div id="trailCard" class="text-left">
-
+                <div id="reviewGrid">
+                    <!-- reviews grid by selected trail -->
                 </div>
 
 
