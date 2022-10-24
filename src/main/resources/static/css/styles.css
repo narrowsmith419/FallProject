@@ -11,8 +11,16 @@ body{
 }
 
 .card{
-    background-color: #232323;
-    width: 75%;
+    background-color: #343a40;
+    width: 85%;
+}
+
+#trailSelectMenu{
+    background-color: #343a40;
+    margin: auto;
+    width: 85%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .reviewGrid {
