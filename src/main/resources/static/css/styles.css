@@ -10,15 +10,83 @@ body{
     border-radius: 0%; !important;
 }
 
+.nav-link{
+    color: white; !important;
+}
+
+.topBar{
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.sidenav{
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 157px;
+    left: 0;
+    background-color: #343a40;
+    overflow-x: hidden; /*disable horizontal scroll*/
+    padding: 10px 20px;
+    border: 1px solid #0dcaf0;
+}
+
+.sideNavDrop{
+    position: relative;
+    display: inline-block;
+}
+
+/*side nav drop down button*/
+.dropBtn{
+    background-color: #3498D8;
+    color: white;
+    padding: 8px;
+    font-size: 16px;
+    min-width: 125px;
+}
+
+/*side nav drop down button hover and focus*/
+.dropBtn:hover, .dropBtn:focus{
+    background-color: #2980B9;
+}
+
+/*side nav drop down content (hidden by default)*/
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/*contents within dropdown*/
+.dropdown-content p {
+    color: black;
+    padding: 12px 16px;
+    display: block;
+}
+
+/*change color of dropdown content on hover*/
+.dropdown-content p:hover{
+    background-color: #ddd;
+}
+
+.show{
+    display: block;
+}
+
 .card{
     background-color: #343a40;
-    width: 85%;
+    width: 65%;
 }
 
 #trailSelectMenu{
     background-color: #343a40;
     margin: auto;
-    width: 85%;
+    width: 65%;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -36,15 +104,6 @@ body{
     border-radius: 5px;
 }
 
-.nav-link{
-    color: white; !important;
-}
-
-.center {
-    text-align: center;
-    margin: auto;
-    width: 100%;
-}
 
 img{
     display: block;

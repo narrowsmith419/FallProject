@@ -1,96 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/styles.css">
-        <title>Mountain Biking Trail Guide</title>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Mountain Biking Trail Guide</title>
 
-    </head>
+</head>
 
-    <body>
-        <div class="center">
-        <!-- jumbo and nav -->
-        <div class="jumbotron m-0">
-            <h1 class="display-3 font-weight-bold overflow-hidden text-left">trailHub</h1>
-            <h1 class="lead display-3 font-weight-bold" id="jumbo"></h1>
+<body>
+<!-- jumbo and nav -->
+<div class="topBar m-0">
+    <div class="jumbotron m-0 p-1">
+        <h1 class="display-3 font-weight-bold overflow-hidden text-left">trailHub</h1>
+        <h1 class="lead display-3 font-weight-bold" id="jumbo"></h1>
+    </div>
+
+    <!-- nav -->
+    <nav class="navbar navbar-dark bg-dark navbar-expand-sm pl-2 pl-sm-2 pl-xs-2">
+        <div class="container ml-0 pl-1 pl-sm-2 pl-xs-2">
+
+            <!-- if you put button above this <a> tag like where im typing this comment, the hamburger will appear on the left -->
+            <a href="#" class="navbar-brand"></a>
+
+            <button class="navbar-toggler" type="button"
+                    data-toggle="collapse" data-target="#myTogglerNav"
+                    aria-controls="myTogglerNav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="myTogglerNav">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="#begin_trail_read">Trails</a>
+                    <a class="nav-item nav-link" href="#begin_review_read">Reviews</a>
+                    <a class="nav-item nav-link" href="https://github.com/narrowsmith419" target="_blank">Map</a>
+                </div><!-- navbar -->
+            </div><!-- collapse -->
+        </div><!-- container -->
+    </nav><!-- nav -->
+    <!-- end nav -->
+</div>
+
+    <!-- side menu -->
+    <div class="sidenav">
+        <p>Select a Trail:</p>
+        <div class="sideNavDrop">
+            <button class="dropBtn" id="dropBtnName">By Name:</button>
+            <div id="trailByName" class="dropdown-content">
+                <p>stuff</p>
+                <p>stuff</p>
+                <p>stuff</p>
+                <p>stuff</p>
+            </div>
+            <button class="dropBtn" id="dropBtnSystem">By TrailSystem:</button>
+            <div id="trailBySystem" class="dropdown-content">
+                <p>stuff</p>
+                <p>stuff</p>
+                <p>stuff</p>
+                <p>stuff</p>
+            </div>
+            <button class="dropBtn" id="dropBtnDifficulty">By Difficulty:</button>
+            <div id="trailByDifficulty" class="dropdown-content">
+                <p>stuff</p>
+                <p>stuff</p>
+                <p>stuff</p>
+                <p>stuff</p>
+            </div>
         </div>
 
-        <!-- nav -->
-        <nav class="navbar navbar-dark bg-dark navbar-expand-sm pl-2 pl-sm-2 pl-xs-2">
-            <div class="container ml-0 pl-1 pl-sm-2 pl-xs-2">
-
-                <!-- if you put button above this <a> tag like where im typing this comment, the hamburger will appear on the left -->
-                <a href="#" class="navbar-brand"></a>
-
-                <button class="navbar-toggler" type="button"
-                        data-toggle="collapse" data-target="#myTogglerNav"
-                        aria-controls="myTogglerNav"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="myTogglerNav">
-                    <div class="navbar-nav mr-auto">
-                        <a class="nav-item nav-link" href="#begin_trail_read">Trails</a>
-                        <a class="nav-item nav-link" href="#begin_review_read">Reviews</a>
-                        <a class="nav-item nav-link" href="https://github.com/narrowsmith419" target="_blank">Map</a>
-                    </div><!-- navbar -->
-                </div><!-- collapse -->
-            </div><!-- container -->
-        </nav><!-- nav -->
-        <!-- end nav -->
+    </div>
 
 
-        <div class="container mt-2 text-center">
 
-            <!--<div class="imgBlock">
-                <img class="img-fluid" width="250" src="images/paramount.jpg"  alt="Biker in the air">
-            </div>-->
 
-            <div class="container" id="trails">
-                <a id="begin_trail_read"></a>
+    <div class="container mt-2 text-center">
 
-                <!--drop down trail selector-->
-                <div id="trailSelectMenu" class="mt-2 py-2">
-                    <div class="row">
-                        <div id="trail-drop" class="col-sm-6"></div>
+        <div class="container" id="trails">
+            <!--<a id="begin_trail_read"></a>-->
 
-                        <div class="col-sm-2 ">
-                            <button class="btn btn-success mt-2" type="submit"
-                                    id="submitButton">Select Trail</button>
-                        </div>
+            <!--drop down trail selector-->
+            <div id="trailSelectMenu" class="mt-2 py-2 ml-auto">
+                <div class="row ">
+                    <div id="trail-drop" class="col-sm-6"></div>
+
+                    <div class="col-sm-2 ">
+                        <button class="btn btn-success mt-2" type="submit"
+                                id="submitButton">Select Trail
+                        </button>
                     </div>
                 </div>
-
-                <div id="trailCard" class="text-left shadow m-auto">
-                 <!--user selected trail card-->
-                </div>
-
-                <div id="reviewGrid">
-                    <!-- reviews grid by selected trail -->
-                </div>
-
-
-                <!-- test dump of trails -->
-                <div class="text-left" id="trail-list"></div>
-
             </div>
 
-            <div class="container" id="reviews">
-                <a id="begin_review_read"></a>
-                <p>some review text here..</p>
+            <div id="trailCard" class="text-left ml-auto">
+                <!--user selected trail card-->
+            </div>
 
-                <p>end review lirum</p>
+            <div id="reviewGrid">
+                <!-- reviews grid by selected trail -->
             </div>
 
 
+            <!-- test dump of trails -->
+            <div class="text-left" id="trail-list"></div>
 
         </div>
-            <script src="js/load_data.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-                crossorigin="anonymous"></script>
+
+        <div class="container" id="reviews">
+            <a id="begin_review_read"></a>
+            <p>some review text here..</p>
+
+            <p>end review lirum</p>
         </div>
-    </body>
+
+    </div>
+
+
+</div>
+<script src="js/load_data.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</div>
+</body>
 </html>

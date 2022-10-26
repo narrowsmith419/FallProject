@@ -2,14 +2,20 @@ let trails = [];
 let activeTrail;
 let count = 0;
 
-/**
- * drop down Trail selector
- * @type {*[]}
- */
 //'Select a Trail' drop-down button
 let submitButton = document.querySelector("#submitButton");
 submitButton.addEventListener("click", buttonClick, false);
 submitButton.addEventListener("click", fetchTrail);
+
+//Select a Trail by Name drop-down button
+let trailByNameShow = document.querySelector("#dropBtnName");
+trailByNameShow.addEventListener("click", getTrailNameShow);
+//Select a Trail by TrailSystem drop-down button
+let trailBySystemShow = document.querySelector("#dropBtnSystem");
+trailBySystemShow.addEventListener("click", getTrailSystemShow);
+//Select a Trail by Difficulty drop-down button
+let trailByDifficultyShow = document.querySelector("#dropBtnDifficulty");
+trailByDifficultyShow.addEventListener("click", getTrailDifficultyShow);
 
 window.onload = function () {
 
@@ -73,6 +79,33 @@ function showTrails(data) {
         //add the section to the list
         trailList.appendChild(section);
 
+    }
+}
+
+/**
+ * toggle trail names inside nav when button selected
+ */
+function getTrailNameShow() {
+    document.getElementById("trailByName").classList.toggle("show");
+}
+function getTrailSystemShow() {
+    document.getElementById("trailBySystem").classList.toggle("show");
+}
+function getTrailDifficultyShow() {
+    document.getElementById("trailByDifficulty").classList.toggle("show");
+}
+
+/*close the dropdown menu when clicked outside of it*/
+window.onclick = function (event){
+    if(!event.target.matches('.dropBtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for(i = 0; i < dropdowns.length; i++) {
+            var openDropDown = dropdowns[i];
+            if(openDropDown.classList.contains('show')){
+                openDropDown.classList.remove('show');
+            }
+        }
     }
 }
 
