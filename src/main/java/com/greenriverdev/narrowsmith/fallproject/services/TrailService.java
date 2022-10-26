@@ -2,6 +2,7 @@ package com.greenriverdev.narrowsmith.fallproject.services;
 
 import com.greenriverdev.narrowsmith.fallproject.models.Trail;
 import com.greenriverdev.narrowsmith.fallproject.models.TrailDifficulty;
+import com.greenriverdev.narrowsmith.fallproject.models.TrailReview;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,15 +20,40 @@ import java.util.UUID;
 public class TrailService
 {
     private List<Trail> trails = new ArrayList<>(List.of(
-            new Trail(813, 483, "WA", "Duthie Hill", "Paramount",
-                    "../images/paramountTrail.jpeg",
-                    false, TrailDifficulty.DOUBLE_BLACK),
-            new Trail(758, 465, "WA", "Duthie Hill", "Semper Dirticus",
-                    "../images/semperTrail.jpeg",
-                    false, TrailDifficulty.DOUBLE_BLACK),
-            new Trail(1007, 481, "WA", "Duthie Hill", "Voodoo Child",
-                    "../images/voodooTrail.jpeg",
-                    false, TrailDifficulty.BLUE)
+            Trail.builder()
+                    .trailID(UUID.randomUUID())
+                    .name("Voodoo Child")
+                    .difficulty(TrailDifficulty.BLUE)
+                    .elevation(481)
+                    .length(1007)
+                    .state("WA")
+                    .trailSystem("Duthie Hill")
+                    .imageLink("../images/voodooTrail.jpeg")
+                    .multiDirectional(false)
+                    .build(),
+            Trail.builder()
+                    .trailID(UUID.randomUUID())
+                    .name("Paramount")
+                    .difficulty(TrailDifficulty.DOUBLE_BLACK)
+                    .elevation(483)
+                    .length(813)
+                    .state("WA")
+                    .trailSystem("Duthie Hill")
+                    .imageLink("../images/paramountTrail.jpeg")
+                    .multiDirectional(false)
+                    .build(),
+            Trail.builder()
+                    .trailID(UUID.randomUUID())
+                    .name("Semper Dirticus")
+                    .difficulty(TrailDifficulty.DOUBLE_BLACK)
+                    .elevation(465)
+                    .length(758)
+                    .state("WA")
+                    .trailSystem("Duthie Hill")
+                    .imageLink("../images/semperTrail.jpeg")
+                    .multiDirectional(false)
+                    .build()
+
     ));
 
     /**
@@ -135,6 +161,33 @@ public class TrailService
         return trails.stream()
                 .filter(trail -> trail.getTrailID()
                         .equals(id))
+                .toList();
+    }
+
+    //READ
+    public List<Trail> searchTrailsByTrailName(String trailName)
+    {
+        return trails.stream()
+                .filter(trail -> trail.getName()
+                        .equalsIgnoreCase(trailName))
+                .toList();
+    }
+
+    //READ
+    public List<Trail> searchTrailsByTrailSystem(String trailSystem)
+    {
+        return trails.stream()
+                .filter(trail -> trail.getTrailSystem()
+                        .equalsIgnoreCase(trailSystem))
+                .toList();
+    }
+
+    //READ
+    public List<Trail> searchTrailsByTrailDifficulty(String trailDifficulty)
+    {
+        return trails.stream()
+                .filter(trail -> trail.getDifficulty().toString()
+                        .equals(trailDifficulty))
                 .toList();
     }
 

@@ -1,5 +1,6 @@
 package com.greenriverdev.narrowsmith.fallproject.models;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
+@Builder
 public class Review
 {
     private final int maxScore = 5;

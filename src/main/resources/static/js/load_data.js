@@ -4,9 +4,9 @@ let activeTrail;
 let count = 0;
 
 //'Select a Trail' drop-down button
-let submitButton = document.querySelector("#submitButton");
-submitButton.addEventListener("click", buttonClick, false);
-submitButton.addEventListener("click", fetchTrail);
+/*let submitButton = document.querySelector("#submitButton");
+submitButton.addEventListener("click", buttonClick, false);*/
+//submitButton.addEventListener("click", fetchTrail);
 
 //Select a Trail by Name drop-down button
 let trailByNameShow = document.querySelector("#dropBtnName");
@@ -31,14 +31,14 @@ window.onload = function () {
             return response.json(); //ask for response to be converted to json
         })
         .then(function (data) { //receive the text when promise is complete
-            trailDropDown(data);
+            //trailDropDown(data);
             trailNameDropDown(data);
-            showTrails(data);
+            /*showTrails(data);*/
         });
 };
 
 
-function showTrails(data) {
+/*function showTrails(data) {
 
     //access the list in our HTML
     let trailList = document.getElementById("trail-list");
@@ -82,7 +82,7 @@ function showTrails(data) {
         trailList.appendChild(section);
 
     }
-}
+}*/
 
 /**
  * toggle trail names inside nav when button selected
@@ -109,13 +109,29 @@ window.onclick = function (event){
             }
         }
     }
+    //grab trail name clicked in drop down
+    if(event.target.matches('.trailNames')){
+        console.log(event.target.innerText);
+        getTrailByName(event.target.innerText, "names");
+    }
+    //grab trail name clicked in drop down
+    if(event.target.matches('.trailSystems')){
+        console.log(event.target.innerText)
+        getTrailByName(event.target.innerText, "systems");
+    }
+    //grab trail name clicked in drop down
+    if(event.target.matches('.trailDifficulties')){
+        console.log(event.target.innerText)
+        getTrailByName(event.target.innerText, "ratings");
+    }
 }
+
 
 /**
  * dynamically generates trail names from trail API to populate drop down list
  * @param data Trail objects from /api/v1/trail
  */
-function trailDropDown(data) {
+/*function trailDropDown(data) {
     //access the dropdown in our HTML
     let trailDropDown = document.getElementById("trail-drop");
 
@@ -141,7 +157,7 @@ function trailDropDown(data) {
     }
     div.appendChild(select);
     trailDropDown.appendChild(div);
-}
+}*/
 
 function trailNameDropDown(data) {
     //set to prevent duplicate trail systems
@@ -157,22 +173,23 @@ function trailNameDropDown(data) {
         trails2[i] = data[i]; //will need to remove this eventually
         let trail = data[i];
         let p = document.createElement("p");
-        let p3 = document.createElement("p");
         p.innerText = trail.name;
         p.setAttribute("value", trail.name);
+        p.classList.add("trailNames");
         if(!systemSet.has(trail.trailSystem)){ //if trailsystem doesn't already exist, add it to list
             systemSet.add(trail.trailSystem);
             let p2 = document.createElement("p");
             p2.innerText = trail.trailSystem;
+            p2.classList.add("trailSystems");
             trailDropDownSystem.appendChild(p2);
         }
         if(!difficultySet.has(trail.difficulty)){ //if difficulty doesn't already exist, add it to list
             difficultySet.add(trail.difficulty);
             let p3 = document.createElement("p");
             p3.innerText = trail.difficulty;
+            p3.classList.add("trailDifficulties");
             trailDropDownDifficulty.appendChild(p3);
         }
-
         trailDropDown.appendChild(p);
     }
 
@@ -182,7 +199,7 @@ function buttonClick(event) {
     event.preventDefault();
 }
 
-function fetchTrail() {
+/*function fetchTrail() {
 
     //get value from dropdown
     let trailName = document.getElementById("trailNameDrop").value;
@@ -232,7 +249,7 @@ function fetchTrail() {
             break;
         }
     }
-}
+}*/
 
 function singleTrail(data) {
 
@@ -288,9 +305,7 @@ function singleTrail(data) {
 
 function getReviews(event) {
     event.preventDefault();
-    console.log("hello from getReviews method");
 
-    //create trail objects to make with a GET request
     let trailUri = "http://localhost:8080/api/v1/review/" + activeTrail;
     let params = {
         method: "get"
@@ -303,6 +318,70 @@ function getReviews(event) {
         .then(function (data) { //receive the text when promise is complete
             printReviews(data);
         });
+}
+
+function getTrailByName(value, type) {
+
+    let trailUri = "http://localhost:8080/api/v1/trail/"+ type + "/" + value;
+    let params = {
+        method: "get"
+    };
+
+    fetch(trailUri, params)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log("Get trail by name output:")
+            console.log(data);
+            if(type === "names"){ fetchTrail(data); }
+            if(type === "systems"){ fetchTrailList(data); }
+        });
+}
+
+function fetchTrail(data) {
+    let trail = data[0];
+
+    //access the list in our HTML
+    let allReviews = document.getElementById("reviewGrid");
+    allReviews.innerHTML = ""; //clear existing reviews
+
+    //store active card trail for reviewGrid
+    activeTrail = trail.name;
+
+    //for bootstrap card
+    let trailCard = document.getElementById("trailCard");
+
+    //if fresh page load then create a card
+    if (count === 0) {
+        trailCard.classList.add("card");
+        let cardImg = document.createElement("img");
+        cardImg.classList.add("card-img-top");
+        cardImg.setAttribute('id', 'cardImage');
+        let cardDiv = document.createElement("div");
+        cardDiv.setAttribute('id', "trail-result");
+        cardDiv.classList.add("card-body");
+        //add button to retrieve reviews
+        let reviewButton = document.createElement("button");
+        reviewButton.setAttribute('id', "getReviewButton");
+        reviewButton.setAttribute('type', "submit");
+        reviewButton.innerHTML= "Get Reviews";
+        reviewButton.classList.add("btn");
+        reviewButton.classList.add("btn-primary");
+        reviewButton.classList.add("ml-auto");
+        //append to HTML
+        trailCard.appendChild(cardImg);
+        trailCard.appendChild(cardDiv);
+        trailCard.appendChild(reviewButton);
+    }
+    let img = document.getElementById("cardImage");
+
+    singleTrail(trail);
+    img.src = trail.imageLink;
+    img.setAttribute('alt', trail.name + " trail at the " + trail.trailSystem + " bike park");
+}
+
+function fetchTrailList(data) {
 
 }
 

@@ -64,11 +64,31 @@ public class WebApiTrail
     }
 
     //TODO: ADD ERROR REPORTING
-
     @GetMapping("{id}")
     public ResponseEntity<Object> getTrail(@PathVariable UUID id)
     {
         return ResponseEntity.ok(service.searchTrailsByID(id));
+    }
+
+    //TODO: ADD ERROR REPORTING
+    @GetMapping("names/{trailName}")
+    public ResponseEntity<Object> getTrailByName(@PathVariable String trailName)
+    {
+        return ResponseEntity.ok(service.searchTrailsByTrailName(trailName));
+    }
+
+    //TODO: ADD ERROR REPORTING
+    @GetMapping("systems/{trailSystem}")
+    public ResponseEntity<Object> getTrailBySystem(@PathVariable String trailSystem)
+    {
+        return ResponseEntity.ok(service.searchTrailsByTrailSystem(trailSystem));
+    }
+
+    //TODO: ADD ERROR REPORTING
+    @GetMapping("ratings/{trailDifficulty}")
+    public ResponseEntity<Object> getTrailByDifficulty(@PathVariable String trailDifficulty)
+    {
+        return ResponseEntity.ok(service.searchTrailsByTrailDifficulty(trailDifficulty));
     }
 
     /**
