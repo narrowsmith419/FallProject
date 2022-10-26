@@ -1,4 +1,5 @@
 let trails = [];
+let trails2 = [];
 let activeTrail;
 let count = 0;
 
@@ -31,6 +32,7 @@ window.onload = function () {
         })
         .then(function (data) { //receive the text when promise is complete
             trailDropDown(data);
+            trailNameDropDown(data);
             showTrails(data);
         });
 };
@@ -95,7 +97,7 @@ function getTrailDifficultyShow() {
     document.getElementById("trailByDifficulty").classList.toggle("show");
 }
 
-/*close the dropdown menu when clicked outside of it*/
+/*close the dropdown menu when clicked outside it*/
 window.onclick = function (event){
     if(!event.target.matches('.dropBtn')) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -139,6 +141,41 @@ function trailDropDown(data) {
     }
     div.appendChild(select);
     trailDropDown.appendChild(div);
+}
+
+function trailNameDropDown(data) {
+    //set to prevent duplicate trail systems
+    let systemSet = new Set();
+    let difficultySet = new Set();
+
+    //access the dropdown in our HTML
+    let trailDropDown = document.getElementById("trailByName");
+    let trailDropDownSystem = document.getElementById("trailBySystem");
+    let trailDropDownDifficulty = document.getElementById("trailByDifficulty");
+
+    for (let i = 0; i < data.length; i++) {
+        trails2[i] = data[i]; //will need to remove this eventually
+        let trail = data[i];
+        let p = document.createElement("p");
+        let p3 = document.createElement("p");
+        p.innerText = trail.name;
+        p.setAttribute("value", trail.name);
+        if(!systemSet.has(trail.trailSystem)){ //if trailsystem doesn't already exist, add it to list
+            systemSet.add(trail.trailSystem);
+            let p2 = document.createElement("p");
+            p2.innerText = trail.trailSystem;
+            trailDropDownSystem.appendChild(p2);
+        }
+        if(!difficultySet.has(trail.difficulty)){ //if difficulty doesn't already exist, add it to list
+            difficultySet.add(trail.difficulty);
+            let p3 = document.createElement("p");
+            p3.innerText = trail.difficulty;
+            trailDropDownDifficulty.appendChild(p3);
+        }
+
+        trailDropDown.appendChild(p);
+    }
+
 }
 
 function buttonClick(event) {
