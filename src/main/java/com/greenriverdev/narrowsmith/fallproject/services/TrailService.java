@@ -44,6 +44,17 @@ public class TrailService
                     .build(),
             Trail.builder()
                     .trailID(UUID.randomUUID())
+                    .name("Johnny Royale")
+                    .difficulty(TrailDifficulty.DOUBLE_BLACK)
+                    .elevation(1649)
+                    .length(6336)
+                    .state("OR")
+                    .trailSystem("Sandy Ridge")
+                    .imageLink("../images/johnnyRoyaleTrail.jpeg")
+                    .multiDirectional(false)
+                    .build(),
+            Trail.builder()
+                    .trailID(UUID.randomUUID())
                     .name("Semper Dirticus")
                     .difficulty(TrailDifficulty.DOUBLE_BLACK)
                     .elevation(465)

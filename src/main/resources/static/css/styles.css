@@ -63,14 +63,14 @@ body{
 }
 
 /*contents within dropdown*/
-.dropdown-content p {
+.dropdown-content p, .trailSystemList li {
     color: black;
     padding: 12px 16px;
     display: block;
 }
 
 /*change color of dropdown content on hover*/
-.dropdown-content p:hover{
+.dropdown-content p:hover, .trailSystemList li:hover {
     background-color: #ddd;
 }
 

@@ -1,7 +1,5 @@
-let trails = [];
-let trails2 = [];
+//let trails = [];
 let activeTrail;
-let count = 0;
 
 //'Select a Trail' drop-down button
 /*let submitButton = document.querySelector("#submitButton");
@@ -110,7 +108,7 @@ window.onclick = function (event){
         }
     }
     //grab trail name clicked in drop down
-    if(event.target.matches('.trailNames')){
+    if(event.target.matches('.trailNames') ||event.target.matches('.trailSystemsList')){
         console.log(event.target.innerText);
         getTrailByName(event.target.innerText, "names");
     }
@@ -170,7 +168,6 @@ function trailNameDropDown(data) {
     let trailDropDownDifficulty = document.getElementById("trailByDifficulty");
 
     for (let i = 0; i < data.length; i++) {
-        trails2[i] = data[i]; //will need to remove this eventually
         let trail = data[i];
         let p = document.createElement("p");
         p.innerText = trail.name;
@@ -192,64 +189,11 @@ function trailNameDropDown(data) {
         }
         trailDropDown.appendChild(p);
     }
-
 }
 
 function buttonClick(event) {
     event.preventDefault();
 }
-
-/*function fetchTrail() {
-
-    //get value from dropdown
-    let trailName = document.getElementById("trailNameDrop").value;
-
-    //access the list in our HTML
-    let allReviews = document.getElementById("reviewGrid");
-    allReviews.innerHTML = ""; //clear existing reviews
-
-    //store active card trail for reviewGrid
-    activeTrail = trailName;
-
-    //for bootstrap card
-    let trailCard = document.getElementById("trailCard");
-
-    //if fresh page load then create a card
-    if (count === 0) {
-        trailCard.classList.add("card");
-        let cardImg = document.createElement("img");
-        cardImg.classList.add("card-img-top");
-        cardImg.setAttribute('id', 'cardImage');
-        let cardDiv = document.createElement("div");
-        cardDiv.setAttribute('id', "trail-result");
-        cardDiv.classList.add("card-body");
-        //add button to retrieve reviews
-        let reviewButton = document.createElement("button");
-        reviewButton.setAttribute('id', "getReviewButton");
-        reviewButton.setAttribute('type', "submit");
-        reviewButton.innerHTML= "Get Reviews";
-        reviewButton.classList.add("btn");
-        reviewButton.classList.add("btn-primary");
-        reviewButton.classList.add("ml-auto");
-        //append to HTML
-        trailCard.appendChild(cardImg);
-        trailCard.appendChild(cardDiv);
-        trailCard.appendChild(reviewButton);
-    }
-
-    let img = document.getElementById("cardImage");
-
-    for (let i = 0; i < trails.length; i++) {
-        let trail = trails[i];
-        // console.log(trail);
-        if (trail.name === trailName) {
-            singleTrail(trail);
-            img.src = trail.imageLink;
-            img.setAttribute('alt', trailName + " trail at the " + trail.trailSystem + " bike park");
-            break;
-        }
-    }
-}*/
 
 function singleTrail(data) {
 
@@ -293,7 +237,6 @@ function singleTrail(data) {
 
     //add the section to the list
     trailResult.appendChild(section);
-    count++;
 
     //'Get all Reviews' button
     let getReviewButton = document.querySelector("#getReviewButton");
@@ -335,7 +278,8 @@ function getTrailByName(value, type) {
             console.log("Get trail by name output:")
             console.log(data);
             if(type === "names"){ fetchTrail(data); }
-            if(type === "systems"){ fetchTrailList(data); }
+            else { fetchTrailList(data, type); }
+            /*if(type === "ratings"){ fetchTrailList(data, type); } //might be redundant*/
         });
 }
 
@@ -351,29 +295,29 @@ function fetchTrail(data) {
 
     //for bootstrap card
     let trailCard = document.getElementById("trailCard");
+    trailCard.innerHTML = ""; //clear existing card
 
-    //if fresh page load then create a card
-    if (count === 0) {
-        trailCard.classList.add("card");
-        let cardImg = document.createElement("img");
-        cardImg.classList.add("card-img-top");
-        cardImg.setAttribute('id', 'cardImage');
-        let cardDiv = document.createElement("div");
-        cardDiv.setAttribute('id', "trail-result");
-        cardDiv.classList.add("card-body");
-        //add button to retrieve reviews
-        let reviewButton = document.createElement("button");
-        reviewButton.setAttribute('id', "getReviewButton");
-        reviewButton.setAttribute('type', "submit");
-        reviewButton.innerHTML= "Get Reviews";
-        reviewButton.classList.add("btn");
-        reviewButton.classList.add("btn-primary");
-        reviewButton.classList.add("ml-auto");
-        //append to HTML
-        trailCard.appendChild(cardImg);
-        trailCard.appendChild(cardDiv);
-        trailCard.appendChild(reviewButton);
-    }
+    //create card elements
+    trailCard.classList.add("card");
+    let cardImg = document.createElement("img");
+    cardImg.classList.add("card-img-top");
+    cardImg.setAttribute('id', 'cardImage');
+    let cardDiv = document.createElement("div");
+    cardDiv.setAttribute('id', "trail-result");
+    cardDiv.classList.add("card-body");
+    //add button to retrieve reviews
+    let reviewButton = document.createElement("button");
+    reviewButton.setAttribute('id', "getReviewButton");
+    reviewButton.setAttribute('type', "submit");
+    reviewButton.innerHTML = "Get Reviews";
+    reviewButton.classList.add("btn");
+    reviewButton.classList.add("btn-primary");
+    reviewButton.classList.add("ml-auto");
+    //append to HTML
+    trailCard.appendChild(cardImg);
+    trailCard.appendChild(cardDiv);
+    trailCard.appendChild(reviewButton);
+
     let img = document.getElementById("cardImage");
 
     singleTrail(trail);
@@ -381,7 +325,38 @@ function fetchTrail(data) {
     img.setAttribute('alt', trail.name + " trail at the " + trail.trailSystem + " bike park");
 }
 
-function fetchTrailList(data) {
+function fetchTrailList(data, type) {
+
+    //clear existing trail card (if there is one) and reviews
+    let trailCard = document.getElementById("trailCard");
+    let allReviews = document.getElementById("reviewGrid");
+    allReviews.innerHTML = ""; //clear existing reviews
+    trailCard.innerHTML = "";
+    trailCard.classList.add("card");
+
+    let div = document.createElement("div");
+    div.classList.add("trailListBySystem", "card-header");
+    if(type === "systems") { div.innerText = 'Trails at "' + data[0].trailSystem + '" trail system'; }
+    if(type === "ratings") { div.innerText = 'All Trails with a "' + data[0].difficulty + '" rating'; }
+    trailCard.appendChild(div);
+    let ul = document.createElement("ul");
+    ul.classList.add("list-group", "list-group-flush", "trailSystemList");
+
+    for (let i = 0; i < data.length; i++) {
+        let trailSystem = data[i];
+
+        //create all elements
+        let li = document.createElement("li");
+        li.classList.add("list-group-item", "trailSystemsList");
+
+        //add contents
+        li.innerText = trailSystem.name;
+
+        //append to UL
+        ul.appendChild(li);
+    }
+
+    trailCard.appendChild(ul);
 
 }
 
