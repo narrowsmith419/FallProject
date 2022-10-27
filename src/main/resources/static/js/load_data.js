@@ -202,7 +202,7 @@ function fetchTrail(data) {
     allReviews.innerHTML = ""; //clear existing reviews
 
     //store active card trail for reviewGrid
-    activeTrail = trail.name;
+    activeTrail = trail;
 
     //for bootstrap cards
     let trailCard = document.getElementById("trailCard");
@@ -233,7 +233,14 @@ function fetchTrail(data) {
     reviewButton.setAttribute('id', "getReviewButton");
     reviewButton.setAttribute('type', "submit");
     reviewButton.innerHTML = "Get Reviews";
-    reviewButton.classList.add("btn","btn-primary","ml-auto", "mt-auto");
+    reviewButton.classList.add("btn","btn-primary", "mt-auto", "ml-auto");
+
+    //add button to delete trail
+    let removeTrailButton = document.createElement("button");
+    removeTrailButton.setAttribute('id', "removeTrailButton");
+    removeTrailButton.setAttribute('type', "submit");
+    removeTrailButton.innerHTML = "Delete Trail";
+    removeTrailButton.classList.add("btn","btn-danger", "mt-auto", "ml-auto");
 
     //append to HTML
     trailCard.appendChild(cardImg);
@@ -241,6 +248,7 @@ function fetchTrail(data) {
     trailStats.appendChild(headerDiv);
     trailStats.appendChild(statsUl);
     trailStats.appendChild(reviewButton);
+    trailStats.appendChild(removeTrailButton);
 
     let img = document.getElementById("cardImage");
 
@@ -316,16 +324,17 @@ function singleTrail(data) {
 
     //'Get all Reviews' button
     let getReviewButton = document.querySelector("#getReviewButton");
-
-    console.log(getReviewButton);
-    getReviewButton.addEventListener("click", buttonClick, false);
     getReviewButton.addEventListener("click", getReviews);
+
+    //'Delete Trail' button
+    let removeTrailButton = document.querySelector("#removeTrailButton");
+    removeTrailButton.addEventListener("click", removeTrail);
 }
 
 function getReviews(event) {
     event.preventDefault();
 
-    let trailUri = "http://localhost:8080/api/v1/review/" + activeTrail;
+    let trailUri = "http://localhost:8080/api/v1/review/" + activeTrail.name;
     let params = {
         method: "get"
     };
@@ -337,6 +346,26 @@ function getReviews(event) {
         .then(function (data) { //receive the text when promise is complete
             printReviews(data);
         });
+}
+
+function removeTrail(event) {
+    event.preventDefault();
+    let data = { trailID: activeTrail.trailID };
+
+    let trailUri = "http://localhost:8080/api/v1/trail/";
+    let params = {
+        method: "delete",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    };
+
+    fetch(trailUri, params)
+        .then(function (response) {
+            console.log("SUCCESSFULLY DELETED");
+        })
+
 }
 
 function getTrailByName(value, type) {
@@ -373,7 +402,13 @@ function fetchTrailList(data, type) {
 
     let div = document.createElement("div");
     div.classList.add("trailListBySystem", "card-header");
-    if(type === "systems") { div.innerText = 'Trails at "' + data[0].trailSystem + '" trail system'; }
+
+    try{
+        if(type === "systems") { div.innerText = 'Trails at "' + data[0].trailSystem + '" trail system'; }
+    } catch (e) {
+        trailCard.innerHTML = "There are no trails at this system :(";
+    }
+
     if(type === "ratings") { div.innerText = 'All Trails with a "' + data[0].difficulty + '" rating'; }
     trailCard.appendChild(div);
     let ul = document.createElement("ul");

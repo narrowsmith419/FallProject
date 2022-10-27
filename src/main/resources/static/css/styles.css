@@ -96,12 +96,24 @@ body{
     grid-template-columns: 1fr 2fr 1fr; /*three column layout, middle column bigger than others*/
 }
 
+.reviewSection:nth-child(2n){
+    background-color: #ddd;
+    color: #16181a;
+}
+
 .reviewSection {
-    background-color: #9a86b0;
+    color: #343a40;
+    background-color: #ffffff;
     border: 2px solid darkgreen;
     padding: 8px;
     margin: 10px;
     border-radius: 5px;
+}
+
+
+div#reviewGrid {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr; /*three column layout, middle column bigger than others*/
 }
 
 
