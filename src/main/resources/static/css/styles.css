@@ -63,7 +63,7 @@ body{
 }
 
 /*contents within dropdown*/
-.dropdown-content p, .trailSystemList li {
+.dropdown-content p, .trailSystemList li, .trailStatsList li {
     color: black;
     padding: 12px 16px;
     display: block;
@@ -80,7 +80,7 @@ body{
 
 .card{
     background-color: #343a40;
-    width: 65%;
+    width: 50%;
 }
 
 #trailSelectMenu{
