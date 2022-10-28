@@ -463,29 +463,29 @@ function editTrailModal() {
     inputLength.setAttribute("id", "length");
     inputLength.setAttribute("value", activeTrail.length);
     labelDirection.innerText = "Direction: ";
-    //add label direction 1
+    labelDirection1.innerText = "true";
     inputDirection1.setAttribute("name","direction");
     inputDirection1.setAttribute("value","true");
     inputDirection1.setAttribute("type","radio");
-    //add label direction 2
+    labelDirection2.innerText = "false";
     inputDirection2.setAttribute("name","direction");
     inputDirection2.setAttribute("value","false");
     inputDirection2.setAttribute("type","radio");
 
     labelDifficulty.innerText = "Difficulty Rating: ";
-    //add label difficuly 1
+    labelDifficulty1.innerText = "Green";
     inputDifficulty1.setAttribute("name","difficulty");
     inputDifficulty1.setAttribute("value","GREEN");
     inputDifficulty1.setAttribute("type","radio");
-    //add label difficulty 2
+    labelDifficulty2.innerText = "Blue";
     inputDifficulty2.setAttribute("name","difficulty");
     inputDifficulty2.setAttribute("value","BLUE");
     inputDifficulty2.setAttribute("type","radio");
-    //add label difficulty 3
+    labelDifficulty3.innerText = "Black";
     inputDifficulty3.setAttribute("name","difficulty");
     inputDifficulty3.setAttribute("value","BLACK");
     inputDifficulty3.setAttribute("type","radio");
-    //add label difficulty 4
+    labelDifficulty4.innerText = "Double Black";
     inputDifficulty4.setAttribute("name","difficulty");
     inputDifficulty4.setAttribute("value","DOUBLE_BLACK");
     inputDifficulty4.setAttribute("type","radio");
