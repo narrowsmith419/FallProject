@@ -15,6 +15,10 @@ trailBySystemShow.addEventListener("click", getTrailSystemShow);
 //Select a Trail by Difficulty drop-down button
 let trailByDifficultyShow = document.querySelector("#dropBtnDifficulty");
 trailByDifficultyShow.addEventListener("click", getTrailDifficultyShow);
+//close modal when user clicks 'x'
+let span = document.getElementsByClassName("close")[0];
+span.addEventListener("click", closeModal);
+
 
 window.onload = function () {
 
@@ -88,39 +92,46 @@ window.onload = function () {
 function getTrailNameShow() {
     document.getElementById("trailByName").classList.toggle("show");
 }
+
 function getTrailSystemShow() {
     document.getElementById("trailBySystem").classList.toggle("show");
 }
+
 function getTrailDifficultyShow() {
     document.getElementById("trailByDifficulty").classList.toggle("show");
 }
 
 /*close the dropdown menu when clicked outside it*/
-window.onclick = function (event){
-    if(!event.target.matches('.dropBtn')) {
+window.onclick = function (event) {
+    if (!event.target.matches('.dropBtn')) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
         var i;
-        for(i = 0; i < dropdowns.length; i++) {
+        for (i = 0; i < dropdowns.length; i++) {
             var openDropDown = dropdowns[i];
-            if(openDropDown.classList.contains('show')){
+            if (openDropDown.classList.contains('show')) {
                 openDropDown.classList.remove('show');
             }
         }
     }
     //grab trail name clicked in drop down
-    if(event.target.matches('.trailNames') ||event.target.matches('.trailSystemsList')){
+    if (event.target.matches('.trailNames') || event.target.matches('.trailSystemsList')) {
         console.log(event.target.innerText);
         getTrailByName(event.target.innerText, "names");
     }
     //grab trail name clicked in drop down
-    if(event.target.matches('.trailSystems')){
+    if (event.target.matches('.trailSystems')) {
         console.log(event.target.innerText)
         getTrailByName(event.target.innerText, "systems");
     }
     //grab trail name clicked in drop down
-    if(event.target.matches('.trailDifficulties')){
+    if (event.target.matches('.trailDifficulties')) {
         console.log(event.target.innerText)
         getTrailByName(event.target.innerText, "ratings");
+    }
+    //if user clicks outside the modal
+    if (event.target.matches('#editTrailModal')) {
+        let modal = document.getElementById("editTrailModal");
+        modal.style.display = "none";
     }
 }
 
@@ -129,6 +140,7 @@ window.onclick = function (event){
  * dynamically generates trail names from trail API to populate drop down list
  * @param data Trail objects from /api/v1/trail
  */
+
 /*function trailDropDown(data) {
     //access the dropdown in our HTML
     let trailDropDown = document.getElementById("trail-drop");
@@ -173,14 +185,14 @@ function trailNameDropDown(data) {
         p.innerText = trail.name;
         p.setAttribute("value", trail.name);
         p.classList.add("trailNames");
-        if(!systemSet.has(trail.trailSystem)){ //if trailsystem doesn't already exist, add it to list
+        if (!systemSet.has(trail.trailSystem)) { //if trailsystem doesn't already exist, add it to list
             systemSet.add(trail.trailSystem);
             let p2 = document.createElement("p");
             p2.innerText = trail.trailSystem;
             p2.classList.add("trailSystems");
             trailDropDownSystem.appendChild(p2);
         }
-        if(!difficultySet.has(trail.difficulty)){ //if difficulty doesn't already exist, add it to list
+        if (!difficultySet.has(trail.difficulty)) { //if difficulty doesn't already exist, add it to list
             difficultySet.add(trail.difficulty);
             let p3 = document.createElement("p");
             p3.innerText = trail.difficulty;
@@ -194,6 +206,7 @@ function trailNameDropDown(data) {
 function buttonClick(event) {
     event.preventDefault();
 }
+
 function fetchTrail(data) {
     let trail = data[0];
 
@@ -217,7 +230,7 @@ function fetchTrail(data) {
     cardImg.setAttribute('id', 'cardImage');
     let cardDiv = document.createElement("div");
     cardDiv.setAttribute('id', "trail-result");
-    cardDiv.classList.add("card-body","p-0");
+    cardDiv.classList.add("card-body", "p-0");
 
     //create Stats Card
     trailStats.classList.add("card");
@@ -226,27 +239,35 @@ function fetchTrail(data) {
     headerDiv.innerHTML = "Trail: " + trail.name;
     let statsUl = document.createElement("ul");
     statsUl.setAttribute('id', "trail-stats");
-    statsUl.classList.add("list-group","list-group-flush", "trailStatsList");
+    statsUl.classList.add("list-group", "list-group-flush", "trailStatsList");
 
     //add button to retrieve reviews
     let reviewButton = document.createElement("button");
     reviewButton.setAttribute('id', "getReviewButton");
     reviewButton.setAttribute('type', "submit");
     reviewButton.innerHTML = "Get Reviews";
-    reviewButton.classList.add("btn","btn-primary", "mt-auto", "ml-auto");
+    reviewButton.classList.add("btn", "btn-primary", "mt-auto", "ml-auto");
 
     //add button to delete trail
     let removeTrailButton = document.createElement("button");
     removeTrailButton.setAttribute('id', "removeTrailButton");
     removeTrailButton.setAttribute('type', "submit");
     removeTrailButton.innerHTML = "Delete Trail";
-    removeTrailButton.classList.add("btn","btn-danger", "mt-auto", "ml-auto");
+    removeTrailButton.classList.add("btn", "btn-danger", "mt-auto", "ml-auto");
+
+    //add button to edit trail
+    let EditTrailButton = document.createElement("button");
+    EditTrailButton.setAttribute('id', "editTrailButton");
+    EditTrailButton.setAttribute('type', "submit");
+    EditTrailButton.innerHTML = "Edit Trail";
+    EditTrailButton.classList.add("cardButton");
 
     //append to HTML
     trailCard.appendChild(cardImg);
     trailCard.appendChild(cardDiv);
     trailStats.appendChild(headerDiv);
     trailStats.appendChild(statsUl);
+    trailStats.appendChild(EditTrailButton);
     trailStats.appendChild(reviewButton);
     trailStats.appendChild(removeTrailButton);
 
@@ -288,13 +309,13 @@ function singleTrail(data) {
     const listItems = [statsLi, statsLi1, statsLi2, statsLi3, statsLi4, statsLi5];
 
     //add contents
-   /* h2.innerText = "Trail: " + trail.name;
-    li.innerText = "Trail System: " + trail.trailSystem;
-    li1.innerText = "State: " + trail.state;
-    li2.innerText = "Difficulty: " + trail.difficulty;
-    li3.innerText = "Length: " + trail.length + "ft";
-    li4.innerText = "Elevation: " + trail.elevation + "ft";
-    li5.innerText = "BiDirectional: " + trail.multiDirectional;*/
+    /* h2.innerText = "Trail: " + trail.name;
+     li.innerText = "Trail System: " + trail.trailSystem;
+     li1.innerText = "State: " + trail.state;
+     li2.innerText = "Difficulty: " + trail.difficulty;
+     li3.innerText = "Length: " + trail.length + "ft";
+     li4.innerText = "Elevation: " + trail.elevation + "ft";
+     li5.innerText = "BiDirectional: " + trail.multiDirectional;*/
 
     statsLi.innerText = "Trail System: " + trail.trailSystem;
     statsLi1.innerText = "State: " + trail.state;
@@ -321,6 +342,10 @@ function singleTrail(data) {
 
     //add the section to the list
     trailResult.appendChild(section);
+
+    //'Edit Trails' button
+    let editTrailButton = document.querySelector("#editTrailButton");
+    editTrailButton.addEventListener("click", editTrailModal);
 
     //'Get all Reviews' button
     let getReviewButton = document.querySelector("#getReviewButton");
@@ -350,7 +375,8 @@ function getReviews(event) {
 
 function removeTrail(event) {
     event.preventDefault();
-    let data = { trailID: activeTrail.trailID };
+
+    let data = {trailID: activeTrail.trailID};
 
     let trailUri = "http://localhost:8080/api/v1/trail/";
     let params = {
@@ -368,9 +394,150 @@ function removeTrail(event) {
 
 }
 
+//show modal
+function editTrailModal() {
+
+    let formModal = document.getElementById("editTrailForm"); //grab html
+
+    //create all form elements
+    let form = document.createElement("form");
+    //labels & inputs //TODO: create these elements in a loop
+    let labelName = document.createElement("label");
+    let inputName = document.createElement("input");
+    let labelSystem = document.createElement("label")
+    let inputSystem = document.createElement("input");
+    let labelState = document.createElement("label");
+    let inputState = document.createElement("input");
+    let labelElevation = document.createElement("label");
+    let inputElevation = document.createElement("input");
+    let labelLength = document.createElement("label");
+    let inputLength = document.createElement("input");
+    let labelDirection = document.createElement("label");
+    let labelDirection1 = document.createElement("label");
+    let inputDirection1 = document.createElement("input");
+    let labelDirection2 = document.createElement("label");
+    let inputDirection2 = document.createElement("input");
+    let labelDifficulty = document.createElement("label");
+    let labelDifficulty1 = document.createElement("label");
+    let inputDifficulty1 = document.createElement("input");
+    let labelDifficulty2 = document.createElement("label");
+    let inputDifficulty2 = document.createElement("input");
+    let labelDifficulty3 = document.createElement("label");
+    let inputDifficulty3 = document.createElement("input");
+    let labelDifficulty4 = document.createElement("label");
+    let inputDifficulty4 = document.createElement("input");
+    //radio div
+    let difficultyDiv = document.createElement("div");
+    let directionDiv = document.createElement("div");
+
+    //add contents
+    /* h2.innerText = "Trail: " + trail.name; */
+    labelName.innerText = "Trail Name: ";
+    labelName.setAttribute("for", "name");
+    inputName.setAttribute("type", "text");
+    inputName.setAttribute("name", "name");
+    inputName.setAttribute("id", "name");
+    inputName.setAttribute("value", activeTrail.name);
+    labelSystem.innerText = "Trail System: ";
+    labelSystem.setAttribute("for", "system");
+    inputSystem.setAttribute("type", "text");
+    inputSystem.setAttribute("name", "system");
+    inputSystem.setAttribute("id", "system");
+    inputSystem.setAttribute("value", activeTrail.trailSystem);
+    labelState.innerText = "State: ";
+    labelState.setAttribute("for", "state");
+    inputState.setAttribute("type", "text");
+    inputState.setAttribute("name", "state");
+    inputState.setAttribute("id", "state");
+    inputState.setAttribute("value", activeTrail.state);
+    labelElevation.innerText = "Elevation: ";
+    labelElevation.setAttribute("for", "elevation");
+    inputElevation.setAttribute("type", "text");
+    inputElevation.setAttribute("name", "elevation");
+    inputElevation.setAttribute("id", "elevation");
+    inputElevation.setAttribute("value", activeTrail.elevation);
+    labelLength.innerText = "Length: ";
+    labelLength.setAttribute("for", "length");
+    inputLength.setAttribute("type", "text");
+    inputLength.setAttribute("name", "length");
+    inputLength.setAttribute("id", "length");
+    inputLength.setAttribute("value", activeTrail.length);
+    labelDirection.innerText = "Direction: ";
+    //add label direction 1
+    inputDirection1.setAttribute("name","direction");
+    inputDirection1.setAttribute("value","true");
+    inputDirection1.setAttribute("type","radio");
+    //add label direction 2
+    inputDirection2.setAttribute("name","direction");
+    inputDirection2.setAttribute("value","false");
+    inputDirection2.setAttribute("type","radio");
+
+    labelDifficulty.innerText = "Difficulty Rating: ";
+    //add label difficuly 1
+    inputDifficulty1.setAttribute("name","difficulty");
+    inputDifficulty1.setAttribute("value","GREEN");
+    inputDifficulty1.setAttribute("type","radio");
+    //add label difficulty 2
+    inputDifficulty2.setAttribute("name","difficulty");
+    inputDifficulty2.setAttribute("value","BLUE");
+    inputDifficulty2.setAttribute("type","radio");
+    //add label difficulty 3
+    inputDifficulty3.setAttribute("name","difficulty");
+    inputDifficulty3.setAttribute("value","BLACK");
+    inputDifficulty3.setAttribute("type","radio");
+    //add label difficulty 4
+    inputDifficulty4.setAttribute("name","difficulty");
+    inputDifficulty4.setAttribute("value","DOUBLE_BLACK");
+    inputDifficulty4.setAttribute("type","radio");
+
+
+
+    //construct radio divs
+    difficultyDiv.appendChild(labelDifficulty);
+    labelDifficulty1.appendChild(inputDifficulty1);
+    difficultyDiv.appendChild(labelDifficulty1);
+    labelDifficulty2.appendChild(inputDifficulty2);
+    difficultyDiv.appendChild(labelDifficulty2);
+    labelDifficulty3.appendChild(inputDifficulty3);
+    difficultyDiv.appendChild(labelDifficulty3);
+    labelDifficulty4.appendChild(inputDifficulty4);
+    difficultyDiv.appendChild(labelDifficulty4);
+    //direction divs
+    directionDiv.appendChild(labelDirection);
+    labelDirection1.appendChild(inputDirection1);
+    directionDiv.appendChild(labelDirection1);
+    labelDirection2.appendChild(inputDirection2);
+    directionDiv.appendChild(labelDirection2);
+
+    form.appendChild(labelName);
+    form.appendChild(inputName);
+    form.appendChild(labelSystem);
+    form.appendChild(inputSystem);
+    form.appendChild(labelElevation);
+    form.appendChild(inputElevation);
+    form.appendChild(labelLength);
+    form.appendChild(inputLength);
+    form.appendChild(directionDiv);
+    form.appendChild(difficultyDiv);
+
+    //add to HTML
+    formModal.appendChild(form);
+
+    let modal = document.getElementById("editTrailModal");
+    modal.style.display = "block";
+
+}
+
+//close modal
+function closeModal() {
+
+    let modal = document.getElementById("editTrailModal");
+    modal.style.display = "none";
+}
+
 function getTrailByName(value, type) {
 
-    let trailUri = "http://localhost:8080/api/v1/trail/"+ type + "/" + value;
+    let trailUri = "http://localhost:8080/api/v1/trail/" + type + "/" + value;
     let params = {
         method: "get"
     };
@@ -382,15 +549,17 @@ function getTrailByName(value, type) {
         .then(function (data) {
             console.log("Get trail by name output:")
             console.log(data);
-            if(type === "names"){ fetchTrail(data); }
-            else { fetchTrailList(data, type); }
-            /*if(type === "ratings"){ fetchTrailList(data, type); } //might be redundant*/
+            if (type === "names") {
+                fetchTrail(data);
+            } else {
+                fetchTrailList(data, type);
+            }
         });
 }
 
 function fetchTrailList(data, type) {
 
-    //clear existing trail card (if there is one) and reviews
+//clear existing trail card (if there is one) and reviews
     let trailCard = document.getElementById("trailCard");
     let trailStats = document.getElementById("trailStats");
     let allReviews = document.getElementById("reviewGrid");
@@ -403,13 +572,17 @@ function fetchTrailList(data, type) {
     let div = document.createElement("div");
     div.classList.add("trailListBySystem", "card-header");
 
-    try{
-        if(type === "systems") { div.innerText = 'Trails at "' + data[0].trailSystem + '" trail system'; }
+    try {
+        if (type === "systems") {
+            div.innerText = 'Trails at "' + data[0].trailSystem + '" trail system';
+        }
     } catch (e) {
         trailCard.innerHTML = "There are no trails at this system :(";
     }
 
-    if(type === "ratings") { div.innerText = 'All Trails with a "' + data[0].difficulty + '" rating'; }
+    if (type === "ratings") {
+        div.innerText = 'All Trails with a "' + data[0].difficulty + '" rating';
+    }
     trailCard.appendChild(div);
     let ul = document.createElement("ul");
     ul.classList.add("list-group", "list-group-flush", "trailSystemList");
@@ -432,9 +605,9 @@ function fetchTrailList(data, type) {
 
 }
 
-function printReviews(data){
+function printReviews(data) {
 
-    //access the list in our HTML
+//access the list in our HTML
     let allReviews = document.getElementById("reviewGrid");
     allReviews.innerHTML = ""; //clear existing reviews
 
