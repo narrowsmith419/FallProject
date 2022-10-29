@@ -422,16 +422,12 @@ function removeTrail(event) {
 function editTrailModal() {
 
     //let formModal = document.getElementById("editTrailFormDiv"); //grab html
-    let form = document.getElementById("editTrailForm"); //grab html
+    let editForm = document.getElementById("editTrailForm"); //grab html
+    let addForm = document.getElementById("addTrailForm");
     let header = document.getElementById("modalHeader");
 
-    if(formType === "addTrail")
-    {
-        form = document.getElementById("addTrailForm");
-        header.innerHTML = " Add Trail ";
-    }
-
-    form.innerHTML = ""; //clear existing fields
+    editForm.innerHTML = ""; //clear existing fields
+    addForm.innerHTML = ""; //clear existing fields
 
     //create all form elements
     //let form = document.createElement("form");
@@ -500,41 +496,31 @@ function editTrailModal() {
 
     labelDirection.innerText = "Is this a two-way trail?  ";
     labelDirection1.innerText = "true";
-    inputDirection1.setAttribute("name","direction");
-    inputDirection1.setAttribute("value","true");
-    inputDirection1.setAttribute("type","radio");
+    inputDirection1.setAttribute("name", "direction");
+    inputDirection1.setAttribute("value", "true");
+    inputDirection1.setAttribute("type", "radio");
     labelDirection2.innerText = "false";
-    inputDirection2.setAttribute("name","direction");
-    inputDirection2.setAttribute("value","false");
-    inputDirection2.setAttribute("type","radio");
-
-    if(formType === "editTrail") //preFill form if editTrail  is selected
-    {
-        header.innerHTML = " Edit Trail ";
-        inputName.setAttribute("value", activeTrail.name);
-        inputSystem.setAttribute("value", activeTrail.trailSystem);
-        inputState.setAttribute("value", activeTrail.state);
-        inputElevation.setAttribute("value", activeTrail.elevation);
-        inputLength.setAttribute("value", activeTrail.length);
-    }
+    inputDirection2.setAttribute("name", "direction");
+    inputDirection2.setAttribute("value", "false");
+    inputDirection2.setAttribute("type", "radio");
 
     labelDifficulty.innerText = "Difficulty Rating: ";
     labelDifficulty1.innerText = "Green";
-    inputDifficulty1.setAttribute("name","difficulty");
-    inputDifficulty1.setAttribute("value","GREEN");
-    inputDifficulty1.setAttribute("type","radio");
+    inputDifficulty1.setAttribute("name", "difficulty");
+    inputDifficulty1.setAttribute("value", "GREEN");
+    inputDifficulty1.setAttribute("type", "radio");
     labelDifficulty2.innerText = "Blue";
-    inputDifficulty2.setAttribute("name","difficulty");
-    inputDifficulty2.setAttribute("value","BLUE");
-    inputDifficulty2.setAttribute("type","radio");
+    inputDifficulty2.setAttribute("name", "difficulty");
+    inputDifficulty2.setAttribute("value", "BLUE");
+    inputDifficulty2.setAttribute("type", "radio");
     labelDifficulty3.innerText = "Black";
-    inputDifficulty3.setAttribute("name","difficulty");
-    inputDifficulty3.setAttribute("value","BLACK");
-    inputDifficulty3.setAttribute("type","radio");
+    inputDifficulty3.setAttribute("name", "difficulty");
+    inputDifficulty3.setAttribute("value", "BLACK");
+    inputDifficulty3.setAttribute("type", "radio");
     labelDifficulty4.innerText = "Double Black";
-    inputDifficulty4.setAttribute("name","difficulty");
-    inputDifficulty4.setAttribute("value","DOUBLE_BLACK");
-    inputDifficulty4.setAttribute("type","radio");
+    inputDifficulty4.setAttribute("name", "difficulty");
+    inputDifficulty4.setAttribute("value", "DOUBLE_BLACK");
+    inputDifficulty4.setAttribute("type", "radio");
 
     //construct radio divs
     difficultyDiv.appendChild(labelDifficulty);
@@ -553,22 +539,46 @@ function editTrailModal() {
     labelDirection2.appendChild(inputDirection2);
     directionDiv.appendChild(labelDirection2);
 
-    form.appendChild(labelName);
-    form.appendChild(inputName);
-    form.appendChild(labelSystem);
-    form.appendChild(inputSystem);
-    form.appendChild(labelState);
-    form.appendChild(inputState);
-    form.appendChild(labelElevation);
-    form.appendChild(inputElevation);
-    form.appendChild(labelLength);
-    form.appendChild(inputLength);
-    form.appendChild(directionDiv);
-    form.appendChild(difficultyDiv);
-    //form.appendChild(formButton);
+    if (formType === "addTrail") {
 
-    //add to HTML
-    //formModal.appendChild(form);
+        header.innerHTML = " Add Trail ";
+        addForm.appendChild(labelName);
+        addForm.appendChild(inputName);
+        addForm.appendChild(labelSystem);
+        addForm.appendChild(inputSystem);
+        addForm.appendChild(labelState);
+        addForm.appendChild(inputState);
+        addForm.appendChild(labelElevation);
+        addForm.appendChild(inputElevation);
+        addForm.appendChild(labelLength);
+        addForm.appendChild(inputLength);
+        addForm.appendChild(directionDiv);
+        addForm.appendChild(difficultyDiv);
+    }
+
+    if (formType === "editTrail") //preFill form if editTrail  is selected //add elements
+    {
+        header.innerHTML = " Edit Trail ";
+        inputName.setAttribute("value", activeTrail.name);
+        inputSystem.setAttribute("value", activeTrail.trailSystem);
+        inputState.setAttribute("value", activeTrail.state);
+        inputElevation.setAttribute("value", activeTrail.elevation);
+        inputLength.setAttribute("value", activeTrail.length);
+
+        editForm.appendChild(labelName);
+        editForm.appendChild(inputName);
+        editForm.appendChild(labelSystem);
+        editForm.appendChild(inputSystem);
+        editForm.appendChild(labelState);
+        editForm.appendChild(inputState);
+        editForm.appendChild(labelElevation);
+        editForm.appendChild(inputElevation);
+        editForm.appendChild(labelLength);
+        editForm.appendChild(inputLength);
+        editForm.appendChild(directionDiv);
+        editForm.appendChild(difficultyDiv);
+
+    }
 
     //display modal
     let modal = document.getElementById("editTrailModal");
