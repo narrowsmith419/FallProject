@@ -247,7 +247,12 @@ function fetchTrail(data) {
     reviewButton.setAttribute('id', "getReviewButton");
     reviewButton.setAttribute('type', "submit");
     reviewButton.innerHTML = "Get Reviews";
-    reviewButton.classList.add("btn", "btn-primary", "mt-auto", "ml-auto");
+
+    //add button to add reviews
+    let addReviewButton = document.createElement("button");
+    addReviewButton.setAttribute('id', "addReviewButton");
+    addReviewButton.setAttribute('type', "submit");
+    addReviewButton.innerHTML = "Add Review";
 
     //add button to delete trail
     let removeTrailButton = document.createElement("button");
@@ -270,7 +275,9 @@ function fetchTrail(data) {
     trailStats.appendChild(statsUl);
     trailStats.appendChild(EditTrailButton);
     trailStats.appendChild(reviewButton);
+    trailStats.appendChild(addReviewButton);
     trailStats.appendChild(removeTrailButton);
+
 
     let img = document.getElementById("cardImage");
 
@@ -351,6 +358,10 @@ function singleTrail(data) {
     //'Get all Reviews' button
     let getReviewButton = document.querySelector("#getReviewButton");
     getReviewButton.addEventListener("click", getReviews);
+
+    //'Add Review' button
+    let addReviewButton = document.querySelector("#addReviewButton");
+    addReviewButton.addEventListener("click", addReviewForm);
 
     //'Delete Trail' button
     let removeTrailButton = document.querySelector("#removeTrailButton");
@@ -579,13 +590,14 @@ trailFormButton.addEventListener('click', editTrailFormData);
     event.preventDefault();
 }*/
 //TODO: ADD FORM VALIDATION
-function addTrailFormData(event){
+function addReviewFormData(event){
 
     event.preventDefault();
 
-    console.log("hello from addTrailFormData");
+    console.log("hello from addFormFormData");
+    console.log(Date.now());
 
-    let form = document.getElementById("addTrailForm");
+    let form = document.getElementById("addReviewForm");
 
     //store fields
     let name = form.elements['name'].value; //trail name
@@ -600,19 +612,21 @@ function addTrailFormData(event){
 
     //create a JS object for serialization
     let jsonObj = {
-        length: trailLength,
-        elevation: trailElevation,
-        state: trailState,
-        trailSystem: system,
-        name: name,
-        imageLink: "../images/roadGap.jpeg",
-        multiDirectional: trailDirection,
-        difficulty: trailDifficulty
+        maxScore: 5,
+        score: reviewScore,
+        author: reviewAuthor,
+        dateReviewed: Date.now(),
+        wouldRecommend: reviewRecommend,
+        bikeRidden: reviewBike,
+        trailConditions: reviewConditions,
+        weather: reviewWeather,
+        trailName: reviewName,
+        ratingValid: reviewRating
     }
 
 
     //prepare fetch() data
-    let url = "http://localhost:8080/api/v1/trail";
+    let url = "http://localhost:8080/api/v1/review";
     let params = {
         method: "post",
         //required mim type for post request

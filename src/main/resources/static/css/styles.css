@@ -116,28 +116,61 @@ div#reviewGrid {
     grid-template-columns: 2fr 2fr 2fr; /*three column layout, middle column bigger than others*/
 }
 
-#editTrailButton, #trailFormButton {
-    background-color: green;
-    color: white;
-    width: 50%;
-    padding: 5px;
-    margin-left: auto;
-    border-radius: 5px;
-}
-
 #addTrailButton{
     background-color: #c46301;
+    border: 2px solid #c56600;
+
     color: white;
     width: 25%;
     padding: 10px;
     margin-left: auto;
     border-radius: 5px;
+
 }
 
 #addTrailButton:hover {
-    background-color: #c56600;
+    background-color: #9d5001;
     color: white;
     box-shadow: 6px 6px 2px rgba(70, 70, 70, 0.73);
+}
+
+#editTrailButton, #trailFormButton, #addReviewButton, #getReviewButton {
+
+    color: white;
+    width: 50%;
+    padding: 5px;
+    margin-left: auto;
+    border-radius: 5px;
+
+}
+
+#editTrailButton, #trailFormButton {
+    background-color: green;
+    border: 2px solid #006500;
+}
+
+#editTrailButton:hover, #trailFormButton:hover {
+    background-color: #006500;
+}
+
+#addReviewButton{
+    background-color: #5112ee;
+    border: 2px solid #430dcc;
+}
+
+#addReviewButton:hover {
+    background-color: #430dcc;
+}
+
+
+#getReviewButton{
+    background-color: #c332ff;
+    border: 2px solid #9526c2;
+}
+
+#getReviewButton:hover {
+    background-color: #9526c2;
+    /*color: white;*/
 }
 
 .modal {
