@@ -81,11 +81,15 @@
                         <div id="editTrailModal" class="modal">
                             <div class="editTrailModalContent">
                                 <div class="modal-header">
-                                    <h2> Edit Trail </h2>
+                                    <h2 id="modalHeader"></h2>
                                     <span class="close">&times;</span>
                                 </div>
                                 <div class="modal-body">
-                                    <div id="editTrailForm"></div>
+                                    <div id="editTrailFormDiv">
+                                        <form action="#" method="post" id="editTrailForm"></form>
+                                        <form action="#" method="post" id="addTrailForm"></form>
+                                        <button id="trailFormButton" type="submit">Submit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -99,6 +103,7 @@
                     </div>
                 </div>
             </div>
+                <button id="addTrailButton">Add Trail</button>
         </div>
 
         <div class="container" id="reviews">

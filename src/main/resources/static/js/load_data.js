@@ -1,5 +1,6 @@
 //let trails = [];
 let activeTrail;
+let formType;
 
 //'Select a Trail' drop-down button
 /*let submitButton = document.querySelector("#submitButton");
@@ -18,6 +19,9 @@ trailByDifficultyShow.addEventListener("click", getTrailDifficultyShow);
 //close modal when user clicks 'x'
 let span = document.getElementsByClassName("close")[0];
 span.addEventListener("click", closeModal);
+//'Add Trails' button
+let addTrailButton = document.querySelector("#addTrailButton");
+addTrailButton.addEventListener("click", addTrailFormType);
 
 
 window.onload = function () {
@@ -203,9 +207,6 @@ function trailNameDropDown(data) {
     }
 }
 
-function buttonClick(event) {
-    event.preventDefault();
-}
 
 function fetchTrail(data) {
     let trail = data[0];
@@ -345,7 +346,7 @@ function singleTrail(data) {
 
     //'Edit Trails' button
     let editTrailButton = document.querySelector("#editTrailButton");
-    editTrailButton.addEventListener("click", editTrailModal);
+    editTrailButton.addEventListener("click", editTrailFormType);
 
     //'Get all Reviews' button
     let getReviewButton = document.querySelector("#getReviewButton");
@@ -354,6 +355,16 @@ function singleTrail(data) {
     //'Delete Trail' button
     let removeTrailButton = document.querySelector("#removeTrailButton");
     removeTrailButton.addEventListener("click", removeTrail);
+}
+
+function editTrailFormType(){
+    formType = "editTrail";
+    editTrailModal();
+}
+
+function addTrailFormType(){
+    formType = "addTrail";
+    editTrailModal();
 }
 
 function getReviews(event) {
@@ -390,17 +401,29 @@ function removeTrail(event) {
     fetch(trailUri, params)
         .then(function (response) {
             console.log("SUCCESSFULLY DELETED");
-        })
+            window.location.reload(); //refresh page
+        });
+
 
 }
 
 //show modal
 function editTrailModal() {
 
-    let formModal = document.getElementById("editTrailForm"); //grab html
+    //let formModal = document.getElementById("editTrailFormDiv"); //grab html
+    let form = document.getElementById("editTrailForm"); //grab html
+    let header = document.getElementById("modalHeader");
+
+    if(formType === "addTrail")
+    {
+        form = document.getElementById("addTrailForm");
+        header.innerHTML = " Add Trail ";
+    }
+
+    form.innerHTML = ""; //clear existing fields
 
     //create all form elements
-    let form = document.createElement("form");
+    //let form = document.createElement("form");
     //labels & inputs //TODO: create these elements in a loop
     let labelName = document.createElement("label");
     let inputName = document.createElement("input");
@@ -431,38 +454,40 @@ function editTrailModal() {
     let directionDiv = document.createElement("div");
 
     //add contents
-    /* h2.innerText = "Trail: " + trail.name; */
+    //form.setAttribute("action", "#");
+    //form.setAttribute("id", "editTrailForm");
+    //form.setAttribute("method", "post");
     labelName.innerText = "Trail Name: ";
     labelName.setAttribute("for", "name");
     inputName.setAttribute("type", "text");
     inputName.setAttribute("name", "name");
     inputName.setAttribute("id", "name");
-    inputName.setAttribute("value", activeTrail.name);
+
     labelSystem.innerText = "Trail System: ";
     labelSystem.setAttribute("for", "system");
     inputSystem.setAttribute("type", "text");
     inputSystem.setAttribute("name", "system");
     inputSystem.setAttribute("id", "system");
-    inputSystem.setAttribute("value", activeTrail.trailSystem);
+
     labelState.innerText = "State: ";
     labelState.setAttribute("for", "state");
     inputState.setAttribute("type", "text");
     inputState.setAttribute("name", "state");
     inputState.setAttribute("id", "state");
-    inputState.setAttribute("value", activeTrail.state);
+
     labelElevation.innerText = "Elevation: ";
     labelElevation.setAttribute("for", "elevation");
     inputElevation.setAttribute("type", "text");
     inputElevation.setAttribute("name", "elevation");
     inputElevation.setAttribute("id", "elevation");
-    inputElevation.setAttribute("value", activeTrail.elevation);
+
     labelLength.innerText = "Length: ";
     labelLength.setAttribute("for", "length");
     inputLength.setAttribute("type", "text");
     inputLength.setAttribute("name", "length");
     inputLength.setAttribute("id", "length");
-    inputLength.setAttribute("value", activeTrail.length);
-    labelDirection.innerText = "Direction: ";
+
+    labelDirection.innerText = "Is this a two-way trail?  ";
     labelDirection1.innerText = "true";
     inputDirection1.setAttribute("name","direction");
     inputDirection1.setAttribute("value","true");
@@ -471,6 +496,16 @@ function editTrailModal() {
     inputDirection2.setAttribute("name","direction");
     inputDirection2.setAttribute("value","false");
     inputDirection2.setAttribute("type","radio");
+
+    if(formType === "editTrail") //preFill form if editTrail  is selected
+    {
+        header.innerHTML = " Edit Trail ";
+        inputName.setAttribute("value", activeTrail.name);
+        inputSystem.setAttribute("value", activeTrail.trailSystem);
+        inputState.setAttribute("value", activeTrail.state);
+        inputElevation.setAttribute("value", activeTrail.elevation);
+        inputLength.setAttribute("value", activeTrail.length);
+    }
 
     labelDifficulty.innerText = "Difficulty Rating: ";
     labelDifficulty1.innerText = "Green";
@@ -489,8 +524,6 @@ function editTrailModal() {
     inputDifficulty4.setAttribute("name","difficulty");
     inputDifficulty4.setAttribute("value","DOUBLE_BLACK");
     inputDifficulty4.setAttribute("type","radio");
-
-
 
     //construct radio divs
     difficultyDiv.appendChild(labelDifficulty);
@@ -513,19 +546,22 @@ function editTrailModal() {
     form.appendChild(inputName);
     form.appendChild(labelSystem);
     form.appendChild(inputSystem);
+    form.appendChild(labelState);
+    form.appendChild(inputState);
     form.appendChild(labelElevation);
     form.appendChild(inputElevation);
     form.appendChild(labelLength);
     form.appendChild(inputLength);
     form.appendChild(directionDiv);
     form.appendChild(difficultyDiv);
+    //form.appendChild(formButton);
 
     //add to HTML
-    formModal.appendChild(form);
+    //formModal.appendChild(form);
 
+    //display modal
     let modal = document.getElementById("editTrailModal");
     modal.style.display = "block";
-
 }
 
 //close modal
@@ -533,6 +569,154 @@ function closeModal() {
 
     let modal = document.getElementById("editTrailModal");
     modal.style.display = "none";
+}
+
+//process editTrail || addTrail form data on submit
+let trailFormButton = document.querySelector("#trailFormButton");
+trailFormButton.addEventListener('click', editTrailFormData);
+
+/*function buttonClick(event) {
+    event.preventDefault();
+}*/
+//TODO: ADD FORM VALIDATION
+function addTrailFormData(event){
+
+    event.preventDefault();
+
+    console.log("hello from addTrailFormData");
+
+    let form = document.getElementById("addTrailForm");
+
+    //store fields
+    let name = form.elements['name'].value; //trail name
+    let system = form.elements['system'].value; //trail system
+    let trailState = form.elements['state'].value; //trail system
+    let trailElevation = form.elements['elevation'].value; //trail elevation
+    let trailLength = document.getElementById("length").value;
+    let trailDirection = form.elements['direction'].value; //trail direction
+    let trailDifficulty = form.elements['difficulty'].value; //trail rating
+
+    let trailName = name.value;
+
+    //create a JS object for serialization
+    let jsonObj = {
+        length: trailLength,
+        elevation: trailElevation,
+        state: trailState,
+        trailSystem: system,
+        name: name,
+        imageLink: "../images/roadGap.jpeg",
+        multiDirectional: trailDirection,
+        difficulty: trailDifficulty
+    }
+
+
+    //prepare fetch() data
+    let url = "http://localhost:8080/api/v1/trail";
+    let params = {
+        method: "post",
+        //required mim type for post request
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(jsonObj)
+    }
+
+    //send data, then print the response
+    fetch(url, params).then(response => console.log(response));
+
+    window.location.reload(); //refresh page
+
+}
+
+//TODO: ADD FORM VALIDATION
+function editTrailFormData(event){
+
+    event.preventDefault();
+
+    let form;
+    let url;
+    let params;
+
+    if(formType === "editTrail")
+    {
+        form = document.getElementById("editTrailForm");
+    }
+
+    if(formType === "addTrail")
+    {
+        form = document.getElementById("addTrailForm");
+    }
+
+    //store fields
+    let name = form.elements['name'].value; //trail name
+    let system = form.elements['system'].value; //trail system
+    let trailState = form.elements['state'].value; //trail system
+    let trailElevation = form.elements['elevation'].value; //trail elevation
+    let trailLength = document.getElementById("length").value;
+    let trailDirection = form.elements['direction'].value; //trail direction
+    let trailDifficulty = form.elements['difficulty'].value; //trail rating
+
+    //add trail process
+    if(formType === "addTrail")
+    {
+        //create a JS object for serialization
+        let jsonObj = {
+            length: trailLength,
+            elevation: trailElevation,
+            state: trailState,
+            trailSystem: system,
+            name: name,
+            imageLink: "../images/roadGap.jpeg",
+            multiDirectional: trailDirection,
+            difficulty: trailDifficulty
+        }
+
+        //prepare fetch() data
+        url = "http://localhost:8080/api/v1/trail";
+        params = {
+            method: "post",
+            //required mim type for post request
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(jsonObj)
+        }
+    }
+
+    //edit trail process
+    if(formType === "editTrail")
+    {
+        //create a JS object for serialization
+        let jsonObj = {
+            trailID: activeTrail.trailID,
+            length: trailLength,
+            elevation: trailElevation,
+            state: trailState,
+            trailSystem: system,
+            name: name,
+            imageLink: activeTrail.imageLink,
+            multiDirectional: trailDirection,
+            difficulty: trailDifficulty
+        }
+
+        //prepare fetch() data
+        url = "http://localhost:8080/api/v1/trail";
+        params = {
+            method: "put",
+            //required mim type for post request
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(jsonObj)
+        }
+    }
+
+    //send data, then print the response
+    fetch(url, params).then(response => console.log(response));
+
+    window.location.reload(); //refresh page
+
 }
 
 function getTrailByName(value, type) {
