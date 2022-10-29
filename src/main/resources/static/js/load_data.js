@@ -133,8 +133,8 @@ window.onclick = function (event) {
         getTrailByName(event.target.innerText, "ratings");
     }
     //if user clicks outside the modal
-    if (event.target.matches('#editTrailModal')) {
-        let modal = document.getElementById("editTrailModal");
+    if (event.target.matches('#allFormsModal')) {
+        let modal = document.getElementById("allFormsModal");
         modal.style.display = "none";
     }
 }
@@ -361,7 +361,7 @@ function singleTrail(data) {
 
     //'Add Review' button
     let addReviewButton = document.querySelector("#addReviewButton");
-    addReviewButton.addEventListener("click", addReviewForm);
+    addReviewButton.addEventListener("click", addReviewModal);
 
     //'Delete Trail' button
     let removeTrailButton = document.querySelector("#removeTrailButton");
@@ -370,11 +370,19 @@ function singleTrail(data) {
 
 function editTrailFormType(){
     formType = "editTrail";
+    let editForm = document.getElementById("editTrailForm"); //grab html
+    let addForm = document.getElementById("addTrailForm");
+    editForm.innerHTML = ""; //clear existing fields
+    addForm.innerHTML = ""; //clear existing fields
     editTrailModal();
 }
 
 function addTrailFormType(){
     formType = "addTrail";
+    let editForm = document.getElementById("editTrailForm"); //grab html
+    let addForm = document.getElementById("addTrailForm");
+    editForm.innerHTML = ""; //clear existing fields
+    addForm.innerHTML = ""; //clear existing fields
     editTrailModal();
 }
 
@@ -419,13 +427,23 @@ function removeTrail(event) {
 }
 
 //show modal
+//TODO: revert this method back to single form, not separate editForm and addForm  fields (still use 'formType'
 function editTrailModal() {
+
+    //turn off AddReview button
+    let submitReviewButton = document.getElementById("reviewFormButton");
+    submitReviewButton.style.display = "none";
+
+    let trailFormButton = document.getElementById("trailFormButton");
+    trailFormButton.style.display = "block";
 
     //let formModal = document.getElementById("editTrailFormDiv"); //grab html
     let editForm = document.getElementById("editTrailForm"); //grab html
     let addForm = document.getElementById("addTrailForm");
+    let reviewForm = document.getElementById("addReviewForm");
     let header = document.getElementById("modalHeader");
 
+    reviewForm.innerHTML = "";
     editForm.innerHTML = ""; //clear existing fields
     addForm.innerHTML = ""; //clear existing fields
 
@@ -581,24 +599,155 @@ function editTrailModal() {
     }
 
     //display modal
-    let modal = document.getElementById("editTrailModal");
+    let modal = document.getElementById("allFormsModal");
     modal.style.display = "block";
+}
+
+function addReviewModal(){
+
+    //show button || hide editTrail button
+    let reviewFormButton = document.getElementById("reviewFormButton");
+    reviewFormButton.style.display = "block";
+    let trailFormButton = document.getElementById("trailFormButton");
+    trailFormButton.style.display = "none";
+
+    //clear existing form fields
+    let editForm = document.getElementById("editTrailForm"); //grab html
+    let addForm = document.getElementById("addTrailForm");
+    editForm.innerHTML = ""; //clear existing fields
+    addForm.innerHTML = ""; //clear existing fields
+
+    let form = document.getElementById("addReviewForm");
+    form.innerHTML = ""; //clear existing fields
+    let header = document.getElementById("modalHeader");
+    header.innerHTML = " Add Review ";
+
+    //labels & inputs //TODO: create these elements in a loop
+    let labelAuthor = document.createElement("label");
+    let inputAuthor = document.createElement("input");
+    let labelBike = document.createElement("label")
+    let inputBike = document.createElement("input");
+    let labelWeather = document.createElement("label");
+    let inputWeather = document.createElement("input");
+    let labelConditions = document.createElement("label");
+    let inputConditions = document.createElement("input");
+    let labelScore = document.createElement("label");
+    let inputScore = document.createElement("input");
+    let labelRecommend = document.createElement("label");
+    let labelRecommend1 = document.createElement("label");
+    let inputRecommend1 = document.createElement("input");
+    let labelRecommend2 = document.createElement("label");
+    let inputRecommend2 = document.createElement("input");
+    let labelRatingValid = document.createElement("label");
+    let labelRatingValid1 = document.createElement("label");
+    let inputRatingValid1 = document.createElement("input");
+    let labelRatingValid2 = document.createElement("label");
+    let inputRatingValid2 = document.createElement("input");
+
+    //radio div
+    let ratingValidDiv = document.createElement("div");
+    let recommendDiv = document.createElement("div");
+
+    labelAuthor.innerText = "Rider Name: ";
+    labelAuthor.setAttribute("for", "riderName");
+    inputAuthor.setAttribute("type", "text");
+    inputAuthor.setAttribute("name", "riderName");
+    inputAuthor.setAttribute("id", "riderName");
+
+    labelBike.innerText = "Bike Ridden: ";
+    labelBike.setAttribute("for", "bike");
+    inputBike.setAttribute("type", "text");
+    inputBike.setAttribute("name", "bike");
+    inputBike.setAttribute("id", "bike");
+
+    labelWeather.innerText = "Weather when ridden: ";
+    labelWeather.setAttribute("for", "weather");
+    inputWeather.setAttribute("type", "text");
+    inputWeather.setAttribute("name", "weather");
+    inputWeather.setAttribute("id", "weather");
+
+    labelConditions.innerText = "Trail conditions when ridden: ";
+    labelConditions.setAttribute("for", "conditions");
+    inputConditions.setAttribute("type", "text");
+    inputConditions.setAttribute("name", "conditions");
+    inputConditions.setAttribute("id", "conditions");
+
+    labelScore.innerText = "Score out of 5: ";
+    labelScore.setAttribute("for", "score");
+    inputScore.setAttribute("type", "number");
+    inputScore.setAttribute("name", "score");
+    inputScore.setAttribute("id", "score");
+
+    labelRecommend.innerText = "Would you recommend this trail?  ";
+    labelRecommend1.innerText = "true";
+    inputRecommend1.setAttribute("name", "recommend");
+    inputRecommend1.setAttribute("value", "true");
+    inputRecommend1.setAttribute("type", "radio");
+    labelRecommend2.innerText = "false";
+    inputRecommend2.setAttribute("name", "recommend");
+    inputRecommend2.setAttribute("value", "false");
+    inputRecommend2.setAttribute("type", "radio");
+
+    labelRatingValid.innerText = "Does the rating seem accurate for this trail?  ";
+    labelRatingValid1.innerText = "true";
+    inputRatingValid1.setAttribute("name", "ratingValid");
+    inputRatingValid1.setAttribute("value", "true");
+    inputRatingValid1.setAttribute("type", "radio");
+    labelRatingValid2.innerText = "false";
+    inputRatingValid2.setAttribute("name", "ratingValid");
+    inputRatingValid2.setAttribute("value", "false");
+    inputRatingValid2.setAttribute("type", "radio");
+
+    //construct radio divs
+    recommendDiv.appendChild(labelRecommend);
+    labelRecommend1.appendChild(inputRecommend1);
+    recommendDiv.appendChild(labelRecommend1);
+    labelRecommend2.appendChild(inputRecommend2);
+    recommendDiv.appendChild(labelRecommend2);
+    ratingValidDiv.appendChild(labelRatingValid);
+    labelRatingValid1.appendChild(inputRatingValid1);
+    ratingValidDiv.appendChild(labelRatingValid1);
+    labelRatingValid2.appendChild(inputRatingValid2);
+    ratingValidDiv.appendChild(labelRatingValid2);
+
+    //add to form
+    form.appendChild(labelAuthor);
+    form.appendChild(inputAuthor);
+    form.appendChild(labelBike);
+    form.appendChild(inputBike);
+    form.appendChild(labelWeather);
+    form.appendChild(inputWeather);
+    form.appendChild(labelConditions);
+    form.appendChild(inputConditions);
+    form.appendChild(labelScore);
+    form.appendChild(inputScore);
+    form.appendChild(recommendDiv);
+    form.appendChild(ratingValidDiv);
+
+    //display modal
+    let modal = document.getElementById("allFormsModal");
+    modal.style.display = "block";
+
 }
 
 //close modal
 function closeModal() {
 
-    let modal = document.getElementById("editTrailModal");
+    let trailFormButton = document.getElementById("trailFormButton");
+    trailFormButton.style.display = "none";
+    let reviewFormButton = document.getElementById("reviewFormButton");
+    reviewFormButton.style.display = "none";
+
+    let modal = document.getElementById("allFormsModal");
     modal.style.display = "none";
 }
 
 //process editTrail || addTrail form data on submit
 let trailFormButton = document.querySelector("#trailFormButton");
 trailFormButton.addEventListener('click', editTrailFormData);
+let reviewFormButton = document.querySelector("#reviewFormButton");
+reviewFormButton.addEventListener('click', addReviewFormData);
 
-/*function buttonClick(event) {
-    event.preventDefault();
-}*/
 //TODO: ADD FORM VALIDATION
 function addReviewFormData(event){
 
@@ -648,6 +797,9 @@ function addReviewFormData(event){
 
     //send data, then print the response
     fetch(url, params).then(response => console.log(response));
+
+    let reviewFormButton = document.getElementById("reviewFormButton");
+    reviewFormButton.style.display = "none";
 
     window.location.reload(); //refresh page
 
@@ -738,6 +890,9 @@ function editTrailFormData(event){
 
     //send data, then print the response
     fetch(url, params).then(response => console.log(response));
+
+    let trailFormButton = document.getElementById("trailFormButton");
+    trailFormButton.style.display = "none";
 
     window.location.reload(); //refresh page
 

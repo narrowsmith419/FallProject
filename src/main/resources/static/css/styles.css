@@ -173,6 +173,10 @@ div#reviewGrid {
     /*color: white;*/
 }
 
+#reviewFormButton, #trailFormButton{
+    display: none; /*hide by default*/
+}
+
 .modal {
     display: none; /*hide by default*/
     position: fixed;
