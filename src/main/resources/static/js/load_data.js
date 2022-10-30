@@ -139,9 +139,9 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
     //find which review user wants to delete
-    if (event.target.matches('.reviewSection')) {
-        console.log(event.target.innerText);
-
+    if (event.target.matches('.deleteReviewButton')) {
+        console.log(event.target.id);
+        removeReview(event.target.id);
     }
 }
 
@@ -431,23 +431,22 @@ function removeTrail(event) {
         });
 }
 
-function removeReview(event) {
-    event.preventDefault();
+function removeReview(data) {
 
-    let data = {trailID: activeTrail.trailID};
+    let id = {reviewID: data};
 
-    let trailUri = "http://localhost:8080/api/v1/trail/";
+    let trailUri = "http://localhost:8080/api/v1/review/";
     let params = {
         method: "delete",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(id),
     };
 
     fetch(trailUri, params)
         .then(function (response) {
-            console.log("SUCCESSFULLY DELETED");
+            console.log("SUCCESSFULLY DELETED REVIEW");
             window.location.reload(); //refresh page
         });
 }
@@ -1034,6 +1033,7 @@ function printReviews(data) {
         deleteButton.setAttribute('id', review.reviewID); //store unique id of review for delete
         deleteButton.setAttribute('type', "submit");
 
+
         //construct list
         ul.appendChild(li);
         ul.appendChild(li1);
@@ -1051,8 +1051,8 @@ function printReviews(data) {
         allReviews.appendChild(section);
 
         //add event listener to delete button
-        let deleteReviewButton = document.querySelector(".deleteReviewButton");
-        deleteReviewButton.addEventListener("click", storeReviewId);
+        /*let deleteReviewButton = document.querySelector(".deleteReviewButton");
+        deleteReviewButton.addEventListener("click", storeReviewId);*/
     }
 
 }
