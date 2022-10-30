@@ -1,5 +1,6 @@
-//let trails = [];
 let activeTrail;
+let activeReview;
+let activeReviews = [];
 let formType;
 
 //'Select a Trail' drop-down button
@@ -124,18 +125,23 @@ window.onclick = function (event) {
     }
     //grab trail name clicked in drop down
     if (event.target.matches('.trailSystems')) {
-        console.log(event.target.innerText)
+        console.log(event.target.innerText);
         getTrailByName(event.target.innerText, "systems");
     }
     //grab trail name clicked in drop down
     if (event.target.matches('.trailDifficulties')) {
-        console.log(event.target.innerText)
+        console.log(event.target.innerText);
         getTrailByName(event.target.innerText, "ratings");
     }
     //if user clicks outside the modal
     if (event.target.matches('#allFormsModal')) {
         let modal = document.getElementById("allFormsModal");
         modal.style.display = "none";
+    }
+    //find which review user wants to delete
+    if (event.target.matches('.reviewSection')) {
+        console.log(event.target.innerText);
+
     }
 }
 
@@ -359,6 +365,7 @@ function singleTrail(data) {
     let getReviewButton = document.querySelector("#getReviewButton");
     getReviewButton.addEventListener("click", getReviews);
 
+
     //'Add Review' button
     let addReviewButton = document.querySelector("#addReviewButton");
     addReviewButton.addEventListener("click", addReviewModal);
@@ -422,8 +429,27 @@ function removeTrail(event) {
             console.log("SUCCESSFULLY DELETED");
             window.location.reload(); //refresh page
         });
+}
 
+function removeReview(event) {
+    event.preventDefault();
 
+    let data = {trailID: activeTrail.trailID};
+
+    let trailUri = "http://localhost:8080/api/v1/trail/";
+    let params = {
+        method: "delete",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    };
+
+    fetch(trailUri, params)
+        .then(function (response) {
+            console.log("SUCCESSFULLY DELETED");
+            window.location.reload(); //refresh page
+        });
 }
 
 //show modal
@@ -674,7 +700,7 @@ function addReviewModal(){
 
     labelScore.innerText = "Score out of 5: ";
     labelScore.setAttribute("for", "score");
-    inputScore.setAttribute("type", "number");
+    inputScore.setAttribute("type", "text");
     inputScore.setAttribute("name", "score");
     inputScore.setAttribute("id", "score");
 
@@ -733,6 +759,7 @@ function addReviewModal(){
 //close modal
 function closeModal() {
 
+    //hide form buttons
     let trailFormButton = document.getElementById("trailFormButton");
     trailFormButton.style.display = "none";
     let reviewFormButton = document.getElementById("reviewFormButton");
@@ -753,19 +780,19 @@ function addReviewFormData(event){
 
     event.preventDefault();
 
-    console.log("hello from addFormFormData");
-    console.log(Date.now());
+    let date = new Date();
+    let today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 
     let form = document.getElementById("addReviewForm");
 
     //store fields
-    let name = form.elements['name'].value; //trail name
-    let system = form.elements['system'].value; //trail system
-    let trailState = form.elements['state'].value; //trail system
-    let trailElevation = form.elements['elevation'].value; //trail elevation
-    let trailLength = document.getElementById("length").value;
-    let trailDirection = form.elements['direction'].value; //trail direction
-    let trailDifficulty = form.elements['difficulty'].value; //trail rating
+    let reviewAuthor = form.elements['riderName'].value; //trail name
+    let reviewBike = form.elements['bike'].value; //trail system
+    let reviewWeather = form.elements['weather'].value; //trail system
+    let reviewConditions = form.elements['conditions'].value; //trail elevation
+    let reviewScore = document.getElementById("score").value;
+    let reviewRecommend = form.elements['recommend'].value; //trail direction
+    let reviewRating = form.elements['ratingValid'].value; //trail rating
 
     let trailName = name.value;
 
@@ -774,12 +801,12 @@ function addReviewFormData(event){
         maxScore: 5,
         score: reviewScore,
         author: reviewAuthor,
-        dateReviewed: Date.now(),
+        dateReviewed: today,
         wouldRecommend: reviewRecommend,
         bikeRidden: reviewBike,
         trailConditions: reviewConditions,
         weather: reviewWeather,
-        trailName: reviewName,
+        trailName: activeTrail.name,
         ratingValid: reviewRating
     }
 
@@ -798,6 +825,7 @@ function addReviewFormData(event){
     //send data, then print the response
     fetch(url, params).then(response => console.log(response));
 
+    //hide button
     let reviewFormButton = document.getElementById("reviewFormButton");
     reviewFormButton.style.display = "none";
 
@@ -973,9 +1001,11 @@ function printReviews(data) {
 //access the list in our HTML
     let allReviews = document.getElementById("reviewGrid");
     allReviews.innerHTML = ""; //clear existing reviews
+    activeReviews = []; //clear current list of reviews
 
     for (let i = 0; i < data.length; i++) {
         let review = data[i];
+        activeReviews[i] = data[i];
 
         //create all elements
         let section = document.createElement("section");
@@ -988,6 +1018,7 @@ function printReviews(data) {
         let li3 = document.createElement("li");
         let li4 = document.createElement("li");
         let li5 = document.createElement("li");
+        let deleteButton = document.createElement("button");
 
         //add contents
         h5.innerText = "Rider: " + review.author;
@@ -997,6 +1028,11 @@ function printReviews(data) {
         li3.innerText = "Trail Conditions: " + review.trailConditions;
         li4.innerText = "Was the Trail Rating Accurate? " + review.ratingValid;
         li5.innerText = "I would Recommend this Trail: " + review.wouldRecommend;
+        deleteButton.innerHTML = "Delete";
+        //deleteButton.setAttribute('id', "deleteReviewButton");
+        deleteButton.setAttribute("class", "deleteReviewButton");
+        deleteButton.setAttribute('id', review.reviewID); //store unique id of review for delete
+        deleteButton.setAttribute('type', "submit");
 
         //construct list
         ul.appendChild(li);
@@ -1009,9 +1045,14 @@ function printReviews(data) {
         //connect them
         section.appendChild(h5);
         section.appendChild(ul);
+        section.appendChild(deleteButton);
 
         //add the section to the list
         allReviews.appendChild(section);
+
+        //add event listener to delete button
+        let deleteReviewButton = document.querySelector(".deleteReviewButton");
+        deleteReviewButton.addEventListener("click", storeReviewId);
     }
 
 }
