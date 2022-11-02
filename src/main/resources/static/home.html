@@ -10,40 +10,12 @@
 </head>
 
 <body>
-<!-- jumbo and nav -->
-<div class="topBar m-0">
+<div class="grid-container">
+    <!--top banner-->
     <div class="jumbotron">
         <h1 class="display-3 font-weight-bold overflow-hidden text-left">trailHub</h1>
-        <h1 class="lead display-3 font-weight-bold" id="jumbo"></h1>
     </div>
 
-    <!-- nav -->
-    <nav class="navbar navbar-dark bg-dark navbar-expand-sm pl-2 pl-sm-2 pl-xs-2">
-        <div class="navContainer container">
-
-            <!-- if you put button above this <a> tag like where im typing this comment, the hamburger will appear on the left -->
-            <a href="#" class="navbar-brand"></a>
-
-            <button class="navbar-toggler" type="button"
-                    data-toggle="collapse" data-target="#myTogglerNav"
-                    aria-controls="myTogglerNav"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="myTogglerNav">
-                <div class="navbar-nav ml-auto">
-                    <a class="nav-item nav-link" href="#">Trails</a>
-                    <a class="nav-item nav-link" href="#begin_review_read">Reviews</a>
-                    <a class="nav-item nav-link" href="https://github.com/narrowsmith419" target="_blank">Map</a>
-                </div><!-- navbar -->
-            </div><!-- collapse -->
-        </div><!-- container -->
-    </nav><!-- nav -->
-    <!-- end nav -->
-</div>
-
-<div class="grid-container">
     <!-- side menu -->
     <div class="sidenav">
         <p>Select a Trail:</p>
@@ -61,10 +33,10 @@
 
     </div>
 
-    <div class="main-dash">
+    <!--<div class="main-dash">-->
         <div id="trails">
-            <div class="sub-dash">
-                <div>
+            <!--<div class="sub-dash">-->
+                <div id="listRead">
                         <div class="grid-container-cards" id="gridCards">
                             <div id="trailCard" class="trailCard">
                                 <!--user selected trail card-->
@@ -101,18 +73,18 @@
                     </div>
                     <button id="addTrailButton">Add Trail</button>
                 </div>
-            </div>
+            <!--</div>-->
 
         </div>
 
-    </div>
-</div>
+        <!--footer-->
+        <div class="footer-copyright">
+            <hr class="copyrightLine">
+            <p class="footerMiddle">&copy; Copyright<a> narrowsmith.greenriverdev.com</a></p>
+            <p class="footerBottom">Green River College</p>
+        </div>
 
-<!--footer-->
-<div class="footer-copyright">
-    <hr class="copyrightLine">
-    <p class="footerMiddle">&copy; Copyright<a> narrowsmith.greenriverdev.com</a></p>
-    <p class="footerBottom">Green River College</p>
+    <!--</div>-->
 </div>
 
 <script src="js/load_data.js"></script>
