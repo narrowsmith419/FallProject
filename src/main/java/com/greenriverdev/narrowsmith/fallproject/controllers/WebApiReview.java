@@ -84,10 +84,14 @@ public class WebApiReview
         return ResponseEntity.ok(service.searchReviewsAuthorName(query.getQueryValue()));
     }
 
-    //TODO: ADD ERROR REPORTING
     @GetMapping("{trailName}")
     public ResponseEntity<Object> getTrail(@PathVariable String trailName)
     {
+        if ( service.searchReviewsByTrailName(trailName).isEmpty())
+        {
+            return new ResponseEntity<>("this trail cannot be found!", HttpStatus.BAD_REQUEST);
+        }
+
         return ResponseEntity.ok(service.searchReviewsByTrailName(trailName));
     }
 

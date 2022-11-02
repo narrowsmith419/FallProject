@@ -63,31 +63,63 @@ public class WebApiTrail
         return ResponseEntity.ok(service.searchTrails(query.getQueryValue()));
     }
 
-    //TODO: ADD ERROR REPORTING
+    /**
+     * @param id unique identifier of Trail Object
+     * @return Trail Object Matching that ID
+     */
     @GetMapping("{id}")
     public ResponseEntity<Object> getTrail(@PathVariable UUID id)
     {
+        if ( service.searchTrailsByID(id).isEmpty())
+        {
+            return new ResponseEntity<>("this trail cannot be found!", HttpStatus.BAD_REQUEST);
+        }
+
         return ResponseEntity.ok(service.searchTrailsByID(id));
     }
 
-    //TODO: ADD ERROR REPORTING
+    /**
+     * @param trailName Name of trail
+     * @return all Trail objects matching that trail name
+     */
     @GetMapping("names/{trailName}")
     public ResponseEntity<Object> getTrailByName(@PathVariable String trailName)
     {
+        if ( service.searchTrailsByTrailName(trailName).isEmpty())
+        {
+            return new ResponseEntity<>("this trail cannot be found!", HttpStatus.BAD_REQUEST);
+        }
+
         return ResponseEntity.ok(service.searchTrailsByTrailName(trailName));
     }
 
-    //TODO: ADD ERROR REPORTING
+    /**
+     * @param trailSystem the name of the TrailSystem a Trail belongs to
+     * @return all Trail objects matching that trail system
+     */
     @GetMapping("systems/{trailSystem}")
     public ResponseEntity<Object> getTrailBySystem(@PathVariable String trailSystem)
     {
+        if ( service.searchTrailsByTrailSystem(trailSystem).isEmpty())
+        {
+            return new ResponseEntity<>("this trail system cannot be found!", HttpStatus.BAD_REQUEST);
+        }
+
         return ResponseEntity.ok(service.searchTrailsByTrailSystem(trailSystem));
     }
 
-    //TODO: ADD ERROR REPORTING
+    /**
+     * @param trailDifficulty rating (enum) of any trail
+     * @return all Trail objects matching that trail rating (difficulty)
+     */
     @GetMapping("ratings/{trailDifficulty}")
     public ResponseEntity<Object> getTrailByDifficulty(@PathVariable String trailDifficulty)
     {
+        if ( service.searchTrailsByTrailDifficulty(trailDifficulty).isEmpty())
+        {
+            return new ResponseEntity<>("this trail difficulty cannot be found!", HttpStatus.BAD_REQUEST);
+        }
+
         return ResponseEntity.ok(service.searchTrailsByTrailDifficulty(trailDifficulty));
     }
 
