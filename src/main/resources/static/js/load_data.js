@@ -3,11 +3,6 @@ let activeReview;
 let activeReviews = [];
 let formType;
 
-//'Select a Trail' drop-down button
-/*let submitButton = document.querySelector("#submitButton");
-submitButton.addEventListener("click", buttonClick, false);*/
-//submitButton.addEventListener("click", fetchTrail);
-
 //Select a Trail by Name drop-down button
 let trailByNameShow = document.querySelector("#dropBtnName");
 trailByNameShow.addEventListener("click", getTrailNameShow);
@@ -38,58 +33,9 @@ window.onload = function () {
             return response.json(); //ask for response to be converted to json
         })
         .then(function (data) { //receive the text when promise is complete
-            //trailDropDown(data);
             trailNameDropDown(data);
-            /*showTrails(data);*/
         });
 };
-
-
-/*function showTrails(data) {
-
-    //access the list in our HTML
-    let trailList = document.getElementById("trail-list");
-
-    for (let i = 0; i < data.length; i++) {
-        let trail = data[i];
-
-        //create all elements
-        let section = document.createElement("section");
-        let h2 = document.createElement("h2");
-        let ul = document.createElement("ul")
-        let li = document.createElement("li");
-        let li1 = document.createElement("li");
-        let li2 = document.createElement("li");
-        let li3 = document.createElement("li");
-        let li4 = document.createElement("li");
-        let li5 = document.createElement("li");
-
-        //add contents
-        h2.innerText = "Trail: " + trail.name;
-        li.innerText = "Trail System: " + trail.trailSystem;
-        li1.innerText = "State: " + trail.state;
-        li2.innerText = "Difficulty: " + trail.difficulty;
-        li3.innerText = "Length: " + trail.length + "ft";
-        li4.innerText = "Elevation: " + trail.elevation + "ft";
-        li5.innerText = "BiDirectional: " + trail.multiDirectional;
-
-        //construct list
-        ul.appendChild(li);
-        ul.appendChild(li1);
-        ul.appendChild(li2);
-        ul.appendChild(li3);
-        ul.appendChild(li4);
-        ul.appendChild(li5);
-
-        //connect them
-        section.appendChild(h2);
-        section.appendChild(ul);
-
-        //add the section to the list
-        trailList.appendChild(section);
-
-    }
-}*/
 
 /**
  * toggle trail names inside nav when button selected
@@ -145,40 +91,10 @@ window.onclick = function (event) {
     }
 }
 
-
 /**
  * dynamically generates trail names from trail API to populate drop down list
  * @param data Trail objects from /api/v1/trail
  */
-
-/*function trailDropDown(data) {
-    //access the dropdown in our HTML
-    let trailDropDown = document.getElementById("trail-drop");
-
-    //create outer elements
-    let label = document.createElement("label");
-    let div = document.createElement("div");
-    label.setAttribute("id", "trailNameLabel");
-    label.setAttribute("class", "h3 text-light");
-    label.innerText = "Select a Trail";
-    trailDropDown.appendChild(label);
-    trailDropDown.appendChild(div);
-
-    //create drop down
-    let select = document.createElement("select");
-    select.setAttribute("id", "trailNameDrop");
-    for (let i = 0; i < data.length; i++) {
-        trails[i] = data[i]; //will need to remove this eventually
-        let trail = data[i];
-        let option = document.createElement("option");
-        option.innerText = trail.name;
-        option.setAttribute("value", trail.name);
-        select.appendChild(option);
-    }
-    div.appendChild(select);
-    trailDropDown.appendChild(div);
-}*/
-
 function trailNameDropDown(data) {
     //set to prevent duplicate trail systems
     let systemSet = new Set();
@@ -284,7 +200,6 @@ function fetchTrail(data) {
     trailStats.appendChild(addReviewButton);
     trailStats.appendChild(removeTrailButton);
 
-
     let img = document.getElementById("cardImage");
 
     singleTrail(trail);
@@ -302,16 +217,10 @@ function singleTrail(data) {
 
     let trail = data;
 
-    //create all elements
+    //create all elements for img card
     let section = document.createElement("section");
-    /*let h2 = document.createElement("h2");
-    let ul = document.createElement("ul")
-    let li = document.createElement("li");
-    let li1 = document.createElement("li");
-    let li2 = document.createElement("li");
-    let li3 = document.createElement("li");
-    let li4 = document.createElement("li");
-    let li5 = document.createElement("li");*/
+    let p = document.createElement("p");
+    p.classList.add("imageDescription");
 
     //trail stats card
     let statsLi = document.createElement("li");
@@ -322,14 +231,8 @@ function singleTrail(data) {
     let statsLi5 = document.createElement("li");
     const listItems = [statsLi, statsLi1, statsLi2, statsLi3, statsLi4, statsLi5];
 
-    //add contents
-    /* h2.innerText = "Trail: " + trail.name;
-     li.innerText = "Trail System: " + trail.trailSystem;
-     li1.innerText = "State: " + trail.state;
-     li2.innerText = "Difficulty: " + trail.difficulty;
-     li3.innerText = "Length: " + trail.length + "ft";
-     li4.innerText = "Elevation: " + trail.elevation + "ft";
-     li5.innerText = "BiDirectional: " + trail.multiDirectional;*/
+    //add image description
+    p.innerText = '"' + trail.name + ' trail at the ' + trail.trailSystem + ' bike park"';
 
     statsLi.innerText = "Trail System: " + trail.trailSystem;
     statsLi1.innerText = "State: " + trail.state;
@@ -338,21 +241,12 @@ function singleTrail(data) {
     statsLi4.innerText = "Elevation: " + trail.elevation + "ft";
     statsLi5.innerText = "BiDirectional: " + trail.multiDirectional;
 
-    //construct list
-    /*ul.appendChild(li);
-    ul.appendChild(li1);
-    ul.appendChild(li2);
-    ul.appendChild(li3);
-    ul.appendChild(li4);
-    ul.appendChild(li5);*/
-
     //construct stats list
     listItems.forEach(item => item.classList.add("list-group-item"));
     listItems.forEach(item => trailStats.appendChild(item));
 
     //connect them
-    /*section.appendChild(h2);
-    section.appendChild(ul);*/
+    section.appendChild(p);
 
     //add the section to the list
     trailResult.appendChild(section);
@@ -364,7 +258,6 @@ function singleTrail(data) {
     //'Get all Reviews' button
     let getReviewButton = document.querySelector("#getReviewButton");
     getReviewButton.addEventListener("click", getReviews);
-
 
     //'Add Review' button
     let addReviewButton = document.querySelector("#addReviewButton");
@@ -446,7 +339,6 @@ function removeReview(data) {
 
     fetch(trailUri, params)
         .then(function (response) {
-            console.log("SUCCESSFULLY DELETED REVIEW");
             window.location.reload(); //refresh page
         });
 }
@@ -476,14 +368,24 @@ function editTrailModal() {
     //let form = document.createElement("form");
     //labels & inputs //TODO: create these elements in a loop
     let labelName = document.createElement("label");
+    let inputDiv1 = document.createElement("div");
+    inputDiv1.classList.add("inputDiv");
     let inputName = document.createElement("input");
     let labelSystem = document.createElement("label")
+    let inputDiv2 = document.createElement("div");
+    inputDiv2.classList.add("inputDiv");
     let inputSystem = document.createElement("input");
     let labelState = document.createElement("label");
+    let inputDiv3 = document.createElement("div");
+    inputDiv3.classList.add("inputDiv");
     let inputState = document.createElement("input");
     let labelElevation = document.createElement("label");
+    let inputDiv4 = document.createElement("div");
+    inputDiv4.classList.add("inputDiv");
     let inputElevation = document.createElement("input");
     let labelLength = document.createElement("label");
+    let inputDiv5 = document.createElement("div");
+    inputDiv5.classList.add("inputDiv");
     let inputLength = document.createElement("input");
     let labelDirection = document.createElement("label");
     let labelDirection1 = document.createElement("label");
@@ -503,10 +405,6 @@ function editTrailModal() {
     let difficultyDiv = document.createElement("div");
     let directionDiv = document.createElement("div");
 
-    //add contents
-    //form.setAttribute("action", "#");
-    //form.setAttribute("id", "editTrailForm");
-    //form.setAttribute("method", "post");
     labelName.innerText = "Trail Name: ";
     labelName.setAttribute("for", "name");
     inputName.setAttribute("type", "text");
@@ -538,35 +436,41 @@ function editTrailModal() {
     inputLength.setAttribute("id", "length");
 
     labelDirection.innerText = "Is this a two-way trail?  ";
-    labelDirection1.innerText = "true";
+    labelDirection1.innerText = "True ";
     inputDirection1.setAttribute("name", "direction");
     inputDirection1.setAttribute("value", "true");
     inputDirection1.setAttribute("type", "radio");
-    labelDirection2.innerText = "false";
+    labelDirection2.innerText = "False ";
     inputDirection2.setAttribute("name", "direction");
     inputDirection2.setAttribute("value", "false");
     inputDirection2.setAttribute("type", "radio");
 
     labelDifficulty.innerText = "Difficulty Rating: ";
-    labelDifficulty1.innerText = "Green";
+    labelDifficulty1.innerText = "Green ";
     inputDifficulty1.setAttribute("name", "difficulty");
     inputDifficulty1.setAttribute("value", "GREEN");
     inputDifficulty1.setAttribute("type", "radio");
-    labelDifficulty2.innerText = "Blue";
+    inputDifficulty1.classList.add("radioButtonInput");
+    labelDifficulty2.innerText = "Blue ";
     inputDifficulty2.setAttribute("name", "difficulty");
     inputDifficulty2.setAttribute("value", "BLUE");
     inputDifficulty2.setAttribute("type", "radio");
-    labelDifficulty3.innerText = "Black";
+    inputDifficulty2.classList.add("radioButtonInput");
+    labelDifficulty3.innerText = "Black ";
     inputDifficulty3.setAttribute("name", "difficulty");
     inputDifficulty3.setAttribute("value", "BLACK");
     inputDifficulty3.setAttribute("type", "radio");
-    labelDifficulty4.innerText = "Double Black";
+    inputDifficulty3.classList.add("radioButtonInput");
+    labelDifficulty4.innerText = "Double Black ";
     inputDifficulty4.setAttribute("name", "difficulty");
     inputDifficulty4.setAttribute("value", "DOUBLE_BLACK");
     inputDifficulty4.setAttribute("type", "radio");
+    inputDifficulty4.classList.add("radioButtonInput");
+
 
     //construct radio divs
     difficultyDiv.appendChild(labelDifficulty);
+    difficultyDiv.classList.add("radioDiv");
     labelDifficulty1.appendChild(inputDifficulty1);
     difficultyDiv.appendChild(labelDifficulty1);
     labelDifficulty2.appendChild(inputDifficulty2);
@@ -577,6 +481,7 @@ function editTrailModal() {
     difficultyDiv.appendChild(labelDifficulty4);
     //direction divs
     directionDiv.appendChild(labelDirection);
+    directionDiv.classList.add("radioDiv");
     labelDirection1.appendChild(inputDirection1);
     directionDiv.appendChild(labelDirection1);
     labelDirection2.appendChild(inputDirection2);
@@ -586,17 +491,23 @@ function editTrailModal() {
 
         header.innerHTML = " Add Trail ";
         addForm.appendChild(labelName);
-        addForm.appendChild(inputName);
+        inputDiv1.appendChild(inputName);
+        addForm.appendChild(inputDiv1);
         addForm.appendChild(labelSystem);
-        addForm.appendChild(inputSystem);
+        inputDiv2.appendChild(inputSystem);
+        addForm.appendChild(inputDiv2);
         addForm.appendChild(labelState);
-        addForm.appendChild(inputState);
+        inputDiv3.appendChild(inputState);
+        addForm.appendChild(inputDiv3);
         addForm.appendChild(labelElevation);
-        addForm.appendChild(inputElevation);
+        inputDiv4.appendChild(inputElevation);
+        addForm.appendChild(inputDiv4);
         addForm.appendChild(labelLength);
-        addForm.appendChild(inputLength);
+        inputDiv5.appendChild(inputLength);
+        addForm.appendChild(inputDiv5);
         addForm.appendChild(directionDiv);
         addForm.appendChild(difficultyDiv);
+
     }
 
     if (formType === "editTrail") //preFill form if editTrail  is selected //add elements
@@ -609,15 +520,20 @@ function editTrailModal() {
         inputLength.setAttribute("value", activeTrail.length);
 
         editForm.appendChild(labelName);
-        editForm.appendChild(inputName);
+        inputDiv1.appendChild(inputName);
+        editForm.appendChild(inputDiv1);
         editForm.appendChild(labelSystem);
-        editForm.appendChild(inputSystem);
+        inputDiv2.appendChild(inputSystem);
+        editForm.appendChild(inputDiv2);
         editForm.appendChild(labelState);
-        editForm.appendChild(inputState);
+        inputDiv3.appendChild(inputState);
+        editForm.appendChild(inputDiv3);
         editForm.appendChild(labelElevation);
-        editForm.appendChild(inputElevation);
+        inputDiv4.appendChild(inputElevation);
+        editForm.appendChild(inputDiv4);
         editForm.appendChild(labelLength);
-        editForm.appendChild(inputLength);
+        inputDiv5.appendChild(inputLength);
+        editForm.appendChild(inputDiv5);
         editForm.appendChild(directionDiv);
         editForm.appendChild(difficultyDiv);
 
@@ -649,20 +565,36 @@ function addReviewModal(){
 
     //labels & inputs //TODO: create these elements in a loop
     let labelAuthor = document.createElement("label");
+    let inputDiv1 = document.createElement("div");
+    inputDiv1.classList.add("inputDiv");
     let inputAuthor = document.createElement("input");
     let labelBike = document.createElement("label")
+    let inputDiv2 = document.createElement("div");
+    inputDiv2.classList.add("inputDiv");
     let inputBike = document.createElement("input");
     let labelWeather = document.createElement("label");
+    let inputDiv3 = document.createElement("div");
+    inputDiv3.classList.add("inputDiv");
     let inputWeather = document.createElement("input");
     let labelConditions = document.createElement("label");
+    let inputDiv4 = document.createElement("div");
+    inputDiv4.classList.add("inputDiv");
     let inputConditions = document.createElement("input");
     let labelScore = document.createElement("label");
+    let inputDiv5 = document.createElement("div");
+    inputDiv5.classList.add("inputDiv");
     let inputScore = document.createElement("input");
+
+    let inputDiv6 = document.createElement("div");
+    inputDiv6.classList.add("inputDiv");
     let labelRecommend = document.createElement("label");
     let labelRecommend1 = document.createElement("label");
     let inputRecommend1 = document.createElement("input");
     let labelRecommend2 = document.createElement("label");
     let inputRecommend2 = document.createElement("input");
+
+    let inputDiv7 = document.createElement("div");
+    inputDiv7.classList.add("inputDiv");
     let labelRatingValid = document.createElement("label");
     let labelRatingValid1 = document.createElement("label");
     let inputRatingValid1 = document.createElement("input");
@@ -729,25 +661,32 @@ function addReviewModal(){
     recommendDiv.appendChild(labelRecommend1);
     labelRecommend2.appendChild(inputRecommend2);
     recommendDiv.appendChild(labelRecommend2);
+    inputDiv6.appendChild(recommendDiv); //append to list
     ratingValidDiv.appendChild(labelRatingValid);
     labelRatingValid1.appendChild(inputRatingValid1);
     ratingValidDiv.appendChild(labelRatingValid1);
     labelRatingValid2.appendChild(inputRatingValid2);
     ratingValidDiv.appendChild(labelRatingValid2);
+    inputDiv7.appendChild(ratingValidDiv); //append to list
 
     //add to form
     form.appendChild(labelAuthor);
-    form.appendChild(inputAuthor);
+    inputDiv1.appendChild(inputAuthor);
+    form.appendChild(inputDiv1);
     form.appendChild(labelBike);
-    form.appendChild(inputBike);
+    inputDiv2.appendChild(inputBike);
+    form.appendChild(inputDiv2);
     form.appendChild(labelWeather);
-    form.appendChild(inputWeather);
+    inputDiv3.appendChild(inputWeather);
+    form.appendChild(inputDiv3);
     form.appendChild(labelConditions);
-    form.appendChild(inputConditions);
+    inputDiv4.appendChild(inputConditions);
+    form.appendChild(inputDiv4);
     form.appendChild(labelScore);
-    form.appendChild(inputScore);
-    form.appendChild(recommendDiv);
-    form.appendChild(ratingValidDiv);
+    inputDiv5.appendChild(inputScore);
+    form.appendChild(inputDiv5);
+    form.appendChild(inputDiv6);
+    form.appendChild(inputDiv7);
 
     //display modal
     let modal = document.getElementById("allFormsModal");
@@ -780,7 +719,10 @@ function addReviewFormData(event){
     event.preventDefault();
 
     let date = new Date();
-    let today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    let day = date.getDate();
+    //add zero before number if necessary
+    if(day < 10) { day = "0" + day; }
+    let today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + day;
 
     let form = document.getElementById("addReviewForm");
 
@@ -792,8 +734,6 @@ function addReviewFormData(event){
     let reviewScore = document.getElementById("score").value;
     let reviewRecommend = form.elements['recommend'].value; //trail direction
     let reviewRating = form.elements['ratingValid'].value; //trail rating
-
-    let trailName = name.value;
 
     //create a JS object for serialization
     let jsonObj = {
@@ -808,7 +748,6 @@ function addReviewFormData(event){
         trailName: activeTrail.name,
         ratingValid: reviewRating
     }
-
 
     //prepare fetch() data
     let url = "http://localhost:8080/api/v1/review";
@@ -913,7 +852,9 @@ function editTrailFormData(event){
             },
             body: JSON.stringify(jsonObj)
         }
+
     }
+
 
     //send data, then print the response
     fetch(url, params).then(response => console.log(response));
@@ -1017,6 +958,8 @@ function printReviews(data) {
         let li3 = document.createElement("li");
         let li4 = document.createElement("li");
         let li5 = document.createElement("li");
+        let div = document.createElement("div");
+        div.classList.add("deleteButtonDiv");
         let deleteButton = document.createElement("button");
 
         //add contents
@@ -1028,11 +971,9 @@ function printReviews(data) {
         li4.innerText = "Was the Trail Rating Accurate? " + review.ratingValid;
         li5.innerText = "I would Recommend this Trail: " + review.wouldRecommend;
         deleteButton.innerHTML = "Delete";
-        //deleteButton.setAttribute('id', "deleteReviewButton");
         deleteButton.setAttribute("class", "deleteReviewButton");
         deleteButton.setAttribute('id', review.reviewID); //store unique id of review for delete
         deleteButton.setAttribute('type', "submit");
-
 
         //construct list
         ul.appendChild(li);
@@ -1045,14 +986,13 @@ function printReviews(data) {
         //connect them
         section.appendChild(h5);
         section.appendChild(ul);
-        section.appendChild(deleteButton);
+        div.appendChild(deleteButton);
+        section.appendChild(div);
+
 
         //add the section to the list
         allReviews.appendChild(section);
 
-        //add event listener to delete button
-        /*let deleteReviewButton = document.querySelector(".deleteReviewButton");
-        deleteReviewButton.addEventListener("click", storeReviewId);*/
     }
 
 }
