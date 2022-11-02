@@ -93,7 +93,10 @@ window.onclick = function (event) {
     }
 }
 
-function homePageCard(){
+function homePageCard(data){
+
+    let message = data;
+    console.log(message);
 
     //clear existing HTML content
     let trailCard = document.getElementById("trailCard");
@@ -113,11 +116,20 @@ function homePageCard(){
     bodySection.setAttribute('id', "trail-stats");
     bodySection.classList.add("homePageCardSection");
     let bodyText = document.createElement("p");
-    bodyText.innerText = "Hello and welcome to trailHub. This is a community driven mountain-biking resource" +
-        " created to give riders an opportunity to leave feedback on trails/trailsystems they ride. Begin by selecting "
-    + "a trail using the side navigation on the left, you can choose by trail name | trail system | or trail difficulty."
-    + " Don't see the trail you're looking for? You can add a trail to the database by using the 'add trail' button "
-        + " down below!"
+    if(data === undefined){
+        bodyText.innerText = "Hello and welcome to trailHub. This is a community driven mountain-biking resource" +
+            " created to give riders an opportunity to leave feedback on trails/trailsystems they ride. Begin by selecting "
+            + "a trail using the side navigation on the left, you can choose by trail name | trail system | or trail difficulty."
+            + " Don't see the trail you're looking for? You can add a trail to the database by using the 'add trail' button "
+            + " down below!";
+    }
+    else{
+        let h2 = document.createElement("h2");
+        h2.innerText = "Page Updated!";
+        h2.classList.add("updateMessage");
+        bodySection.appendChild(h2);
+    }
+
 
     headerDiv.appendChild(h3);
     trailCardDiv.appendChild(headerDiv);
@@ -897,7 +909,18 @@ function editTrailFormData(event){
     let trailFormButton = document.getElementById("trailFormButton");
     trailFormButton.style.display = "none";
 
-    window.location.reload(); //refresh page
+    //if updating trail, go back to that trail
+    if(formType === "editTrail")
+    {
+        closeModal();
+        homePageCard("updated");
+    }
+    else{
+        window.location.reload(); //refresh page
+    }
+
+
+
 
 }
 
@@ -936,9 +959,6 @@ function fetchTrailList(data, type) {
     trailCard.classList.add("card");
     trailCard.classList.add("SystemListCard");
     trailStats.classList.remove("card");
-
-    /*let trailCardDiv = document.createElement("div");
-    trailCardDiv.classList.add("SystemListCard");*/
 
     let div = document.createElement("div");
     div.classList.add("trailListBySystem", "card-header");
