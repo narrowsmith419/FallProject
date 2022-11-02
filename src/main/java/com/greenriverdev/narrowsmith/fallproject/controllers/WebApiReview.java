@@ -84,6 +84,10 @@ public class WebApiReview
         return ResponseEntity.ok(service.searchReviewsAuthorName(query.getQueryValue()));
     }
 
+    /**
+     * @param trailName name of Trail to search
+     * @return all Trail objects matching that trail name
+     */
     @GetMapping("{trailName}")
     public ResponseEntity<Object> getTrail(@PathVariable String trailName)
     {

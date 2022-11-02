@@ -115,6 +115,7 @@ public class WebApiTrail
     @GetMapping("ratings/{trailDifficulty}")
     public ResponseEntity<Object> getTrailByDifficulty(@PathVariable String trailDifficulty)
     {
+
         if ( service.searchTrailsByTrailDifficulty(trailDifficulty).isEmpty())
         {
             return new ResponseEntity<>("this trail difficulty cannot be found!", HttpStatus.BAD_REQUEST);
