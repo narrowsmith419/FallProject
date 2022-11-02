@@ -22,6 +22,8 @@ addTrailButton.addEventListener("click", addTrailFormType);
 
 window.onload = function () {
 
+    homePageCard(); //populate home page with intro text
+
     //create trail objects to make with a GET request
     let trailUri = "http://localhost:8080/api/v1/trail";
     let params = {
@@ -91,6 +93,41 @@ window.onclick = function (event) {
     }
 }
 
+function homePageCard(){
+
+    //clear existing HTML content
+    let trailCard = document.getElementById("trailCard");
+    trailCard.innerHTML = ""; //clear existing card
+    trailCard.classList.remove("SystemListCard");
+    let trailStats = document.getElementById("trailStats");
+    trailStats.innerHTML = ""; //clear existing card
+
+    //create Stats Card
+    let trailCardDiv = document.createElement("div");
+    trailCardDiv.classList.add("homePageCard");
+    let headerDiv = document.createElement("div");
+    headerDiv.classList.add("homePageCardHeader");
+    let h3 = document.createElement("h3");
+    h3.innerHTML = "Welcome to trailHub!";
+    let bodySection = document.createElement("section");
+    bodySection.setAttribute('id', "trail-stats");
+    bodySection.classList.add("homePageCardSection");
+    let bodyText = document.createElement("p");
+    bodyText.innerText = "Hello and welcome to trailHub. This is a community driven mountain-biking resource" +
+        " created to give riders an opportunity to leave feedback on trails/trailsystems they ride. Begin by selecting "
+    + "a trail using the side navigation on the left, you can choose by trail name | trail system | or trail difficulty."
+    + " Don't see the trail you're looking for? You can add a trail to the database by using the 'add trail' button "
+        + " down below!"
+
+    headerDiv.appendChild(h3);
+    trailCardDiv.appendChild(headerDiv);
+    bodySection.appendChild(bodyText);
+    trailCardDiv.appendChild(bodySection);
+
+    trailCard.appendChild(trailCardDiv);
+
+}
+
 /**
  * dynamically generates trail names from trail API to populate drop down list
  * @param data Trail objects from /api/v1/trail
@@ -143,6 +180,7 @@ function fetchTrail(data) {
     //for bootstrap cards
     let trailCard = document.getElementById("trailCard");
     trailCard.innerHTML = ""; //clear existing card
+    trailCard.classList.remove("SystemListCard");
     let trailStats = document.getElementById("trailStats");
     trailStats.innerHTML = ""; //clear existing card
 
@@ -181,7 +219,6 @@ function fetchTrail(data) {
     removeTrailButton.setAttribute('id', "removeTrailButton");
     removeTrailButton.setAttribute('type', "submit");
     removeTrailButton.innerHTML = "Delete Trail";
-    removeTrailButton.classList.add("btn", "btn-danger", "mt-auto", "ml-auto");
 
     //add button to edit trail
     let EditTrailButton = document.createElement("button");
@@ -354,7 +391,6 @@ function editTrailModal() {
     let trailFormButton = document.getElementById("trailFormButton");
     trailFormButton.style.display = "block";
 
-    //let formModal = document.getElementById("editTrailFormDiv"); //grab html
     let editForm = document.getElementById("editTrailForm"); //grab html
     let addForm = document.getElementById("addTrailForm");
     let reviewForm = document.getElementById("addReviewForm");
@@ -466,7 +502,6 @@ function editTrailModal() {
     inputDifficulty4.setAttribute("value", "DOUBLE_BLACK");
     inputDifficulty4.setAttribute("type", "radio");
     inputDifficulty4.classList.add("radioButtonInput");
-
 
     //construct radio divs
     difficultyDiv.appendChild(labelDifficulty);
@@ -897,8 +932,13 @@ function fetchTrailList(data, type) {
     allReviews.innerHTML = ""; //clear existing reviews
     trailCard.innerHTML = "";
     trailStats.innerHTML = "";
+
     trailCard.classList.add("card");
+    trailCard.classList.add("SystemListCard");
     trailStats.classList.remove("card");
+
+    /*let trailCardDiv = document.createElement("div");
+    trailCardDiv.classList.add("SystemListCard");*/
 
     let div = document.createElement("div");
     div.classList.add("trailListBySystem", "card-header");
@@ -933,6 +973,7 @@ function fetchTrailList(data, type) {
     }
 
     trailCard.appendChild(ul);
+
 
 }
 

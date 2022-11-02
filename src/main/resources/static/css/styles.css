@@ -1,6 +1,42 @@
 body{
-    background-color: #bdd8ff;
+    background-color: #81a0de;
     color: whitesmoke;
+    margin-bottom: 20px;
+}
+
+.grid-container{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    /*gap: 10px;*/
+}
+
+.grid-container-cards{
+    display: grid;
+    grid-template-columns: auto auto ;
+}
+
+.homePageCard{
+    background-color: #f8f8f8;
+    width: 90%;
+    border: 4px;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.homePageCardHeader{
+    background-color: #343a40;
+    padding: 10px;
+}
+
+.homePageCardSection{
+    color: #232323;
+    background-color: #f8f8f8;
+    padding: 10px;
+}
+
+.SystemListCard{
+    position: relative;
+    float: left;
 }
 
 .jumbotron{
@@ -8,10 +44,17 @@ body{
     color: white;
     background-size: cover;
     border-radius: 0%; !important;
+    margin: 0;
+    padding: 3px;
 }
 
 .nav-link{
     color: white; !important;
+}
+
+.navContainer{
+    margin-right: 0;
+    margin-left: auto;
 }
 
 .topBar{
@@ -20,17 +63,54 @@ body{
     z-index: 1;
 }
 
-.sidenav{
-    height: 100%;
+.sidenav {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    height: 100vh;
     width: 160px;
     position: fixed;
     z-index: 1;
-    top: 157px;
-    left: 0;
+    top: 150px;
+    /*left: 0;*/
     background-color: #343a40;
     overflow-x: hidden; /*disable horizontal scroll*/
     padding: 10px 20px;
-    border: 1px solid #0dcaf0;
+}
+
+.main-dash{
+    position: relative;
+    float: right;
+    margin-top: 5px;
+    margin-right: 0;
+    margin-left: auto;
+    grid-column-start: 2;
+    grid-column-end: 5;
+}
+
+.sub-dash{
+    position: relative;
+    float: right;
+    width:80%;
+}
+
+#trailCard{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    width: 100%;
+}
+
+#trailStats{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: left;
+}
+
+.trailStatsList li:nth-child(2n){
+    background-color: #ddd;
+    color: #16181a;
 }
 
 .sideNavDrop{
@@ -78,9 +158,14 @@ body{
     display: block;
 }
 
+.trailCard{
+    text-align: left;
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .card{
     background-color: #343a40;
-    width: 50%;
 }
 
 .imageDescription{
@@ -100,6 +185,9 @@ body{
 .reviewGrid {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr; /*three column layout, middle column bigger than others*/
+    text-align: left;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .reviewSection:nth-child(2n){
@@ -123,14 +211,15 @@ div#reviewGrid {
 }
 
 #addTrailButton{
-    background-color: #c46301;
-    border: 2px solid #c56600;
-
+    background-color: #da6f00;
+    border: 2px solid #964d01;
     color: white;
     width: 25%;
     padding: 10px;
-    margin-left: auto;
+    margin: 10px auto auto;
     border-radius: 5px;
+    /*position: relative;
+    float: right;*/
 
 }
 
@@ -140,16 +229,18 @@ div#reviewGrid {
     box-shadow: 6px 6px 2px rgba(70, 70, 70, 0.73);
 }
 
-#editTrailButton, #trailFormButton, #addReviewButton, #getReviewButton, #reviewFormButton, .deleteReviewButton {
+#editTrailButton, #trailFormButton, #addReviewButton, #getReviewButton, #reviewFormButton, #removeTrailButton {
     color: white;
-    width: 40%;
+    width: 90%;
     padding: 5px;
     margin-bottom: 5px;
     margin-left: auto;
+    margin-right: auto;
     border-radius: 5px;
 }
 
 #editTrailButton, #trailFormButton {
+    margin-top: 10px;
     background-color: green;
     border: 2px solid #006500;
 }
@@ -168,14 +259,25 @@ div#reviewGrid {
 }
 
 .deleteReviewButton {
+    color: white;
+    width: 35%;
+    padding: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
     background-color: #bd2d2d;
     border: 2px solid #811f1f;
+    border-radius: 5px;
     position: relative;
     float: right;
 }
 
-.deleteReviewButton:hover {
+.deleteReviewButton:hover, #removeTrailButton:hover {
     background-color: #811f1f;
+}
+
+#removeTrailButton{
+    background-color: #bd2d2d;
+    border: 2px solid #811f1f;
 }
 
 #getReviewButton{
@@ -185,7 +287,6 @@ div#reviewGrid {
 
 #getReviewButton:hover {
     background-color: #9526c2;
-    /*color: white;*/
 }
 
 #reviewFormButton, #trailFormButton{
@@ -235,7 +336,7 @@ label{
     text-align: left;
 }
 
-.editTrailModalContent{
+.ModalContent{
     //position: relative;
     background-color: #fefefe;
     color: #111111;
@@ -295,5 +396,30 @@ h1{
 
 label{
     color: #232323;
+}
+
+.copyrightLine{
+    background-color: #f1f1f1;
+    margin: auto;
+    display: inline-block;
+    width: 35%;
+}
+
+.footer-copyright{
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    color: #f1f1f1;
+}
+
+.footerMiddle{
+    margin-bottom: 0;
+}
+
+.h3 {
+    font-family: Arial, Helvetica, sans-serif;
 }
 
