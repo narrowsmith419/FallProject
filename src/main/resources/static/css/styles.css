@@ -10,44 +10,6 @@ body{
     /*gap: 10px;*/
 }
 
-.grid-container-cards{
-    grid-column-start: 1;
-    grid-column-end: 3;
-    display: grid;
-    grid-template-columns: auto auto ;
-}
-
-.homePageCard{
-    background-color: #f8f8f8;
-    width: 100%;
-    border: 4px;
-    border-radius: 10px;
-    height: 100%;
-}
-
-.homePageCardHeader{
-    background-color: #343a40;
-    padding: 10px;
-}
-
-#listRead{
-    grid-column-start: 2;
-    grid-column-end: 6;
-}
-
-.homePageCardSection{
-    color: #232323;
-    background-color: #f8f8f8;
-    padding: 10px;
-}
-
-.SystemListCard{
-    /*position: relative;
-    float: left;*/
-    grid-column-start: 2;
-    grid-column-end: 6;
-}
-
 .jumbotron{
     grid-column-start: 1;
     grid-column-end: 6;
@@ -59,30 +21,11 @@ body{
     padding: 3px;
 }
 
-.nav-link{
-    color: white; !important;
-}
-
-.navContainer{
-    margin-right: 0;
-    margin-left: auto;
-}
-
-/*.topBar{
-    position: sticky;
-    top: 0;
-    z-index: 1;
-}*/
-
 .sidenav {
     grid-column-start: 1;
     grid-column-end: 2;
-    /*height: 100vh;*/
-    /*width: 160px;*/
-    /*position: fixed;*/
     z-index: 1;
     top: 150px;
-    /*left: 0;*/
     background-color: #343a40;
     overflow-x: hidden; /*disable horizontal scroll*/
     padding: 10px 20px;
@@ -91,13 +34,25 @@ body{
 #trails{
     grid-column-start: 2;
     grid-column-end: 6;
+
 }
 
-/*.trailCard{
-    text-align: left;
-    padding-left: 0;
-    padding-right: 0;
-}*/
+
+#listRead{
+    grid-column-start: 2;
+    grid-column-end: 6;
+
+    /* new */
+    display: grid;
+    grid-template-columns: auto auto ;
+}
+
+.grid-container-cards{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    display: grid;
+    grid-template-columns: auto auto ;
+}
 
 #trailCard{
     grid-column-start: 1;
@@ -116,6 +71,65 @@ body{
     padding-right: 0;
     text-align: left;
 }
+
+.mapContainer{
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+/*leaflet map*/
+#map{
+    height: 360px;
+}
+
+#homePage{
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.homePageCard{
+    background-color: #f8f8f8;
+    width: 100%;
+    border: 4px;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.homePageCardHeader{
+    background-color: #343a40;
+    padding: 10px;
+}
+
+.homePageCardSection{
+    color: #232323;
+    background-color: #f8f8f8;
+    padding: 10px;
+}
+
+#map{
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+.SystemListCard{
+    grid-column-start: 2;
+    grid-column-end: 6;
+}
+
+.nav-link{
+    color: white; !important;
+}
+
+.navContainer{
+    margin-right: 0;
+    margin-left: auto;
+}
+
+/*.topBar{
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}*/
 
 .trailStatsList li:nth-child(2n){
     background-color: #ddd;
@@ -390,6 +404,7 @@ img{
     display: block;
     margin-left: auto;
     margin-right: auto;
+    max-height: 540px;
 }
 
 .title{

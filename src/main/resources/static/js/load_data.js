@@ -55,6 +55,14 @@ function getTrailDifficultyShow() {
 }
 
 /*close the dropdown menu when clicked outside it*/
+/**
+ * close the dropdown menu when clicked outside it
+ * also most mouse click event listeners located here such as:
+ * side nav dropdown clicks
+ * removing form modal when clicking outside of form
+ * delete review buttons
+ * @param event
+ */
 window.onclick = function (event) {
     if (!event.target.matches('.dropBtn')) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -93,10 +101,13 @@ window.onclick = function (event) {
     }
 }
 
+/**
+ * This function produces the home page/ site description text when the page is refreshed or first visited
+ * @param data If user updated page (editTrailForm) change bodyText to show page was updated
+ */
 function homePageCard(data){
 
-    let message = data;
-    console.log(message);
+    console.log(data);
 
     //clear existing HTML content
     let trailCard = document.getElementById("trailCard");
@@ -104,6 +115,10 @@ function homePageCard(data){
     trailCard.classList.remove("SystemListCard");
     let trailStats = document.getElementById("trailStats");
     trailStats.innerHTML = ""; //clear existing card
+
+    //grab homePage div and map div
+    let homePage = document.getElementById("homePage");
+    let mapDiv = document.getElementById("map");
 
     //create Stats Card
     let trailCardDiv = document.createElement("div");
@@ -130,15 +145,24 @@ function homePageCard(data){
         bodySection.appendChild(h2);
     }
 
+    //For Leaflet Map
 
     headerDiv.appendChild(h3);
     trailCardDiv.appendChild(headerDiv);
     bodySection.appendChild(bodyText);
     trailCardDiv.appendChild(bodySection);
 
-    trailCard.appendChild(trailCardDiv);
+    homePage.appendChild(trailCardDiv);
 
 }
+
+//*************************
+//FOR LEAFLET
+let map = L.map('map').setView([47.579680, -121.984790], 13);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
 
 /**
  * dynamically generates trail names from trail API to populate drop down list

@@ -5,6 +5,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
+    <!--FOR LEAFLET-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+          integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+          crossorigin=""/>
+
     <title>Mountain Biking Trail Guide</title>
 
 </head>
@@ -33,47 +38,56 @@
 
     </div>
 
-    <!--<div class="main-dash">-->
         <div id="trails">
-            <!--<div class="sub-dash">-->
-                <div id="listRead">
-                        <div class="grid-container-cards" id="gridCards">
-                            <div id="trailCard" class="trailCard">
-                                <!--user selected trail card-->
-                            </div>
-                            <div id="trailStats">
-                                <!--user selected trail info-->
-                            </div>
+            <div id="listRead">
+                <div class="grid-container-cards" id="gridCards">
+                    <div id="trailCard" class="trailCard">
+                        <!--user selected trail card-->
+                    </div>
+                    <div id="trailStats">
+                        <!--user selected trail info-->
+                    </div>
+                    <div id="homePage" class="homePageCard">
+                        <!--default home page -->
+                    </div>
+                    <div id="map" class="leaflet">
+                        <!--leaflet map-->
+                    </div>
+                </div>
+
+                <!--FOR LEAFLET
+                <div class="mapContainer">
+                    <div id="map" class="leaflet"></div>
+                </div>-->
+
+                <!--edit trail modal-->
+                <div id="allFormsModal" class="modal">
+                    <div class="ModalContent">
+                        <div class="modal-header">
+                            <h2 id="modalHeader"></h2>
+                            <span class="close">&times;</span>
                         </div>
+                        <div class="modal-body">
+                            <div id="FormDiv">
+                                <form action="#" method="post" id="editTrailForm"></form>
+                                <form action="#" method="post" id="addTrailForm"></form>
+                                <form action="#" method="post" id="addReviewForm"></form>
+                                <button id="trailFormButton" type="submit">Submit</button>
+                                <button id="reviewFormButton" type="submit">Submit Review</button>
 
-                        <!--edit trail modal-->
-                        <div id="allFormsModal" class="modal">
-                            <div class="ModalContent">
-                                <div class="modal-header">
-                                    <h2 id="modalHeader"></h2>
-                                    <span class="close">&times;</span>
-                                </div>
-                                <div class="modal-body">
-                                    <div id="FormDiv">
-                                        <form action="#" method="post" id="editTrailForm"></form>
-                                        <form action="#" method="post" id="addTrailForm"></form>
-                                        <form action="#" method="post" id="addReviewForm"></form>
-                                        <button id="trailFormButton" type="submit">Submit</button>
-                                        <button id="reviewFormButton" type="submit">Submit Review</button>
-
-                                    </div>
-                                </div>
                             </div>
-                        </div>
-
-                    <div class="">
-                        <div id="reviewGrid">
-                            <!-- reviews grid by selected trail -->
                         </div>
                     </div>
-                    <button id="addTrailButton">Add Trail</button>
                 </div>
-            <!--</div>-->
+
+                <div class="">
+                    <div id="reviewGrid">
+                        <!-- reviews grid by selected trail -->
+                    </div>
+                </div>
+
+            </div>
+            <button id="addTrailButton">Add Trail</button>
 
             <!--footer-->
             <div class="footer-copyright">
@@ -83,13 +97,17 @@
             </div>
         </div>
 
-    <!--</div>-->
 </div>
 
+<!--FOR LEAFLET-->
+<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+        integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+        crossorigin=""></script>
 <script src="js/load_data.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+
 </div>
 </body>
 </html>
