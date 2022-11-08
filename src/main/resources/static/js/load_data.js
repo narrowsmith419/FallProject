@@ -118,7 +118,9 @@ function homePageCard(data){
 
     //grab homePage div and map div
     let homePage = document.getElementById("homePage");
-    let mapDiv = document.getElementById("map");
+    let mapDiv = document.getElementById("mapContainer");
+    homePage.style.display= "block";
+    mapDiv.style.display = "block";
 
     //create Stats Card
     let trailCardDiv = document.createElement("div");
@@ -128,7 +130,7 @@ function homePageCard(data){
     let h3 = document.createElement("h3");
     h3.innerHTML = "Welcome to trailHub!";
     let bodySection = document.createElement("section");
-    bodySection.setAttribute('id', "trail-stats");
+    bodySection.setAttribute('id', "homePageSection");
     bodySection.classList.add("homePageCardSection");
     let bodyText = document.createElement("p");
     if(data === undefined){
@@ -136,7 +138,7 @@ function homePageCard(data){
             " created to give riders an opportunity to leave feedback on trails/trailsystems they ride. Begin by selecting "
             + "a trail using the side navigation on the left, you can choose by trail name | trail system | or trail difficulty."
             + " Don't see the trail you're looking for? You can add a trail to the database by using the 'add trail' button "
-            + " down below!";
+            + " to the left!";
     }
     else{
         let h2 = document.createElement("h2");
@@ -163,6 +165,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+//*************************
 
 /**
  * dynamically generates trail names from trail API to populate drop down list
@@ -209,6 +212,14 @@ function fetchTrail(data) {
     //access the list in our HTML
     let allReviews = document.getElementById("reviewGrid");
     allReviews.innerHTML = ""; //clear existing reviews
+
+    //clear existing HomePage content
+    let homeCard = document.getElementById("homePage");
+    homeCard.innerHTML = ""; //clear existing card
+    let mapCard = document.getElementById("mapContainer");
+    /*mapCard.innerHTML = ""; //clear existing card*/
+    homeCard.style.display= "none";
+    mapCard.style.display = "none";
 
     //store active card trail for reviewGrid
     activeTrail = trail;
@@ -417,7 +428,7 @@ function removeReview(data) {
 }
 
 //show modal
-//TODO: revert this method back to single form, not separate editForm and addForm  fields (still use 'formType'
+//TODO: revert this method back to single form, not separate editForm and addForm  fields (still use 'formType')
 function editTrailModal() {
 
     //turn off AddReview button
@@ -972,13 +983,21 @@ function getTrailByName(value, type) {
 
 function fetchTrailList(data, type) {
 
-//clear existing trail card (if there is one) and reviews
+    //clear existing trail card (if there is one) and reviews
     let trailCard = document.getElementById("trailCard");
     let trailStats = document.getElementById("trailStats");
     let allReviews = document.getElementById("reviewGrid");
     allReviews.innerHTML = ""; //clear existing reviews
     trailCard.innerHTML = "";
     trailStats.innerHTML = "";
+
+    //clear existing HomePage content
+    let homeCard = document.getElementById("homePage");
+    homeCard.innerHTML = ""; //clear existing card
+    let mapCard = document.getElementById("mapContainer");
+    mapCard.innerHTML = ""; //clear existing card
+    homeCard.style.display = "none";
+    mapCard.style.display = "none";
 
     trailCard.classList.add("card");
     trailCard.classList.add("SystemListCard");

@@ -38,14 +38,16 @@
         <button id="addTrailButton">Add Trail</button>
     </div>
 
-    <div id="homePage" class="homePageCard">
+    <!--old homepage + mapContainer-->
+    <div id="homePage" class="mainPage">
         <!--default home page -->
     </div>
-    <div id="map" class="leaflet">
-        <!--leaflet map-->
+    <div id="mapContainer" class="mainPage">
+        <div id="map">
+            <!--leaflet map-->
+        </div>
     </div>
 
-    <div id="test"></div>
 
     <div id="trails">
         <div id="listRead">
@@ -58,11 +60,6 @@
                 </div>
 
             </div>
-
-            <!--FOR LEAFLET
-            <div class="mapContainer">
-                <div id="map" class="leaflet"></div>
-            </div>-->
 
             <!--edit trail modal-->
             <div id="allFormsModal" class="modal">
@@ -91,12 +88,15 @@
             </div>
         </div>
 
-        <!--footer-->
-        <div class="footer-copyright">
-            <hr class="copyrightLine">
-            <p class="footerMiddle">&copy; Copyright<a> narrowsmith.greenriverdev.com</a></p>
-            <p class="footerBottom">Green River College</p>
-        </div>
+    </div>
+
+    <div id="sideNavLogo"></div>
+
+    <!--footer-->
+    <div class="footer-copyright">
+        <hr class="copyrightLine">
+        <p class="footerMiddle">&copy; Copyright<a> narrowsmith.greenriverdev.com</a></p>
+        <p class="footerBottom">Green River College</p>
     </div>
 
 </div>

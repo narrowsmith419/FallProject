@@ -17,6 +17,8 @@ body{
     color: white;
     background-size: cover;
     border-radius: 0%; !important;
+    border: solid #343a40;
+    border-bottom-width: 10px;
     margin: 0;
     padding: 3px;
 }
@@ -33,10 +35,13 @@ body{
     min-height: 100%;
 }
 
-#test{
+#sideNavLogo{
     grid-column-start: 1;
     grid-column-end: 2;
     background-color: #343a40;
+    background-image: url('../images/trailHub-1.png');
+    background-size: cover;
+    padding-bottom: 10px;
 }
 
 #trails{
@@ -83,17 +88,22 @@ body{
     text-align: left;
 }
 
-/*.mapContainer{
-    grid-column-start: 2;
-    grid-column-end: 3;
-}*/
+#mapContainer{
+    grid-column-start: 3;
+    grid-column-end: 6;
+}
+
+.mainPage{
+    display: none; /*hide by default*/
+}
 
 /*leaflet map*/
 #map{
     /*height: 360px;*/
     height: 100%;
-    grid-column-start: 3;
-    grid-column-end: 6;
+    z-index: 1;
+    border-radius: 10px;
+    margin: 5px;
 }
 
 #homePage{
@@ -103,15 +113,19 @@ body{
 
 .homePageCard{
     background-color: #f8f8f8;
-    width: 100%;
+    /*width: 100%;*/
     border: 4px;
     border-radius: 10px;
     height: 100%;
+    margin: 5px;
+    padding: 0;
 }
 
 .homePageCardHeader{
     background-color: #343a40;
     padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .homePageCardSection{
@@ -255,7 +269,7 @@ div#reviewGrid {
 #addTrailButton:hover {
     background-color: #9d5001;
     color: white;
-    box-shadow: 6px 6px 2px rgba(70, 70, 70, 0.73);
+    /*box-shadow: 6px 6px 2px rgba(70, 70, 70, 0.73);*/
 }
 
 #editTrailButton, #trailFormButton, #addReviewButton, #getReviewButton, #reviewFormButton, #removeTrailButton {
@@ -322,19 +336,6 @@ div#reviewGrid {
     display: none; /*hide by default*/
 }
 
-.modal {
-    display: none; /*hide by default*/
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    padding-top: 90px;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4); /*add opacity*/
-}
 
 label {
     padding-right: 5px;
@@ -366,6 +367,20 @@ label{
     text-align: left;
 }
 
+.modal {
+    display: none; /*hide by default*/
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    padding-top: 60px;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4); /*add opacity*/
+}
+
 .ModalContent{
     //position: relative;
     background-color: #fefefe;
@@ -392,7 +407,7 @@ label{
 }
 
 .modal-body {
-    padding: 2px 16px;
+    padding: 2px 16px 20px;
 }
 
 .close{
