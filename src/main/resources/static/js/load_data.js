@@ -40,6 +40,11 @@ window.onload = function () {
         .then(function (data) { //receive the text when promise is complete
             trailNameDropDown(data);
         });
+
+    //for complete Leaflet Tile generation
+    setTimeout(function() {
+        window.dispatchEvent(new Event('resize'));
+    }, 1000);
 };
 
 /**
@@ -165,6 +170,7 @@ function homePageCard(data){
 
 //*************************
 //FOR LEAFLET
+//Default to Issaquah
 let map = L.map('map').setView([47.579680, -121.984790], 13);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
