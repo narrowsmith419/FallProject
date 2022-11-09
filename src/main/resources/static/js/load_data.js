@@ -18,6 +18,9 @@ span.addEventListener("click", closeModal);
 //'Add Trails' button
 let addTrailButton = document.querySelector("#addTrailButton");
 addTrailButton.addEventListener("click", addTrailFormType);
+//'Home' button
+let homeButton = document.querySelector("#homeButton");
+homeButton.addEventListener("click", homePageButton);
 
 
 window.onload = function () {
@@ -54,7 +57,7 @@ function getTrailDifficultyShow() {
     document.getElementById("trailByDifficulty").classList.toggle("show");
 }
 
-/*close the dropdown menu when clicked outside it*/
+
 /**
  * close the dropdown menu when clicked outside it
  * also most mouse click event listeners located here such as:
@@ -115,6 +118,8 @@ function homePageCard(data){
     trailCard.classList.remove("SystemListCard");
     let trailStats = document.getElementById("trailStats");
     trailStats.innerHTML = ""; //clear existing card
+    let trailDiv = document.getElementById("trails");
+    trailDiv.style.display = "none";
 
     //grab homePage div and map div
     let homePage = document.getElementById("homePage");
@@ -168,6 +173,13 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //*************************
 
 /**
+ * This is a function to refresh the page for the homePageButton eventListener
+ */
+function homePageButton() {
+    window.location.reload(); //refresh page;
+}
+
+/**
  * dynamically generates trail names from trail API to populate drop down list
  * @param data Trail objects from /api/v1/trail
  */
@@ -209,7 +221,7 @@ function trailNameDropDown(data) {
 function fetchTrail(data) {
     let trail = data[0];
 
-    //access the list in our HTML
+    //clear Review HTML
     let allReviews = document.getElementById("reviewGrid");
     allReviews.innerHTML = ""; //clear existing reviews
 
@@ -220,6 +232,10 @@ function fetchTrail(data) {
     /*mapCard.innerHTML = ""; //clear existing card*/
     homeCard.style.display= "none";
     mapCard.style.display = "none";
+
+    //show trails div
+    let trailDiv = document.getElementById("trails");
+    trailDiv.style.display = "block";
 
     //store active card trail for reviewGrid
     activeTrail = trail;
@@ -362,6 +378,10 @@ function editTrailFormType(){
 }
 
 function addTrailFormType(){
+    //show trails div
+    let trailDiv = document.getElementById("trails");
+    trailDiv.style.display = "block";
+
     formType = "addTrail";
     let editForm = document.getElementById("editTrailForm"); //grab html
     let addForm = document.getElementById("addTrailForm");

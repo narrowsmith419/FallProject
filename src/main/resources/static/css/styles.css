@@ -263,13 +263,29 @@ div#reviewGrid {
     /*margin-left: 10px;*/
     border-radius: 5px;
     position: relative;
-
 }
 
 #addTrailButton:hover {
     background-color: #9d5001;
     color: white;
-    /*box-shadow: 6px 6px 2px rgba(70, 70, 70, 0.73);*/
+}
+
+#homeButton{
+    background-color: #343a40;
+    border: 2px solid #3d444b;
+    color: #676f7c;
+    width: 100%;
+    padding: 10px;
+    /*margin: 10px auto auto;*/
+    margin-top: 20px;
+    /*margin-left: 10px;*/
+    border-radius: 5px;
+    position: relative;
+}
+
+#homeButton:hover {
+    background-color: #282e31;
+    color: white;
 }
 
 #editTrailButton, #trailFormButton, #addReviewButton, #getReviewButton, #reviewFormButton, #removeTrailButton {
