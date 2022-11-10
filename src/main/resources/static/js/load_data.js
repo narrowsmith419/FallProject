@@ -169,20 +169,59 @@ function homePageCard(data){
 }
 
 //*************************
-//FOR LEAFLET
-//Default to Issaquah
+/**
+ * FOR LEAFLET (MAP)
+ */
+//Default to Duthie Hill, Issaquah
 let map = L.map('map').setView([47.579680, -121.984790], 13);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }
+    ).addTo(map);
+
+//test
+map.data
+
+//add a marker to the map
+let marker = L.marker([47.58216, -121.97715]).addTo(map);
+//add pop-up to marker
+marker.bindPopup("<b>Duthie Hill</b><br>Trail System").openPopup();
+
+//make a map shape (just an example)
+let polygon = L.polygon([
+    [47.583929, -121.977879],
+    [47.58021, -121.977861],
+    [47.580275, -121.981897],
+    [47.573065, -121.982032],
+    [47.573056, -121.976776],
+    [47.576569, -121.97657],
+    [47.576439, -121.971394],
+    [47.580083, -121.971196],
+    [47.580184, -121.97635],
+    [47.584131, -121.976287]
+]).addTo(map);
+//add all trails at this trail system to this popup?
+polygon.bindPopup("<b>Duthie Hill</b><br>Trail System");
+
+//user event handling
+let popup = L.popup();
+function onMapClick(e){
+    popup
+        .setLatLng(e.latlng)
+        .setContent("My guy, you straight clicked the map at " + e.latlng.toString() + " deadass")
+        .openOn(map);
+}
+map.on('click', onMapClick);
+
 //*************************
 
 /**
  * This is a function to refresh the page for the homePageButton eventListener
  */
 function homePageButton() {
-    window.location.reload(); //refresh page;
+    window.location.reload();
 }
 
 /**
@@ -1008,6 +1047,10 @@ function getTrailByName(value, type) {
 }
 
 function fetchTrailList(data, type) {
+
+    //show trails div
+    let trailDiv = document.getElementById("trails");
+    trailDiv.style.display = "block";
 
     //clear existing trail card (if there is one) and reviews
     let trailCard = document.getElementById("trailCard");
