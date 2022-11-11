@@ -3,6 +3,7 @@ package com.greenriverdev.narrowsmith.fallproject.controllers;
 import com.greenriverdev.narrowsmith.fallproject.models.Query;
 import com.greenriverdev.narrowsmith.fallproject.models.Trail;
 import com.greenriverdev.narrowsmith.fallproject.services.TrailService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,14 @@ public class WebApiTrail
 {
 
     private TrailService service;
+    /*@Value("${apiKey}")
+    private String apiKey;*/
+
+//    @GetMapping("apiKey")
+//    public String apiKeySource()
+//    {
+//        return this.apiKey;
+//    }*/
 
     /**
      * @param service ReviewService object responsible for model object CRUD logic

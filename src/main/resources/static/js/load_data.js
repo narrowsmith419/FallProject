@@ -1,3 +1,6 @@
+//TODO: HIDE THIS KEY
+let apiKey = "e3a64f2a4f555438567f7813bd27447b";
+
 let activeTrail;
 let activeReview;
 let activeReviews = [];
@@ -24,14 +27,13 @@ homeButton.addEventListener("click", homePageButton);
 
 
 window.onload = function () {
-
-    homePageCard(); //populate home page with intro text
-
     //create trail objects to make with a GET request
     let trailUri = "http://localhost:8080/api/v1/trail";
     let params = {
         method: "get"
     };
+
+    homePageCard(); //populate home page with intro text
 
     fetch(trailUri, params) //get response
         .then(function (response) {
@@ -221,6 +223,10 @@ function onMapClick(e){
 map.on('click', onMapClick);
 map.on('click', getUserClick);
 
+/**
+ * Grab Lat/Lon data from area of map user clicked and
+ * run fetchWeather function
+ */
 function getUserClick(){
 
     //set latitude/longitude variables
@@ -229,10 +235,40 @@ function getUserClick(){
 
     console.log(userLat);
     console.log(userLong);
+    fetchWeather();
 
 }
 
-//*************************
+
+/**
+ * Call openWeatherMap API using user clicked Map Longitude and Latitude
+ */
+function fetchWeather(){
+
+//create trail objects to make with a GET request
+    let weatherUri = "https://api.openweathermap.org/data/2.5/forecast?"
+    + "lat=" + userLat
+    + "&lon=" + userLong
+    + "&appid=" + apiKey
+
+    let params = {
+        method: "get"
+    };
+
+    fetch(weatherUri, params) //get response
+        .then(function (response) {
+            return response.json(); //ask for response to be converted to json
+        })
+        .then(function (data) { //receive the text when promise is complete
+            console.log(data);
+            populateWeatherDiv(data);
+        });
+}
+
+function populateWeatherDiv(data) {
+
+
+}
 
 /**
  * This is a function to refresh the page for the homePageButton eventListener
