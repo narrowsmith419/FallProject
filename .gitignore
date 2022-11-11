@@ -1,5 +1,8 @@
 .gitignore
+
+### General Files ###
 added_error_reporting_to_WebApiTrail_and_WebApiReview.patch
+application-dev.properties
 
 target/
 node_modules/
@@ -28,7 +31,6 @@ package.json
 *.iml
 *.ipr
 .mvn
-
 
 ### NetBeans ###
 /nbproject/private/
