@@ -207,13 +207,30 @@ polygon.bindPopup("<b>Duthie Hill</b><br>Trail System");
 
 //user event handling
 let popup = L.popup();
+let userClick;
+let userLat;
+let userLong;
 function onMapClick(e){
-    popup
+    userClick = e.latlng; //store user latitude/longitude
+
+    popup //remove this eventually
         .setLatLng(e.latlng)
         .setContent("My guy, you straight clicked the map at " + e.latlng.toString() + " deadass")
         .openOn(map);
 }
 map.on('click', onMapClick);
+map.on('click', getUserClick);
+
+function getUserClick(){
+
+    //set latitude/longitude variables
+    userLat = userClick.lat;
+    userLong = userClick.lng;
+
+    console.log(userLat);
+    console.log(userLong);
+
+}
 
 //*************************
 

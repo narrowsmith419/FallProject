@@ -1,0 +1,44 @@
+.gitignore
+added_error_reporting_to_WebApiTrail_and_WebApiReview.patch
+
+target/
+node_modules/
+.idea/
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+mvnw
+mvnw.cmd
+.mvn/wrapper
+package-lock.json
+package.json
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+.mvn
+
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
