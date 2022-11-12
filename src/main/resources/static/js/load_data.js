@@ -217,7 +217,7 @@ function onMapClick(e){
 
     popup //remove this eventually
         .setLatLng(e.latlng)
-        .setContent("My guy, you straight clicked the map at " + e.latlng.toString() + " deadass")
+        .setContent(e.latlng.toString())
         .openOn(map);
 }
 map.on('click', onMapClick);
@@ -245,27 +245,79 @@ function getUserClick(){
  */
 function fetchWeather(){
 
+    /*api.openweathermap.org/data/2.5/forecast?lat=47.579680&lon=-121.984790
+        &appid=e3a64f2a4f555438567f7813bd27447b
+        &exclude=minutely
+        &exclude=hourly
+        &exclude=daily
+        &exclude=alerts
+        &units=imperial*/
+
 //create trail objects to make with a GET request
     let weatherUri = "https://api.openweathermap.org/data/2.5/forecast?"
-    + "lat=" + userLat
-    + "&lon=" + userLong
-    + "&appid=" + apiKey
+        + "lat=" + userLat
+        + "&lon=" + userLong
+        + "&appid=" + apiKey
+        + "&exclude=minutely"
+        + "&exclude=hourly"
+        + "&exclude=daily"
+        + "&exclude=alerts"
+        + "&units=imperial";
 
     let params = {
         method: "get"
+        /*,
+        lat: userLat,
+        lon: userLong,
+        appid: "" + apiKey,*/
+        /*exclude: ["minutely", "hourly", "daily", "alerts"],
+        units: "imperial" */
     };
+
+
 
     fetch(weatherUri, params) //get response
         .then(function (response) {
             return response.json(); //ask for response to be converted to json
         })
         .then(function (data) { //receive the text when promise is complete
-            console.log(data);
             populateWeatherDiv(data);
         });
 }
 
+/**
+ * This method converts the openWeatherApi UTC time to Pacific Standard Time
+ * @param utcTime the int variable provided by the openWeatherApi response
+ * @returns {string} a pacific standard time string with the hour/minute and am/pm
+ */
+function timeConvert(utcTime){
+    let fixedTime = utcTime * 1000;
+    let time = new Date(fixedTime);
+
+    return time.toLocaleTimeString("en-us", {
+        timeZone: "America/Los_Angeles",
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
 function populateWeatherDiv(data) {
+
+    let weatherData = data;
+    let currentWeather = weatherData.list[0];
+    console.log(currentWeather);
+
+    //weather div variables
+    let city = weatherData.city.name;
+    let country = weatherData.city.country;
+    let sunrise = timeConvert(weatherData.city.sunrise);
+    let sunset = timeConvert(weatherData.city.sunset);
+    let currentTemp = currentWeather.main.temp;
+    let minTemp = currentWeather.main.temp_min;
+    let maxTemp = currentWeather.main.temp_max;
+    let weatherIcon = currentWeather.weather[0].main;
+
+
 
 
 }
@@ -489,7 +541,9 @@ function addTrailFormType(){
 }
 
 function getReviews(event) {
+
     event.preventDefault();
+
 
     let trailUri = "http://localhost:8080/api/v1/review/" + activeTrail.name;
     let params = {
@@ -966,8 +1020,9 @@ function addReviewFormData(event){
     //hide button
     let reviewFormButton = document.getElementById("reviewFormButton");
     reviewFormButton.style.display = "none";
+    closeModal();
 
-    window.location.reload(); //refresh page
+    //window.location.reload(); //refresh page
 
 }
 
