@@ -112,6 +112,10 @@ body{
     grid-column-end: 6;
 }
 
+#weather > a{
+    max-width: 10px;
+}
+
 #homePage{
     grid-column-start: 2;
     grid-column-end: 3;

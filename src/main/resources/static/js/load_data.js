@@ -316,10 +316,105 @@ function populateWeatherDiv(data) {
     let minTemp = currentWeather.main.temp_min;
     let maxTemp = currentWeather.main.temp_max;
     let weatherIcon = currentWeather.weather[0].main;
+    let archiveIcon = chooseWeatherIcon(weatherIcon);
 
+    //create HTML elements
+    let weatherContainer = document.getElementById("weatherContainer");
+    weatherContainer.style.display = "block";
 
+    let weatherDiv = document.getElementById("weather"); //contains all divs
+    weatherDiv.innerHTML = "";
 
+    let a1 = document.createElement("a");
+    let a2 = document.createElement("a");
+    let a3 = document.createElement("a");
+    let a4 = document.createElement("a");
 
+    let iconDiv = document.createElement("div"); //weather icon
+    let locationDiv = document.createElement("div"); //city, country
+    let sunDiv = document.createElement("div"); //sunrise, sunset
+    let tempDiv = document.createElement("div"); //current temp, min/max
+
+    //labels and info
+    let locationTitle = document.createElement("p");
+    locationTitle.innerText = "Location:";
+    let cityP = document.createElement("p");
+    cityP.innerText = "City: " + city;
+    let countryP = document.createElement("p");
+    countryP.innerText = "Country: " + country;
+    locationDiv.appendChild(locationTitle);
+    locationDiv.appendChild(cityP);
+    locationDiv.appendChild(countryP);
+    a1.appendChild(locationDiv);
+    let tempsTitle = document.createElement("p");
+    tempsTitle.innerText = "Temps:";
+    let currentP = document.createElement("p");
+    currentP.innerText = "Current: " + String(currentTemp).slice(0,2) + " F";
+    let lowP = document.createElement("p");
+    lowP.innerText = "Low: " + String(minTemp).slice(0,2) + " F";
+    let highP = document.createElement("p");
+    highP.innerText = "High: " + String(maxTemp).slice(0,2) + " F";
+    tempDiv.appendChild(tempsTitle);
+    tempDiv.appendChild(currentP);
+    tempDiv.appendChild(lowP);
+    tempDiv.appendChild(highP);
+    a2.appendChild(tempDiv);
+    let sunTitle = document.createElement("p");
+    sunTitle.innerText = "Light Conditions:";
+    let sunriseP = document.createElement("p");
+    sunriseP.innerText = "Sunrise: " + sunrise;
+    let sunsetP = document.createElement("p");
+    sunsetP.innerText = "Sunset: " + sunset;
+    sunDiv.appendChild(sunTitle);
+    sunDiv.appendChild(sunriseP);
+    sunDiv.appendChild(sunsetP);
+    a3.appendChild(sunDiv);
+
+    let icon = document.createElement("img");
+    icon.src = archiveIcon;
+    iconDiv.appendChild(icon);
+    a4.appendChild(iconDiv);
+
+    weatherDiv.appendChild(a4);
+    weatherDiv.appendChild(a1);
+    weatherDiv.appendChild(a2);
+    weatherDiv.appendChild(a3);
+
+}
+
+/**
+ * This function parses the openWeather API icon title and matches it to a relevant icon in images folder
+ * @param weatherIcon openWeather API icon name
+ * @returns {string} image source path of relevant icon
+ */
+function chooseWeatherIcon(weatherIcon){
+
+    let icon = weatherIcon.toLowerCase();
+
+    console.log(icon);
+
+    let cloudy = ["cloudy","cloudy-gusts","smog","tornado","hurricane","day-haze","fog"];
+    let rain = ["storm-showers","thunderstorm","sprinkle","rain","rain-mix"];
+    let clear = ["dust","day-windy","sunny","hot","windy","clear"];
+    let snow = ["snow","sleet","snowflake-cold"];
+
+    if(cloudy.includes(icon))
+    {
+        return "../images/cloudy.png";
+    }
+    else if(rain.includes(icon))
+    {
+        return "../images/showers.png";
+    }
+    else if(clear.includes(icon))
+    {
+        return "../images/clear.png";
+    }
+    else if(snow.includes(icon))
+    {
+        return "../images/snow.png";
+    }
+    else return "../images/trailHub-1.png";
 }
 
 /**
