@@ -131,8 +131,12 @@ function homePageCard(data){
     //grab homePage div and map div
     let homePage = document.getElementById("homePage");
     let mapDiv = document.getElementById("mapContainer");
+    let weather = document.getElementById("weatherContainer");
+    let side = document.getElementById("sideNavExtend");
     homePage.style.display= "block";
     mapDiv.style.display = "block";
+    weather.style.display = "block";
+    side.style.display = "block";
 
     //create Stats Card
     let trailCardDiv = document.createElement("div");
@@ -322,18 +326,26 @@ function populateWeatherDiv(data) {
     let weatherContainer = document.getElementById("weatherContainer");
     weatherContainer.style.display = "block";
 
-    let weatherDiv = document.getElementById("weather"); //contains all divs
+    let weatherDiv = document.getElementById("weatherBox"); //contains all divs
     weatherDiv.innerHTML = "";
 
-    let a1 = document.createElement("a");
-    let a2 = document.createElement("a");
-    let a3 = document.createElement("a");
-    let a4 = document.createElement("a");
+    let a1 = document.createElement("div");
+    let a2 = document.createElement("div");
+    let a3 = document.createElement("div");
+    let a4 = document.createElement("div");
 
     let iconDiv = document.createElement("div"); //weather icon
+    a1.classList.add("iconDiv");
+    iconDiv.classList.add("nestedWeather");
     let locationDiv = document.createElement("div"); //city, country
+    a2.classList.add("locationDiv");
+    locationDiv.classList.add("nestedWeather");
     let sunDiv = document.createElement("div"); //sunrise, sunset
+    a4.classList.add("lightDiv");
+    sunDiv.classList.add("nestedWeather");
     let tempDiv = document.createElement("div"); //current temp, min/max
+    a3.classList.add("tempDiv");
+    tempDiv.classList.add("nestedWeather");
 
     //labels and info
     let locationTitle = document.createElement("p");
@@ -345,7 +357,7 @@ function populateWeatherDiv(data) {
     locationDiv.appendChild(locationTitle);
     locationDiv.appendChild(cityP);
     locationDiv.appendChild(countryP);
-    a1.appendChild(locationDiv);
+    a2.appendChild(locationDiv);
     let tempsTitle = document.createElement("p");
     tempsTitle.innerText = "Temps:";
     let currentP = document.createElement("p");
@@ -358,7 +370,7 @@ function populateWeatherDiv(data) {
     tempDiv.appendChild(currentP);
     tempDiv.appendChild(lowP);
     tempDiv.appendChild(highP);
-    a2.appendChild(tempDiv);
+    a3.appendChild(tempDiv);
     let sunTitle = document.createElement("p");
     sunTitle.innerText = "Light Conditions:";
     let sunriseP = document.createElement("p");
@@ -368,17 +380,18 @@ function populateWeatherDiv(data) {
     sunDiv.appendChild(sunTitle);
     sunDiv.appendChild(sunriseP);
     sunDiv.appendChild(sunsetP);
-    a3.appendChild(sunDiv);
+    a4.appendChild(sunDiv);
 
     let icon = document.createElement("img");
+    icon.classList.add("weatherIcon");
     icon.src = archiveIcon;
     iconDiv.appendChild(icon);
-    a4.appendChild(iconDiv);
+    a1.appendChild(iconDiv);
 
-    weatherDiv.appendChild(a4);
     weatherDiv.appendChild(a1);
     weatherDiv.appendChild(a2);
     weatherDiv.appendChild(a3);
+    weatherDiv.appendChild(a4);
 
 }
 
@@ -393,7 +406,7 @@ function chooseWeatherIcon(weatherIcon){
 
     console.log(icon);
 
-    let cloudy = ["cloudy","cloudy-gusts","smog","tornado","hurricane","day-haze","fog"];
+    let cloudy = ["cloudy","cloudy-gusts","smog","tornado","hurricane","day-haze","fog", "clouds"];
     let rain = ["storm-showers","thunderstorm","sprinkle","rain","rain-mix"];
     let clear = ["dust","day-windy","sunny","hot","windy","clear"];
     let snow = ["snow","sleet","snowflake-cold"];
@@ -474,9 +487,13 @@ function fetchTrail(data) {
     let homeCard = document.getElementById("homePage");
     homeCard.innerHTML = ""; //clear existing card
     let mapCard = document.getElementById("mapContainer");
+    let weather = document.getElementById("weatherContainer");
+    let side = document.getElementById("sideNavExtend");
     /*mapCard.innerHTML = ""; //clear existing card*/
     homeCard.style.display= "none";
     mapCard.style.display = "none";
+    weather.style.display = "none";
+    side.style.display = "none";
 
     //show trails div
     let trailDiv = document.getElementById("trails");
@@ -1267,9 +1284,13 @@ function fetchTrailList(data, type) {
     let homeCard = document.getElementById("homePage");
     homeCard.innerHTML = ""; //clear existing card
     let mapCard = document.getElementById("mapContainer");
+    let weather = document.getElementById("weatherContainer");
+    let side = document.getElementById("sideNavExtend");
     mapCard.innerHTML = ""; //clear existing card
     homeCard.style.display = "none";
     mapCard.style.display = "none";
+    weather.style.display = "none";
+    side.style.display = "none";
 
     trailCard.classList.add("card");
     trailCard.classList.add("SystemListCard");

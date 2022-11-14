@@ -31,7 +31,6 @@ body{
     background-color: #343a40;
     overflow-x: hidden; /*disable horizontal scroll*/
     padding: 10px 20px;
-
     min-height: 100%;
 }
 
@@ -99,11 +98,17 @@ body{
 
 /*leaflet map*/
 #map{
-    /*height: 360px;*/
     height: 100%;
     z-index: 1;
     border-radius: 10px;
     margin: 5px;
+}
+
+#sideNavExtend{
+    display: none;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    background-color: #343a40;
 }
 
 #weatherContainer{
@@ -112,8 +117,66 @@ body{
     grid-column-end: 6;
 }
 
-#weather > a{
-    max-width: 10px;
+#weatherBox{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr; /*four column layout*/
+    padding: 0;
+    margin: 10px;
+    background-color: #343a40;
+    border-radius: 10px;
+}
+
+#weatherBox > div{
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    text-align: center;
+    /*max-width: 10px;*/
+}
+
+.nestedWeather{
+    text-align: left;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.nestedWeather > p{
+    margin-bottom: 0;
+}
+
+.nestedWeather > p:first-child{
+    color: #81a0de;
+}
+
+.iconDiv{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.locationDiv{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    width: 100%;
+}
+.tempDiv{
+    grid-column-start: 3;
+    grid-column-end: 4;
+    width: 100%;
+}
+lightDiv{
+    grid-column-start: 4;
+    grid-column-end: 5;
+    width: 100%;
+}
+.weatherIcon{
+    /*max-width: 160px;
+    max-height: 160px;*/
+
+    max-width: 40%;
+
 }
 
 #homePage{
