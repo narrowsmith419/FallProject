@@ -5,6 +5,10 @@ let activeTrail;
 let activeReview;
 let activeReviews = [];
 let formType;
+let userLat = 47.58216;
+let userLong = -121.97715;
+let map = L.map('map').setView([47.579680, -121.984790], 13);
+
 
 //Select a Trail by Name drop-down button
 let trailByNameShow = document.querySelector("#dropBtnName");
@@ -34,6 +38,7 @@ window.onload = function () {
     };
 
     homePageCard(); //populate home page with intro text
+    fetchWeather(); //populate weather box with duthie hill for initial load
 
     fetch(trailUri, params) //get response
         .then(function (response) {
@@ -131,10 +136,12 @@ function homePageCard(data){
     //grab homePage div and map div
     let homePage = document.getElementById("homePage");
     let mapDiv = document.getElementById("mapContainer");
+    let weatherInfo = document.getElementById("weatherInfoContainer");
     let weather = document.getElementById("weatherContainer");
     let side = document.getElementById("sideNavExtend");
     homePage.style.display= "block";
     mapDiv.style.display = "block";
+    weatherInfo.style.display = "block";
     weather.style.display = "block";
     side.style.display = "block";
 
@@ -178,8 +185,6 @@ function homePageCard(data){
 /**
  * FOR LEAFLET (MAP)
  */
-//Default to Duthie Hill, Issaquah
-let map = L.map('map').setView([47.579680, -121.984790], 13);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
         maxZoom: 19,
@@ -193,7 +198,7 @@ map.data
 //add a marker to the map
 let marker = L.marker([47.58216, -121.97715]).addTo(map);
 //add pop-up to marker
-marker.bindPopup("<b>Duthie Hill</b><br>Trail System").openPopup();
+marker.bindPopup("<b class='trailSystems'>Duthie Hill</b>").openPopup();
 
 //make a map shape (just an example)
 let polygon = L.polygon([
@@ -209,13 +214,12 @@ let polygon = L.polygon([
     [47.584131, -121.976287]
 ]).addTo(map);
 //add all trails at this trail system to this popup?
-polygon.bindPopup("<b>Duthie Hill</b><br>Trail System");
+polygon.bindPopup("<b class='trailSystems'>Duthie Hill</b><br>Trail System");
 
 //user event handling
 let popup = L.popup();
 let userClick;
-let userLat;
-let userLong;
+
 function onMapClick(e){
     userClick = e.latlng; //store user latitude/longitude
 
@@ -277,8 +281,6 @@ function fetchWeather(){
         /*exclude: ["minutely", "hourly", "daily", "alerts"],
         units: "imperial" */
     };
-
-
 
     fetch(weatherUri, params) //get response
         .then(function (response) {
@@ -487,11 +489,13 @@ function fetchTrail(data) {
     let homeCard = document.getElementById("homePage");
     homeCard.innerHTML = ""; //clear existing card
     let mapCard = document.getElementById("mapContainer");
+    let weatherInfo = document.getElementById("weatherInfoContainer");
     let weather = document.getElementById("weatherContainer");
     let side = document.getElementById("sideNavExtend");
     /*mapCard.innerHTML = ""; //clear existing card*/
     homeCard.style.display= "none";
     mapCard.style.display = "none";
+    weatherInfo.style.display = "none";
     weather.style.display = "none";
     side.style.display = "none";
 
@@ -1284,11 +1288,13 @@ function fetchTrailList(data, type) {
     let homeCard = document.getElementById("homePage");
     homeCard.innerHTML = ""; //clear existing card
     let mapCard = document.getElementById("mapContainer");
+    let weatherInfo = document.getElementById("weatherInfoContainer");
     let weather = document.getElementById("weatherContainer");
     let side = document.getElementById("sideNavExtend");
     mapCard.innerHTML = ""; //clear existing card
     homeCard.style.display = "none";
     mapCard.style.display = "none";
+    weatherInfo.style.display = "none";
     weather.style.display = "none";
     side.style.display = "none";
 

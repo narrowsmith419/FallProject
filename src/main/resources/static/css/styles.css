@@ -111,6 +111,39 @@ body{
     background-color: #343a40;
 }
 
+#weatherInfoContainer{
+    display: block;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    height: 100%;
+    padding-bottom: 0;
+
+
+}
+
+#weatherInfo{
+    background-color: #343a40;
+    border-radius: 10px;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    padding-bottom: 0;
+    min-height: 116px;
+
+}
+
+.weatherInfoText{
+    color: #676f7c;
+    font-style: italic;
+    margin: 10px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+
+}
+
 #weatherContainer{
     display: none;
     grid-column-start: 3;
@@ -199,6 +232,7 @@ lightDiv{
     padding: 10px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    text-align: center;
 }
 
 .homePageCardSection{
@@ -221,11 +255,10 @@ lightDiv{
     margin-left: auto;
 }
 
-/*.topBar{
-    position: sticky;
-    top: 0;
-    z-index: 1;
-}*/
+.trailSystems:hover{
+    color: #0101b7;
+    text-decoration: underline;
+}
 
 .trailStatsList li:nth-child(2n){
     background-color: #ddd;
