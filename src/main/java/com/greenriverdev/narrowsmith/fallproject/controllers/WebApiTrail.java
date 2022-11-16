@@ -23,14 +23,6 @@ public class WebApiTrail
 {
 
     private TrailService service;
-    /*@Value("${apiKey}")
-    private String apiKey;*/
-
-//    @GetMapping("apiKey")
-//    public String apiKeySource()
-//    {
-//        return this.apiKey;
-//    }*/
 
     /**
      * @param service ReviewService object responsible for model object CRUD logic

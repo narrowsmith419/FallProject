@@ -1,14 +1,18 @@
+/**
+ * Nathan Arrowsmith
+ * SDEV 372 Fall 2022
+ * Fall Project
+ */
+
 //TODO: HIDE THIS KEY
 let apiKey = "e3a64f2a4f555438567f7813bd27447b";
 
 let activeTrail;
-let activeReview;
 let activeReviews = [];
 let formType;
 let userLat = 47.58216;
 let userLong = -121.97715;
 let map = L.map('map').setView([47.579680, -121.984790], 13);
-
 
 //Select a Trail by Name drop-down button
 let trailByNameShow = document.querySelector("#dropBtnName");
@@ -29,7 +33,12 @@ addTrailButton.addEventListener("click", addTrailFormType);
 let homeButton = document.querySelector("#homeButton");
 homeButton.addEventListener("click", homePageButton);
 
-
+/**
+ * On page load: retrieve all stored trails at 'api/v1/trail' endpoint,
+ * Generate home page HTML and Leaflet Map,
+ * Generate Weather dashboard (under map) and
+ * fetch predefined weather from userLat and userLon variables above
+ */
 window.onload = function () {
     //create trail objects to make with a GET request
     let trailUri = "http://localhost:8080/api/v1/trail";
@@ -55,28 +64,27 @@ window.onload = function () {
 };
 
 /**
- * toggle trail names inside nav when button selected
+ * These (3) functions will set display properties to 'show' when respective button is pressed in
+ * the side navigation component. These are the 'By Name:', 'By TrailSystem:', and 'By Difficulty;'
  */
 function getTrailNameShow() {
     document.getElementById("trailByName").classList.toggle("show");
 }
-
 function getTrailSystemShow() {
     document.getElementById("trailBySystem").classList.toggle("show");
 }
-
 function getTrailDifficultyShow() {
     document.getElementById("trailByDifficulty").classList.toggle("show");
 }
 
 
 /**
- * close the dropdown menu when clicked outside it
- * also most mouse click event listeners located here such as:
- * side nav dropdown clicks
+ * This on click function closes the side-nav dropdown menu when clicked outside its container
+ * Several mouse click event listeners located here such as:
+ * side nav dropdown item clicks
  * removing form modal when clicking outside of form
  * delete review buttons
- * @param event
+ * @param event a mouse 'click' event
  */
 window.onclick = function (event) {
     if (!event.target.matches('.dropBtn')) {
@@ -91,17 +99,14 @@ window.onclick = function (event) {
     }
     //grab trail name clicked in drop down
     if (event.target.matches('.trailNames') || event.target.matches('.trailSystemsList')) {
-        console.log(event.target.innerText);
         getTrailByName(event.target.innerText, "names");
     }
-    //grab trail name clicked in drop down
+    //grab trail system clicked in drop down
     if (event.target.matches('.trailSystems')) {
-        console.log(event.target.innerText);
         getTrailByName(event.target.innerText, "systems");
     }
-    //grab trail name clicked in drop down
+    //grab trail rating clicked in drop down
     if (event.target.matches('.trailDifficulties')) {
-        console.log(event.target.innerText);
         getTrailByName(event.target.innerText, "ratings");
     }
     //if user clicks outside the modal
@@ -111,18 +116,53 @@ window.onclick = function (event) {
     }
     //find which review user wants to delete
     if (event.target.matches('.deleteReviewButton')) {
-        console.log(event.target.id);
         removeReview(event.target.id);
     }
 }
 
 /**
- * This function produces the home page/ site description text when the page is refreshed or first visited
- * @param data If user updated page (editTrailForm) change bodyText to show page was updated
+ * This function set's homePage div, mapContainer div, weatherInfoContainer div,
+ * weatherContainer div, and sideNavExtend div from display: none to display: block
+ */
+function showHomePageElements(){
+    let homePage = document.getElementById("homePage");
+    let mapDiv = document.getElementById("mapContainer");
+    let weatherInfo = document.getElementById("weatherInfoContainer");
+    let weather = document.getElementById("weatherContainer");
+    let side = document.getElementById("sideNavExtend");
+    let blockElements = [homePage, mapDiv, weatherInfo, weather, side];
+    for (let i = 0; i < blockElements.length; i++)
+    {
+        blockElements[i].style.display = "block";
+    }
+}
+
+/**
+ * This function set's homePage div, mapContainer div, weatherInfoContainer div,
+ * weatherContainer div, and sideNavExtend div from display: block to display: none
+ * This method also clears the inner HTML of the homeContainer card as the 'homePageCard' function
+ * populates it with 'page updated!' when a trail has been edited..
+ */
+function hideHomePageElements(){
+    let homePage = document.getElementById("homePage");
+    homePage.innerHTML = "";
+    let mapDiv = document.getElementById("mapContainer");
+    let weatherInfo = document.getElementById("weatherInfoContainer");
+    let weather = document.getElementById("weatherContainer");
+    let side = document.getElementById("sideNavExtend");
+    let blockElements = [homePage, mapDiv, weatherInfo, weather, side];
+    for (let i = 0; i < blockElements.length; i++)
+    {
+        blockElements[i].style.display = "none";
+    }
+}
+
+/**
+ * This function produces the home page/site description text when the page is refreshed or first visited
+ * @param data If user updated page (editTrailForm) change homePageCard -> homePageSection text to
+ * show page was updated
  */
 function homePageCard(data){
-
-    console.log(data);
 
     //clear existing HTML content
     let trailCard = document.getElementById("trailCard");
@@ -134,16 +174,7 @@ function homePageCard(data){
     trailDiv.style.display = "none";
 
     //grab homePage div and map div
-    let homePage = document.getElementById("homePage");
-    let mapDiv = document.getElementById("mapContainer");
-    let weatherInfo = document.getElementById("weatherInfoContainer");
-    let weather = document.getElementById("weatherContainer");
-    let side = document.getElementById("sideNavExtend");
-    homePage.style.display= "block";
-    mapDiv.style.display = "block";
-    weatherInfo.style.display = "block";
-    weather.style.display = "block";
-    side.style.display = "block";
+    showHomePageElements();
 
     //create Stats Card
     let trailCardDiv = document.createElement("div");
@@ -171,7 +202,6 @@ function homePageCard(data){
     }
 
     //For Leaflet Map
-
     headerDiv.appendChild(h3);
     trailCardDiv.appendChild(headerDiv);
     bodySection.appendChild(bodyText);
@@ -486,18 +516,7 @@ function fetchTrail(data) {
     allReviews.innerHTML = ""; //clear existing reviews
 
     //clear existing HomePage content
-    let homeCard = document.getElementById("homePage");
-    homeCard.innerHTML = ""; //clear existing card
-    let mapCard = document.getElementById("mapContainer");
-    let weatherInfo = document.getElementById("weatherInfoContainer");
-    let weather = document.getElementById("weatherContainer");
-    let side = document.getElementById("sideNavExtend");
-    /*mapCard.innerHTML = ""; //clear existing card*/
-    homeCard.style.display= "none";
-    mapCard.style.display = "none";
-    weatherInfo.style.display = "none";
-    weather.style.display = "none";
-    side.style.display = "none";
+    hideHomePageElements();
 
     //show trails div
     let trailDiv = document.getElementById("trails");
@@ -510,6 +529,7 @@ function fetchTrail(data) {
     let trailCard = document.getElementById("trailCard");
     trailCard.innerHTML = ""; //clear existing card
     trailCard.classList.remove("SystemListCard");
+    trailCard.classList.add("removeBorderRad");
     let trailStats = document.getElementById("trailStats");
     trailStats.innerHTML = ""; //clear existing card
 
@@ -668,7 +688,9 @@ function getReviews(event) {
 
     fetch(trailUri, params) //get response
         .then(function (response) {
+            if(response.ok){
             return response.json(); //ask for response to be converted to json
+            }
         })
         .then(function (data) { //receive the text when promise is complete
             printReviews(data);
@@ -1223,9 +1245,7 @@ function editTrailFormData(event){
             },
             body: JSON.stringify(jsonObj)
         }
-
     }
-
 
     //send data, then print the response
     fetch(url, params).then(response => console.log(response));
@@ -1242,9 +1262,6 @@ function editTrailFormData(event){
     else{
         window.location.reload(); //refresh page
     }
-
-
-
 
 }
 
@@ -1285,21 +1302,11 @@ function fetchTrailList(data, type) {
     trailStats.innerHTML = "";
 
     //clear existing HomePage content
-    let homeCard = document.getElementById("homePage");
-    homeCard.innerHTML = ""; //clear existing card
-    let mapCard = document.getElementById("mapContainer");
-    let weatherInfo = document.getElementById("weatherInfoContainer");
-    let weather = document.getElementById("weatherContainer");
-    let side = document.getElementById("sideNavExtend");
-    mapCard.innerHTML = ""; //clear existing card
-    homeCard.style.display = "none";
-    mapCard.style.display = "none";
-    weatherInfo.style.display = "none";
-    weather.style.display = "none";
-    side.style.display = "none";
+    hideHomePageElements();
 
     trailCard.classList.add("card");
     trailCard.classList.add("SystemListCard");
+    trailCard.classList.remove("removeBorderRad");
     trailStats.classList.remove("card");
 
     let div = document.createElement("div");
@@ -1336,7 +1343,6 @@ function fetchTrailList(data, type) {
 
     trailCard.appendChild(ul);
 
-
 }
 
 function printReviews(data) {
@@ -1345,6 +1351,8 @@ function printReviews(data) {
     let allReviews = document.getElementById("reviewGrid");
     allReviews.innerHTML = ""; //clear existing reviews
     activeReviews = []; //clear current list of reviews
+
+    if(data == null) { return } // if there are no reviews, stop function
 
     for (let i = 0; i < data.length; i++) {
         let review = data[i];
@@ -1391,7 +1399,6 @@ function printReviews(data) {
         section.appendChild(ul);
         div.appendChild(deleteButton);
         section.appendChild(div);
-
 
         //add the section to the list
         allReviews.appendChild(section);
