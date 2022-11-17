@@ -274,22 +274,13 @@ function getUserClick(){
     console.log(userLat);
     console.log(userLong);
     fetchWeather();
-
 }
 
 
 /**
- * Call openWeatherMap API using user clicked Map Longitude and Latitude
+ * Call openWeatherMap API using user clicked Map Longitude and Latitude (userLat and userLon local variables)
  */
 function fetchWeather(){
-
-    /*api.openweathermap.org/data/2.5/forecast?lat=47.579680&lon=-121.984790
-        &appid=e3a64f2a4f555438567f7813bd27447b
-        &exclude=minutely
-        &exclude=hourly
-        &exclude=daily
-        &exclude=alerts
-        &units=imperial*/
 
 //create trail objects to make with a GET request
     let weatherUri = "https://api.openweathermap.org/data/2.5/forecast?"
@@ -302,21 +293,28 @@ function fetchWeather(){
         + "&exclude=alerts"
         + "&units=imperial";
 
+
     let params = {
-        method: "get"
-        /*,
+        method: "get",
+        /*mode: "cors",
         lat: userLat,
         lon: userLong,
-        appid: "" + apiKey,*/
-        /*exclude: ["minutely", "hourly", "daily", "alerts"],
-        units: "imperial" */
+        /!*appid: apiKey,
+        exclude: ["minutely", "hourly", "daily", "alerts"],
+        units: "imperial"*!/
+        headers: {
+            "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
+            "x-rapidapi-key" : apiKey
+        }*/
     };
+
 
     fetch(weatherUri, params) //get response
         .then(function (response) {
             return response.json(); //ask for response to be converted to json
         })
         .then(function (data) { //receive the text when promise is complete
+            console.log(data);
             populateWeatherDiv(data);
         });
 }
