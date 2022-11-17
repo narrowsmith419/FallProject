@@ -468,7 +468,7 @@ function homePageButton() {
 }
 
 /**
- * dynamically generates trail names from trail API to populate drop down list
+ * This method dynamically generates trail names from trail API to populate drop down list (side nav)
  * @param data Trail objects from /api/v1/trail
  */
 function trailNameDropDown(data) {
@@ -505,7 +505,39 @@ function trailNameDropDown(data) {
     }
 }
 
+/**
+ * This function retrieves a trail object by name or retrieves all trail objects by trail system name or
+ * trail objects by trail difficulty (rating)
+ * @param value the name of either a trail or trail system or trail rating
+ * @param type either names, systems, or ratings
+ */
+function getTrailByName(value, type) {
 
+    let trailUri = "http://localhost:8080/api/v1/trail/" + type + "/" + value;
+    let params = {
+        method: "get"
+    };
+
+    fetch(trailUri, params)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log("Get trail by name output:")
+            console.log(data);
+            if (type === "names") {
+                fetchTrail(data);
+            } else {
+                fetchTrailList(data, type);
+            }
+        });
+}
+
+/**
+ * This function generates the HTML for the TrailCards with the trail image, then the TrailStats with the
+ * trail information as well as the action buttons beneath it
+ * @param data is the trail object(s) previously fetched from getTrailByName
+ */
 function fetchTrail(data) {
     let trail = data[0];
 
@@ -577,20 +609,88 @@ function fetchTrail(data) {
     //append to HTML
     trailCard.appendChild(cardImg);
     trailCard.appendChild(cardDiv);
-    trailStats.appendChild(headerDiv);
-    trailStats.appendChild(statsUl);
-    trailStats.appendChild(EditTrailButton);
-    trailStats.appendChild(reviewButton);
-    trailStats.appendChild(addReviewButton);
-    trailStats.appendChild(removeTrailButton);
+    let stats = [headerDiv, statsUl, EditTrailButton, reviewButton, addReviewButton, removeTrailButton];
+    for (let i = 0; i < stats.length; i++)
+    {
+        trailStats.appendChild(stats[i]);
+    }
 
     let img = document.getElementById("cardImage");
 
     singleTrail(trail);
     img.src = trail.imageLink;
+    //add image description under image
     img.setAttribute('alt', trail.name + " trail at the " + trail.trailSystem + " bike park");
 }
 
+/**
+ * This function processes either a list of trails at a TrailSystem, or a list of trails with a certain Rating
+ * @param data the list of Trail objects fetched previously from getTrailByName
+ * @param type either type 'systems' or 'ratings'
+ */
+function fetchTrailList(data, type) {
+
+    //show trails div
+    let trailDiv = document.getElementById("trails");
+    trailDiv.style.display = "block";
+
+    //clear existing trail card (if there is one) and reviews
+    let trailCard = document.getElementById("trailCard");
+    let trailStats = document.getElementById("trailStats");
+    let allReviews = document.getElementById("reviewGrid");
+    allReviews.innerHTML = ""; //clear existing reviews
+    trailCard.innerHTML = "";
+    trailStats.innerHTML = "";
+
+    //clear existing HomePage content
+    hideHomePageElements();
+
+    trailCard.classList.add("card");
+    trailCard.classList.add("SystemListCard");
+    trailCard.classList.remove("removeBorderRad");
+    trailStats.classList.remove("card");
+
+    let div = document.createElement("div");
+    div.classList.add("trailListBySystem", "card-header");
+
+    try {
+        if (type === "systems") {
+            div.innerText = 'Trails at "' + data[0].trailSystem + '" trail system';
+        }
+    } catch (e) {
+        trailCard.innerHTML = "There are no trails at this system :(";
+    }
+
+    if (type === "ratings") {
+        div.innerText = 'All Trails with a "' + data[0].difficulty + '" rating';
+    }
+    trailCard.appendChild(div);
+    let ul = document.createElement("ul");
+    ul.classList.add("list-group", "list-group-flush", "trailSystemList");
+
+    for (let i = 0; i < data.length; i++) {
+        let trailSystem = data[i];
+
+        //create all elements
+        let li = document.createElement("li");
+        li.classList.add("list-group-item", "trailSystemsList");
+
+        //add contents
+        li.innerText = trailSystem.name;
+
+        //append to UL
+        ul.appendChild(li);
+    }
+
+    trailCard.appendChild(ul);
+
+}
+
+/**
+ * This function populates the trail stats with the single trail values from Trail object and
+ * this function also handles all action buttons found under the stats list
+ * @param data trail object
+ */
 function singleTrail(data) {
 
     //access the list in our HTML
@@ -652,6 +752,9 @@ function singleTrail(data) {
     removeTrailButton.addEventListener("click", removeTrail);
 }
 
+/**
+ * This function styles the allFormsModal form to edit a Trail
+ */
 function editTrailFormType(){
     formType = "editTrail";
     let editForm = document.getElementById("editTrailForm"); //grab html
@@ -661,6 +764,9 @@ function editTrailFormType(){
     editTrailModal();
 }
 
+/**
+ * This function styles the allFormsModal form to add a Trail
+ */
 function addTrailFormType(){
     //show trails div
     let trailDiv = document.getElementById("trails");
@@ -674,10 +780,13 @@ function addTrailFormType(){
     editTrailModal();
 }
 
+/**
+ * This function performs a fetch of all Review objects at the currently shown trail
+ * @param event mouse click (when user clicks 'Get Reviews' button)
+ */
 function getReviews(event) {
 
     event.preventDefault();
-
 
     let trailUri = "http://localhost:8080/api/v1/review/" + activeTrail.name;
     let params = {
@@ -695,6 +804,11 @@ function getReviews(event) {
         });
 }
 
+/**
+ * This function performs a DELETE request to remove the 'active' Trail
+ * Page is reloaded when delete is completed
+ * @param event mouse click (when user selects DELETE TRAIL button)
+ */
 function removeTrail(event) {
     event.preventDefault();
 
@@ -711,11 +825,15 @@ function removeTrail(event) {
 
     fetch(trailUri, params)
         .then(function (response) {
-            console.log("SUCCESSFULLY DELETED");
             window.location.reload(); //refresh page
         });
 }
 
+/**
+ * This function performs a DELETE request to remove the single review from current Trail object
+ * Page is reloaded when delete is completed
+ * @param data mouse click (when user selects DELETE REVIEW button on single review)
+ */
 function removeReview(data) {
 
     let id = {reviewID: data};
@@ -735,8 +853,11 @@ function removeReview(data) {
         });
 }
 
-//show modal
-//TODO: revert this method back to single form, not separate editForm and addForm  fields (still use 'formType')
+/**
+ * Despite it's name, this function populates all forms with their respective form content
+ * Add Trail and Edit Trail have the same fields, Edit Trail will populate the fields with the current data
+ * Add Review will populate the form with data specific to Review objects
+ */
 function editTrailModal() {
 
     //turn off AddReview button
@@ -756,41 +877,42 @@ function editTrailModal() {
     addForm.innerHTML = ""; //clear existing fields
 
     //create all form elements
-    //let form = document.createElement("form");
     //labels & inputs //TODO: create these elements in a loop
+
     let labelName = document.createElement("label");
+    let labelSystem = document.createElement("label");
+    let labelState = document.createElement("label");
+    let labelElevation = document.createElement("label");
+    let labelLength = document.createElement("label");
+    let labelDirection = document.createElement("label");
+    let labelDirection1 = document.createElement("label");
+    let labelDirection2 = document.createElement("label");
+    let labelDifficulty = document.createElement("label");
+    let labelDifficulty1 = document.createElement("label");
+    let labelDifficulty2 = document.createElement("label");
+    let labelDifficulty3 = document.createElement("label");
+    let labelDifficulty4 = document.createElement("label");
+
     let inputDiv1 = document.createElement("div");
     inputDiv1.classList.add("inputDiv");
     let inputName = document.createElement("input");
-    let labelSystem = document.createElement("label")
     let inputDiv2 = document.createElement("div");
     inputDiv2.classList.add("inputDiv");
     let inputSystem = document.createElement("input");
-    let labelState = document.createElement("label");
     let inputDiv3 = document.createElement("div");
     inputDiv3.classList.add("inputDiv");
     let inputState = document.createElement("input");
-    let labelElevation = document.createElement("label");
     let inputDiv4 = document.createElement("div");
     inputDiv4.classList.add("inputDiv");
     let inputElevation = document.createElement("input");
-    let labelLength = document.createElement("label");
     let inputDiv5 = document.createElement("div");
     inputDiv5.classList.add("inputDiv");
     let inputLength = document.createElement("input");
-    let labelDirection = document.createElement("label");
-    let labelDirection1 = document.createElement("label");
     let inputDirection1 = document.createElement("input");
-    let labelDirection2 = document.createElement("label");
     let inputDirection2 = document.createElement("input");
-    let labelDifficulty = document.createElement("label");
-    let labelDifficulty1 = document.createElement("label");
     let inputDifficulty1 = document.createElement("input");
-    let labelDifficulty2 = document.createElement("label");
     let inputDifficulty2 = document.createElement("input");
-    let labelDifficulty3 = document.createElement("label");
     let inputDifficulty3 = document.createElement("input");
-    let labelDifficulty4 = document.createElement("label");
     let inputDifficulty4 = document.createElement("input");
     //radio div
     let difficultyDiv = document.createElement("div");
@@ -880,23 +1002,19 @@ function editTrailModal() {
     if (formType === "addTrail") {
 
         header.innerHTML = " Add Trail ";
-        addForm.appendChild(labelName);
+
         inputDiv1.appendChild(inputName);
-        addForm.appendChild(inputDiv1);
-        addForm.appendChild(labelSystem);
         inputDiv2.appendChild(inputSystem);
-        addForm.appendChild(inputDiv2);
-        addForm.appendChild(labelState);
         inputDiv3.appendChild(inputState);
-        addForm.appendChild(inputDiv3);
-        addForm.appendChild(labelElevation);
         inputDiv4.appendChild(inputElevation);
-        addForm.appendChild(inputDiv4);
-        addForm.appendChild(labelLength);
         inputDiv5.appendChild(inputLength);
-        addForm.appendChild(inputDiv5);
-        addForm.appendChild(directionDiv);
-        addForm.appendChild(difficultyDiv);
+
+        let formItems = [labelName, inputDiv1, labelSystem, inputDiv2, labelState, inputDiv3, labelElevation, inputDiv4,
+        labelLength, inputDiv5, directionDiv, difficultyDiv];
+        for (let i = 0; i < formItems.length; i++)
+        {
+            addForm.appendChild(formItems[i]);
+        }
 
     }
 
@@ -934,6 +1052,9 @@ function editTrailModal() {
     modal.style.display = "block";
 }
 
+/**
+ * This function populates the allFormsModal form with Review object fields
+ */
 function addReviewModal(){
 
     //show button || hide editTrail button
@@ -1084,7 +1205,10 @@ function addReviewModal(){
 
 }
 
-//close modal
+/**
+ * This function closes the allFormsModal modal, it also hides the separate submit buttons for
+ * the different forms that populate it
+ */
 function closeModal() {
 
     //hide form buttons
@@ -1098,12 +1222,19 @@ function closeModal() {
 }
 
 //process editTrail || addTrail form data on submit
+/**
+ * event listeners for Edit Trail and Add Review buttons
+ */
 let trailFormButton = document.querySelector("#trailFormButton");
 trailFormButton.addEventListener('click', editTrailFormData);
 let reviewFormButton = document.querySelector("#reviewFormButton");
 reviewFormButton.addEventListener('click', addReviewFormData);
 
 //TODO: ADD FORM VALIDATION
+/**
+ * This function sets a POST request to API to add a Review Object on currently active trail
+ * @param event mouse click on Submit button in AddReview form Modal
+ */
 function addReviewFormData(event){
 
     event.preventDefault();
@@ -1158,11 +1289,14 @@ function addReviewFormData(event){
     reviewFormButton.style.display = "none";
     closeModal();
 
-    //window.location.reload(); //refresh page
-
 }
 
 //TODO: ADD FORM VALIDATION
+/**
+ * This function either sends a POST or PUT request to local API whether the addTrail or editTrail form submit
+ * buttons were clicked
+ * @param event either addTrail submit or editTrail submit buttons selected in respective forms (modal)
+ */
 function editTrailFormData(event){
 
     event.preventDefault();
@@ -1263,86 +1397,10 @@ function editTrailFormData(event){
 
 }
 
-function getTrailByName(value, type) {
-
-    let trailUri = "http://localhost:8080/api/v1/trail/" + type + "/" + value;
-    let params = {
-        method: "get"
-    };
-
-    fetch(trailUri, params)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log("Get trail by name output:")
-            console.log(data);
-            if (type === "names") {
-                fetchTrail(data);
-            } else {
-                fetchTrailList(data, type);
-            }
-        });
-}
-
-function fetchTrailList(data, type) {
-
-    //show trails div
-    let trailDiv = document.getElementById("trails");
-    trailDiv.style.display = "block";
-
-    //clear existing trail card (if there is one) and reviews
-    let trailCard = document.getElementById("trailCard");
-    let trailStats = document.getElementById("trailStats");
-    let allReviews = document.getElementById("reviewGrid");
-    allReviews.innerHTML = ""; //clear existing reviews
-    trailCard.innerHTML = "";
-    trailStats.innerHTML = "";
-
-    //clear existing HomePage content
-    hideHomePageElements();
-
-    trailCard.classList.add("card");
-    trailCard.classList.add("SystemListCard");
-    trailCard.classList.remove("removeBorderRad");
-    trailStats.classList.remove("card");
-
-    let div = document.createElement("div");
-    div.classList.add("trailListBySystem", "card-header");
-
-    try {
-        if (type === "systems") {
-            div.innerText = 'Trails at "' + data[0].trailSystem + '" trail system';
-        }
-    } catch (e) {
-        trailCard.innerHTML = "There are no trails at this system :(";
-    }
-
-    if (type === "ratings") {
-        div.innerText = 'All Trails with a "' + data[0].difficulty + '" rating';
-    }
-    trailCard.appendChild(div);
-    let ul = document.createElement("ul");
-    ul.classList.add("list-group", "list-group-flush", "trailSystemList");
-
-    for (let i = 0; i < data.length; i++) {
-        let trailSystem = data[i];
-
-        //create all elements
-        let li = document.createElement("li");
-        li.classList.add("list-group-item", "trailSystemsList");
-
-        //add contents
-        li.innerText = trailSystem.name;
-
-        //append to UL
-        ul.appendChild(li);
-    }
-
-    trailCard.appendChild(ul);
-
-}
-
+/**
+ * This function populates area beneath trail cards with review objects after user selects 'Get Reviews' button
+ * @param data Review object(s) retrieved from api/v1/review
+ */
 function printReviews(data) {
 
 //access the list in our HTML
