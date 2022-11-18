@@ -54,6 +54,7 @@ window.onload = function () {
             return response.json(); //ask for response to be converted to json
         })
         .then(function (data) { //receive the text when promise is complete
+            console.log(data[0].trailSystem.name);
             trailNameDropDown(data);
         });
 
@@ -472,9 +473,9 @@ function homePageButton() {
  * @param data Trail objects from /api/v1/trail
  */
 function trailNameDropDown(data) {
-    //set to prevent duplicate trail systems
-    let systemSet = new Set();
-    let difficultySet = new Set();
+
+    let systemSet = new Set(); //set to prevent duplicate trail systems
+    let difficultySet = new Set(); //set to prevent duplicate trail systems
 
     //access the dropdown in our HTML
     let trailDropDown = document.getElementById("trailByName");
@@ -487,10 +488,10 @@ function trailNameDropDown(data) {
         p.innerText = trail.name;
         p.setAttribute("value", trail.name);
         p.classList.add("trailNames");
-        if (!systemSet.has(trail.trailSystem)) { //if trailsystem doesn't already exist, add it to list
-            systemSet.add(trail.trailSystem);
+        if (!systemSet.has(trail.trailSystem.name)) { //if trail system doesn't already exist, add it to list
+            systemSet.add(trail.trailSystem.name);
             let p2 = document.createElement("p");
-            p2.innerText = trail.trailSystem;
+            p2.innerText = trail.trailSystem.name;
             p2.classList.add("trailSystems");
             trailDropDownSystem.appendChild(p2);
         }
@@ -620,7 +621,7 @@ function fetchTrail(data) {
     singleTrail(trail);
     img.src = trail.imageLink;
     //add image description under image
-    img.setAttribute('alt', trail.name + " trail at the " + trail.trailSystem + " bike park");
+    img.setAttribute('alt', trail.name + " trail at the " + trail.trailSystem.name + " bike park");
 }
 
 /**
@@ -655,7 +656,7 @@ function fetchTrailList(data, type) {
 
     try {
         if (type === "systems") {
-            div.innerText = 'Trails at "' + data[0].trailSystem + '" trail system';
+            div.innerText = 'Trails at "' + data[0].trailSystem.name + '" trail system';
         }
     } catch (e) {
         trailCard.innerHTML = "There are no trails at this system :(";
@@ -716,9 +717,9 @@ function singleTrail(data) {
     const listItems = [statsLi, statsLi1, statsLi2, statsLi3, statsLi4, statsLi5];
 
     //add image description
-    p.innerText = '"' + trail.name + ' trail at the ' + trail.trailSystem + ' bike park"';
+    p.innerText = '"' + trail.name + ' trail at the ' + trail.trailSystem.name + ' bike park"';
 
-    statsLi.innerText = "Trail System: " + trail.trailSystem;
+    statsLi.innerText = "Trail System: " + trail.trailSystem.name;
     statsLi1.innerText = "State: " + trail.state;
     statsLi2.innerText = "Difficulty: " + trail.difficulty;
     statsLi3.innerText = "Length: " + trail.length + "ft";
@@ -881,6 +882,8 @@ function editTrailModal() {
 
     let labelName = document.createElement("label");
     let labelSystem = document.createElement("label");
+    let labelLat = document.createElement("label");
+    let labelLon = document.createElement("label");
     let labelState = document.createElement("label");
     let labelElevation = document.createElement("label");
     let labelLength = document.createElement("label");
@@ -893,12 +896,19 @@ function editTrailModal() {
     let labelDifficulty3 = document.createElement("label");
     let labelDifficulty4 = document.createElement("label");
 
+    //TODO classlist.adds to a forLoop
     let inputDiv1 = document.createElement("div");
     inputDiv1.classList.add("inputDiv");
     let inputName = document.createElement("input");
     let inputDiv2 = document.createElement("div");
     inputDiv2.classList.add("inputDiv");
     let inputSystem = document.createElement("input");
+    let inputDiv6 = document.createElement("div");
+    let inputLat = document.createElement("input");
+    inputDiv6.classList.add("inputDiv");
+    let inputDiv7 = document.createElement("div");
+    let inputLon = document.createElement("input");
+    inputDiv7.classList.add("inputDiv");
     let inputDiv3 = document.createElement("div");
     inputDiv3.classList.add("inputDiv");
     let inputState = document.createElement("input");
@@ -929,6 +939,18 @@ function editTrailModal() {
     inputSystem.setAttribute("type", "text");
     inputSystem.setAttribute("name", "system");
     inputSystem.setAttribute("id", "system");
+
+    labelLat.innerText = "Trail System Latitude: ";
+    labelLat.setAttribute("for", "lat");
+    inputLat.setAttribute("type", "text");
+    inputLat.setAttribute("name", "lat");
+    inputLat.setAttribute("id", "lat");
+
+    labelLon.innerText = "Trail System Longitude: ";
+    labelLon.setAttribute("for", "lon");
+    inputLon.setAttribute("type", "text");
+    inputLon.setAttribute("name", "lon");
+    inputLon.setAttribute("id", "lon");
 
     labelState.innerText = "State: ";
     labelState.setAttribute("for", "state");
@@ -1005,12 +1027,14 @@ function editTrailModal() {
 
         inputDiv1.appendChild(inputName);
         inputDiv2.appendChild(inputSystem);
+        inputDiv6.appendChild(inputLat);
+        inputDiv7.appendChild(inputLon);
         inputDiv3.appendChild(inputState);
         inputDiv4.appendChild(inputElevation);
         inputDiv5.appendChild(inputLength);
 
-        let formItems = [labelName, inputDiv1, labelSystem, inputDiv2, labelState, inputDiv3, labelElevation, inputDiv4,
-        labelLength, inputDiv5, directionDiv, difficultyDiv];
+        let formItems = [labelName, inputDiv1, labelSystem, inputDiv2, labelLat, inputDiv6, labelLon, inputDiv7,
+            labelState, inputDiv3, labelElevation, inputDiv4, labelLength, inputDiv5, directionDiv, difficultyDiv];
         for (let i = 0; i < formItems.length; i++)
         {
             addForm.appendChild(formItems[i]);
@@ -1022,7 +1046,9 @@ function editTrailModal() {
     {
         header.innerHTML = " Edit Trail ";
         inputName.setAttribute("value", activeTrail.name);
-        inputSystem.setAttribute("value", activeTrail.trailSystem);
+        inputSystem.setAttribute("value", activeTrail.trailSystem.name);
+        inputLat.setAttribute("value", activeTrail.trailSystem.lat);
+        inputLon.setAttribute("value", activeTrail.trailSystem.lon);
         inputState.setAttribute("value", activeTrail.state);
         inputElevation.setAttribute("value", activeTrail.elevation);
         inputLength.setAttribute("value", activeTrail.length);
@@ -1033,6 +1059,12 @@ function editTrailModal() {
         editForm.appendChild(labelSystem);
         inputDiv2.appendChild(inputSystem);
         editForm.appendChild(inputDiv2);
+        editForm.appendChild(labelLat);
+        inputDiv6.appendChild(inputLat);
+        editForm.appendChild(inputDiv6);
+        editForm.appendChild(labelLon);
+        inputDiv7.appendChild(inputLon);
+        editForm.appendChild(inputDiv7);
         editForm.appendChild(labelState);
         inputDiv3.appendChild(inputState);
         editForm.appendChild(inputDiv3);
@@ -1318,11 +1350,19 @@ function editTrailFormData(event){
     //store fields
     let name = form.elements['name'].value; //trail name
     let system = form.elements['system'].value; //trail system
+    let lat = form.elements['lat'].value; //trail system lat
+    let lon = form.elements['lon'].value; //trail system lon
     let trailState = form.elements['state'].value; //trail system
     let trailElevation = form.elements['elevation'].value; //trail elevation
     let trailLength = document.getElementById("length").value;
     let trailDirection = form.elements['direction'].value; //trail direction
     let trailDifficulty = form.elements['difficulty'].value; //trail rating
+
+    let trailSystemJson = {
+        lat: lat,
+        lon: lon,
+        name: system
+    }
 
     //add trail process
     if(formType === "addTrail")
@@ -1332,7 +1372,7 @@ function editTrailFormData(event){
             length: trailLength,
             elevation: trailElevation,
             state: trailState,
-            trailSystem: system,
+            trailSystem: trailSystemJson,
             name: name,
             imageLink: "../images/roadGap.jpeg",
             multiDirectional: trailDirection,
@@ -1349,18 +1389,25 @@ function editTrailFormData(event){
             },
             body: JSON.stringify(jsonObj)
         }
+        console.log(JSON.stringify(jsonObj));
     }
 
     //edit trail process
     if(formType === "editTrail")
     {
+        let trailSystemJson = {
+            lat: lat,
+            lon: lon,
+            name: system
+        }
+
         //create a JS object for serialization
         let jsonObj = {
             trailID: activeTrail.trailID,
             length: trailLength,
             elevation: trailElevation,
             state: trailState,
-            trailSystem: system,
+            trailSystem: trailSystemJson,
             name: name,
             imageLink: activeTrail.imageLink,
             multiDirectional: trailDirection,
