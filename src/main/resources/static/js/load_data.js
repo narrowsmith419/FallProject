@@ -231,6 +231,21 @@ let marker = L.marker([47.58216, -121.97715]).addTo(map);
 //add pop-up to marker
 marker.bindPopup("<b class='trailSystems'>Duthie Hill</b>").openPopup();
 
+function addTrailSystemToMap(data) {
+
+    let trail = data;
+    console.log("from addTrailSystemToMap");
+    console.log(trail);
+    //create map marker for trailSystem, add to Leaflet Map
+    let testMarker = L.marker([trail.trailSystem.lat, trail.trailSystem.lon]).addTo(map);
+    //add pop-up to marker
+    let b = document.createElement("b");
+    b.classList.add("trailSystems");
+    b.innerText = trail.trailSystem.name;
+    testMarker.bindPopup(b).openPopup();
+
+}
+
 //make a map shape (just an example)
 let polygon = L.polygon([
     [47.583929, -121.977879],
@@ -475,6 +490,7 @@ function homePageButton() {
 function trailNameDropDown(data) {
 
     let systemSet = new Set(); //set to prevent duplicate trail systems
+    let trailObjectList = []; //set to pull Lat/Lon from trail objects with separate systems
     let difficultySet = new Set(); //set to prevent duplicate trail systems
 
     //access the dropdown in our HTML
@@ -490,6 +506,7 @@ function trailNameDropDown(data) {
         p.classList.add("trailNames");
         if (!systemSet.has(trail.trailSystem.name)) { //if trail system doesn't already exist, add it to list
             systemSet.add(trail.trailSystem.name);
+            trailObjectList.push(trail); //add trail object with unique system to grab lat/lon for map
             let p2 = document.createElement("p");
             p2.innerText = trail.trailSystem.name;
             p2.classList.add("trailSystems");
@@ -503,6 +520,9 @@ function trailNameDropDown(data) {
             trailDropDownDifficulty.appendChild(p3);
         }
         trailDropDown.appendChild(p);
+
+        //add trailSystems to leaflet Map
+        trailObjectList.forEach(trailSystem => addTrailSystemToMap(trailSystem));
     }
 }
 
