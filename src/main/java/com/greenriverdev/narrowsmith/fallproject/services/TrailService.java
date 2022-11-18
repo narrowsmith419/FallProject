@@ -3,6 +3,7 @@ package com.greenriverdev.narrowsmith.fallproject.services;
 import com.greenriverdev.narrowsmith.fallproject.models.Trail;
 import com.greenriverdev.narrowsmith.fallproject.models.TrailDifficulty;
 import com.greenriverdev.narrowsmith.fallproject.models.TrailReview;
+import com.greenriverdev.narrowsmith.fallproject.models.TrailSystem;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Service
 public class TrailService
 {
+
     private List<Trail> trails = new ArrayList<>(List.of(
             Trail.builder()
                     .trailID(UUID.randomUUID())
@@ -27,7 +29,7 @@ public class TrailService
                     .elevation(481)
                     .length(1007)
                     .state("WA")
-                    .trailSystem("Duthie Hill")
+                    .trailSystem(new TrailSystem(47.58216, -121.97715, "Duthie Hill"))
                     .imageLink("../images/voodooTrail.jpeg")
                     .multiDirectional(false)
                     .build(),
@@ -38,7 +40,7 @@ public class TrailService
                     .elevation(483)
                     .length(813)
                     .state("WA")
-                    .trailSystem("Duthie Hill")
+                    .trailSystem(new TrailSystem(47.58216, -121.97715, "Duthie Hill"))
                     .imageLink("../images/paramountTrail.jpeg")
                     .multiDirectional(false)
                     .build(),
@@ -49,7 +51,7 @@ public class TrailService
                     .elevation(1649)
                     .length(6336)
                     .state("OR")
-                    .trailSystem("Sandy Ridge")
+                    .trailSystem(new TrailSystem(45.379585, -122.030078, "Sandy Ridge"))
                     .imageLink("../images/johnnyRoyaleTrail.jpeg")
                     .multiDirectional(false)
                     .build(),
@@ -60,7 +62,7 @@ public class TrailService
                     .elevation(387)
                     .length(804)
                     .state("WA")
-                    .trailSystem("Swan Creek")
+                    .trailSystem(new TrailSystem(47.2231, -122.3945, "Swan Creek"))
                     .imageLink("../images/feedbackTrail.jpeg")
                     .multiDirectional(false)
                     .build(),
@@ -71,7 +73,7 @@ public class TrailService
                     .elevation(488)
                     .length(1286)
                     .state("WA")
-                    .trailSystem("Swan Creek")
+                    .trailSystem(new TrailSystem(47.2231, -122.3945, "Swan Creek"))
                     .imageLink("../images/groundControlTrail.jpeg")
                     .multiDirectional(false)
                     .build(),
@@ -82,7 +84,7 @@ public class TrailService
                     .elevation(465)
                     .length(758)
                     .state("WA")
-                    .trailSystem("Duthie Hill")
+                    .trailSystem(new TrailSystem(47.58216, -121.97715, "Duthie Hill"))
                     .imageLink("../images/semperTrail.jpeg")
                     .multiDirectional(false)
                     .build()
@@ -100,7 +102,7 @@ public class TrailService
      * @return newly created Trail object
      */
     //CREATE
-    public Trail addTrail(int length, int elevation, String state, String trailSystem,
+    public Trail addTrail(int length, int elevation, String state, TrailSystem trailSystem,
                           String name, String imgLink, boolean multiDirectional, TrailDifficulty difficulty)
     {
         Trail added = new Trail(length, elevation, state, trailSystem,
@@ -132,7 +134,7 @@ public class TrailService
      * @return newly altered Trail object
      */
     //UPDATE
-    public Trail updateTrail(UUID id, int length, int elevation, String state, String trailSystem,
+    public Trail updateTrail(UUID id, int length, int elevation, String state, TrailSystem trailSystem,
                              String name, String imgLink, boolean multiDirectional, TrailDifficulty difficulty)
     {
         //optional is a wrapper to either store a null value or store a joke
@@ -207,11 +209,11 @@ public class TrailService
     }
 
     //READ
-    public List<Trail> searchTrailsByTrailSystem(String trailSystem)
+    public List<Trail> searchTrailsByTrailSystem(String trailSystemName)
     {
         return trails.stream()
-                .filter(trail -> trail.getTrailSystem()
-                        .equalsIgnoreCase(trailSystem))
+                .filter(trail -> trail.getTrailSystem().getName()
+                        .equalsIgnoreCase(trailSystemName))
                 .toList();
     }
 

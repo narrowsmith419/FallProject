@@ -23,7 +23,7 @@ public class Trail
     private int length; //length of trail
     private int elevation; //elevation of the trail
     private String state; //state where trail is located
-    private String trailSystem; //trail system where trail is located
+    private TrailSystem trailSystem; //trail system where trail is located
     private String name; //name of the trail
     private String imageLink; //location of image of trail
     private boolean multiDirectional; //is it a one way or two-way trail?
@@ -39,7 +39,7 @@ public class Trail
      * @param multiDirectional is it a one way or two-way trail?
      * @param difficulty { GREEN, BLUE, BLACK, DOUBLE_BLACK, PRO }
      */
-    public Trail( int length, int elevation, String state, String trailSystem,
+    public Trail( int length, int elevation, String state, TrailSystem trailSystem,
                  String name, String imageLink, boolean multiDirectional, TrailDifficulty difficulty)
     {
         trailID = UUID.randomUUID();

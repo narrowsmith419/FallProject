@@ -2,6 +2,7 @@ package com.greenriverdev.narrowsmith.fallproject.controllers;
 
 import com.greenriverdev.narrowsmith.fallproject.models.Query;
 import com.greenriverdev.narrowsmith.fallproject.models.Trail;
+import com.greenriverdev.narrowsmith.fallproject.models.TrailSystem;
 import com.greenriverdev.narrowsmith.fallproject.services.TrailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -95,18 +96,18 @@ public class WebApiTrail
     }
 
     /**
-     * @param trailSystem the name of the TrailSystem a Trail belongs to
+     * @param trailSystemName the name of the TrailSystem a Trail belongs to
      * @return all Trail objects matching that trail system
      */
-    @GetMapping("systems/{trailSystem}")
-    public ResponseEntity<Object> getTrailBySystem(@PathVariable String trailSystem)
+    @GetMapping("systems/{trailSystemName}")
+    public ResponseEntity<Object> getTrailBySystem(@PathVariable String trailSystemName)
     {
-        if ( service.searchTrailsByTrailSystem(trailSystem).isEmpty())
+        if ( service.searchTrailsByTrailSystem(trailSystemName).isEmpty())
         {
             return new ResponseEntity<>("this trail system cannot be found!", HttpStatus.BAD_REQUEST);
         }
 
-        return ResponseEntity.ok(service.searchTrailsByTrailSystem(trailSystem));
+        return ResponseEntity.ok(service.searchTrailsByTrailSystem(trailSystemName));
     }
 
     /**
@@ -153,7 +154,7 @@ public class WebApiTrail
             return new ResponseEntity<>("the trail state cannot be empty/null", HttpStatus.BAD_REQUEST);
         }
 
-        if(tempTrail.getTrailSystem() == null || tempTrail.getTrailSystem().isEmpty())
+        if(tempTrail.getTrailSystem() == null || tempTrail.getTrailSystem().getName().isEmpty())
         {
             return new ResponseEntity<>("the trail system cannot be empty/null", HttpStatus.BAD_REQUEST);
         }
@@ -203,7 +204,7 @@ public class WebApiTrail
             return new ResponseEntity<>("the trail state cannot be empty/null", HttpStatus.BAD_REQUEST);
         }
 
-        else if(tempTrail.getTrailSystem() == null || tempTrail.getTrailSystem().isEmpty())
+        else if(tempTrail.getTrailSystem() == null || tempTrail.getTrailSystem().getName().isEmpty())
         {
             return new ResponseEntity<>("the trail system cannot be empty/null", HttpStatus.BAD_REQUEST);
         }
