@@ -9,9 +9,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDate;
 
+/**
+ * Foundation of Spring application and home of PSVM class
+ * @author Nathan Arrowsmith
+ * @version 1.0
+ */
 @SpringBootApplication
 public class FallProjectApplication {
 
+    /**
+     * @param args PSVM standard args
+     */
     public static void main(String[] args)
     {
 

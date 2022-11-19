@@ -2,7 +2,6 @@ package com.greenriverdev.narrowsmith.fallproject.services;
 
 import com.greenriverdev.narrowsmith.fallproject.models.Trail;
 import com.greenriverdev.narrowsmith.fallproject.models.TrailDifficulty;
-import com.greenriverdev.narrowsmith.fallproject.models.TrailReview;
 import com.greenriverdev.narrowsmith.fallproject.models.TrailSystem;
 import org.springframework.stereotype.Service;
 
@@ -97,6 +96,7 @@ public class TrailService
      * @param state state where trail is located
      * @param trailSystem trail system where trail is located
      * @param name name of the trail
+     * @param imgLink location of image file for Trail
      * @param multiDirectional is it a one way or two-way trail?
      * @param difficulty { GREEN, BLUE, BLACK, DOUBLE_BLACK, PRO }
      * @return newly created Trail object
@@ -129,6 +129,7 @@ public class TrailService
      * @param state state where trail is located
      * @param trailSystem trail system where trail is located
      * @param name name of the trail
+     * @param imgLink location of image file for Trail
      * @param multiDirectional is it a one way or two-way trail?
      * @param difficulty { GREEN, BLUE, BLACK, DOUBLE_BLACK, PRO }
      * @return newly altered Trail object
@@ -190,6 +191,11 @@ public class TrailService
                 .toList();
     }
 
+    /**
+     * This method returns a List of trail objects that match queried ID
+     * @param id Unique Trail identifier for Trail object
+     * @return trail with matching ID
+     */
     //READ
     public List<Trail> searchTrailsByID(UUID id)
     {
@@ -199,6 +205,11 @@ public class TrailService
                 .toList();
     }
 
+    /**
+     * This method returns a List of trail objects that match queried trail Name
+     * @param trailName Name of Trail to find
+     * @return a List of trails that match searched name
+     */
     //READ
     public List<Trail> searchTrailsByTrailName(String trailName)
     {
@@ -208,6 +219,11 @@ public class TrailService
                 .toList();
     }
 
+    /**
+     * This method returns a List of all trails found at queried trail system name
+     * @param trailSystemName name of TrailSystem to look up trails by
+     * @return a List of all trails at searched TrailSystem name
+     */
     //READ
     public List<Trail> searchTrailsByTrailSystem(String trailSystemName)
     {
@@ -217,6 +233,11 @@ public class TrailService
                 .toList();
     }
 
+    /**
+     * This method returns a List of all trails found at queried trail difficulty
+     * @param trailDifficulty TrailDifficulty Enum to look up trails by
+     * @return a List of all trails with searched difficulty
+     */
     //READ
     public List<Trail> searchTrailsByTrailDifficulty(String trailDifficulty)
     {
@@ -228,14 +249,14 @@ public class TrailService
 
 
     /**
-     * @param id Unique identifier of Trial object
+     * @param identifier Unique identifier of Trial object
      * @return whether Trail object exists with searching ID
      */
-    public boolean trailExists(UUID id)
+    public boolean trailExists(UUID identifier)
     {
         //add all trails with matching id to list, check if list is empty
         return trails.stream()
-                .anyMatch(trail -> trail.getTrailID().equals(id));
+                .anyMatch(trail -> trail.getTrailID().equals(identifier));
 
     }
 

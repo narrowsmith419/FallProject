@@ -23,6 +23,12 @@ public class Review
     private LocalDate dateReviewed;
     private boolean wouldRecommend;
 
+    /**
+     * @param score 0-5 user rating
+     * @param author name of review author
+     * @param dateReviewed Date object for when review created
+     * @param wouldRecommend Boolean 'true' if author would recommend trail
+     */
     public Review(int score, String author, LocalDate dateReviewed, boolean wouldRecommend)
     {
         if(score < 0 || score > maxScore)
@@ -35,6 +41,9 @@ public class Review
         this.wouldRecommend = wouldRecommend;
     }
 
+    /**
+     * @param score 0-5 user rating of trail
+     */
     public void setScore(int score)
     {
         if(score < 0 || score > maxScore)

@@ -6,7 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * A TrailSystem Class
+ * A TrailSystem Class that holds the TrailSystem name and the GPS coordinates
+ * this Class was created to integrate trailSystems into the leaflet Map on homepage
  * @author Nathan Arrowsmith
  * @version 1.0
  */

@@ -191,10 +191,10 @@ function homePageCard(data){
     let bodyText = document.createElement("p");
     if(data === undefined){
         bodyText.innerText = "Hello and welcome to trailHub. This is a community driven mountain-biking resource" +
-            " created to give riders an opportunity to leave feedback on trails/trailsystems they ride. Begin by selecting "
-            + "a trail using the side navigation on the left, you can choose by trail name | trail system | or trail difficulty."
-            + " Don't see the trail you're looking for? You can add a trail to the database by using the 'add trail' button "
-            + " to the left!";
+            " created to give riders an opportunity to leave feedback on trails/trailsystems they ride. Begin by " +
+            "selecting " + "a trail using the side navigation on the left, you can choose by trail name | trail system "
+            + "| or trail difficulty." + " Don't see the trail you're looking for? You can add a trail to the database"
+            + " by using the 'add trail' button " + " to the left!";
     }
     else{
         let h2 = document.createElement("h2");
@@ -908,7 +908,7 @@ function removeTrail(event) {
     };
 
     fetch(trailUri, params)
-        .then(function (response) {
+        .then(function () {
             window.location.reload(); //refresh page
         });
 }
@@ -932,7 +932,7 @@ function removeReview(data) {
     };
 
     fetch(trailUri, params)
-        .then(function (response) {
+        .then(function () {
             window.location.reload(); //refresh page
         });
 }

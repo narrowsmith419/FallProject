@@ -2,14 +2,11 @@ package com.greenriverdev.narrowsmith.fallproject.controllers;
 
 import com.greenriverdev.narrowsmith.fallproject.models.Query;
 import com.greenriverdev.narrowsmith.fallproject.models.Trail;
-import com.greenriverdev.narrowsmith.fallproject.models.TrailSystem;
 import com.greenriverdev.narrowsmith.fallproject.services.TrailService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.crypto.dom.DOMCryptoContext;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,18 +63,18 @@ public class WebApiTrail
     }
 
     /**
-     * @param id unique identifier of Trail Object
+     * @param identifier unique identifier of Trail Object
      * @return Trail Object Matching that ID
      */
-    @GetMapping("{id}")
-    public ResponseEntity<Object> getTrail(@PathVariable UUID id)
+    @GetMapping("{identifier}")
+    public ResponseEntity<Object> getTrail(@PathVariable UUID identifier)
     {
-        if ( service.searchTrailsByID(id).isEmpty())
+        if ( service.searchTrailsByID(identifier).isEmpty())
         {
             return new ResponseEntity<>("this trail cannot be found!", HttpStatus.BAD_REQUEST);
         }
 
-        return ResponseEntity.ok(service.searchTrailsByID(id));
+        return ResponseEntity.ok(service.searchTrailsByID(identifier));
     }
 
     /**

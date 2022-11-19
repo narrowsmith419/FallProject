@@ -36,6 +36,7 @@ public class Trail
      * @param state state where trail is located
      * @param trailSystem trail system where trail is located
      * @param name name of the trail
+     * @param imageLink address to locally stored image
      * @param multiDirectional is it a one way or two-way trail?
      * @param difficulty { GREEN, BLUE, BLACK, DOUBLE_BLACK, PRO }
      */
