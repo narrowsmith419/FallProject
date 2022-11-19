@@ -4,6 +4,7 @@
 added_error_reporting_to_WebApiTrail_and_WebApiReview.patch
 application-dev.properties
 HELP.md
+.env
 
 target/
 node_modules/
