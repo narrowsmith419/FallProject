@@ -219,8 +219,31 @@ lightDiv{
     max-height: 160px;*/
 
     max-width: 40%;
-
 }
+
+.weatherIconList{
+    max-width: 25%;
+}
+
+.trailListWeather{
+    align-items: center;
+    text-align: center;
+    margin: 10px 40px 10px 50px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #3d444b;
+    border-radius: 10px;
+}
+
+.trailListWeatherH2{
+    color: #fefefe;
+}
+
+.trailListWeatherH1{
+    color: #9ac9ff;
+}
+
 
 #homePage{
     grid-column-start: 2;
@@ -255,6 +278,8 @@ lightDiv{
     grid-column-start: 2;
     grid-column-end: 6;
     margin: 10px;
+    background-color: #81a0de;
+    border: 0;
 }
 
 .nav-link{
@@ -325,6 +350,14 @@ lightDiv{
 
 .card{
     background-color: #343a40;
+}
+
+.card-header{
+    background-color: #343a40;
+}
+
+.list-group{
+    background-color: #fefefe;
 }
 
 .imageDescription{

@@ -10,9 +10,10 @@ let apiKey = "e3a64f2a4f555438567f7813bd27447b";
 let activeTrail;
 let activeReviews = [];
 let formType;
-let userLat = 47.58216;
-let userLong = -121.97715;
-let map = L.map('map').setView([47.579680, -121.984790], 13);
+let userLat;
+let userLong;
+let map = L.map('map').setView([47.579680, -121.984790], 13); //default weather to Issaquah Washington
+let userClick; //for event handing within leaflet Map
 
 //Select a Trail by Name drop-down button
 let trailByNameShow = document.querySelector("#dropBtnName");
@@ -47,7 +48,7 @@ window.onload = function () {
     };
 
     homePageCard(); //populate home page with intro text
-    fetchWeather(); //populate weather box with duthie hill for initial load
+    /*fetchWeather(); //populate weather box with duthie hill for initial load*/
 
     fetch(trailUri, params) //get response
         .then(function (response) {
@@ -231,21 +232,36 @@ let marker = L.marker([47.58216, -121.97715]).addTo(map);
 //add pop-up to marker
 marker.bindPopup("<b class='trailSystems'>Duthie Hill</b>").openPopup();
 
+/**
+ * This function populates leaflet map with all trail systems in database. The data passed to this method is from the
+ * trailNameDropDown function that already filters duplicate trail systems.After trail objects have been filtered,
+ * trail objects are added to a list and then fed to this function.
+ * @param data Single Trail Object (to use Lat and Lon values from trailSystem variable)
+ */
 function addTrailSystemToMap(data) {
 
     let trail = data;
-    console.log("from addTrailSystemToMap");
-    console.log(trail);
+
+    //have default homepage weather set to currently visible trailSystem
+    userLat = trail.trailSystem.lat;
+    userLong = trail.trailSystem.lon;
+
     //create map marker for trailSystem, add to Leaflet Map
     let testMarker = L.marker([trail.trailSystem.lat, trail.trailSystem.lon]).addTo(map);
     //add pop-up to marker
+    let div = document.createElement("div");
     let b = document.createElement("b");
+    let p = document.createElement("p");
     b.classList.add("trailSystems");
     b.innerText = trail.trailSystem.name;
-    testMarker.bindPopup(b).openPopup();
+    p.innerText = "Trail System";
+    div.appendChild(b);
+    div.appendChild(p);
+    testMarker.bindPopup(div).openPopup();
 
 }
 
+//TODO create polygon boundaries for all trail systems added
 //make a map shape (just an example)
 let polygon = L.polygon([
     [47.583929, -121.977879],
@@ -259,20 +275,14 @@ let polygon = L.polygon([
     [47.580184, -121.97635],
     [47.584131, -121.976287]
 ]).addTo(map);
+
 //add all trails at this trail system to this popup?
 polygon.bindPopup("<b class='trailSystems'>Duthie Hill</b><br>Trail System");
 
-//user event handling
-let popup = L.popup();
-let userClick;
 
 function onMapClick(e){
     userClick = e.latlng; //store user latitude/longitude
 
-    popup //remove this eventually
-        .setLatLng(e.latlng)
-        .setContent(e.latlng.toString())
-        .openOn(map);
 }
 map.on('click', onMapClick);
 map.on('click', getUserClick);
@@ -286,19 +296,16 @@ function getUserClick(){
     //set latitude/longitude variables
     userLat = userClick.lat;
     userLong = userClick.lng;
-
-    console.log(userLat);
-    console.log(userLong);
-    fetchWeather();
+    fetchWeather("home");
 }
 
 
 /**
  * Call openWeatherMap API using user clicked Map Longitude and Latitude (userLat and userLon local variables)
  */
-function fetchWeather(){
+function fetchWeather(outputPlace){
+    let type = outputPlace;
 
-//create trail objects to make with a GET request
     let weatherUri = "https://api.openweathermap.org/data/2.5/forecast?"
         + "lat=" + userLat
         + "&lon=" + userLong
@@ -308,7 +315,6 @@ function fetchWeather(){
         + "&exclude=daily"
         + "&exclude=alerts"
         + "&units=imperial";
-
 
     let params = {
         method: "get",
@@ -330,8 +336,12 @@ function fetchWeather(){
             return response.json(); //ask for response to be converted to json
         })
         .then(function (data) { //receive the text when promise is complete
-            console.log(data);
-            populateWeatherDiv(data);
+            if(type === "home"){
+                populateWeatherDiv(data);
+            }
+            if(type === "systemsList"){
+                populateSystemWeather(data);
+            }
         });
 }
 
@@ -351,11 +361,14 @@ function timeConvert(utcTime){
     });
 }
 
+/**
+ * This function creates the HTML for the homepage Weather Dashboard
+ * @param data is the response from the openWeatherMap API fetch from fetchWeather
+ */
 function populateWeatherDiv(data) {
 
     let weatherData = data;
     let currentWeather = weatherData.list[0];
-    console.log(currentWeather);
 
     //weather div variables
     let city = weatherData.city.name;
@@ -365,8 +378,7 @@ function populateWeatherDiv(data) {
     let currentTemp = currentWeather.main.temp;
     let minTemp = currentWeather.main.temp_min;
     let maxTemp = currentWeather.main.temp_max;
-    let weatherIcon = currentWeather.weather[0].main;
-    let archiveIcon = chooseWeatherIcon(weatherIcon);
+    let archiveIcon = chooseWeatherIcon(currentWeather.weather[0].main);
 
     //create HTML elements
     let weatherContainer = document.getElementById("weatherContainer");
@@ -407,11 +419,11 @@ function populateWeatherDiv(data) {
     let tempsTitle = document.createElement("p");
     tempsTitle.innerText = "Temps:";
     let currentP = document.createElement("p");
-    currentP.innerText = "Current: " + String(currentTemp).slice(0,2) + " F";
+    currentP.innerText = "Current: " + String(currentTemp).slice(0,2) + String.fromCharCode(176) +" F";
     let lowP = document.createElement("p");
-    lowP.innerText = "Low: " + String(minTemp).slice(0,2) + " F";
+    lowP.innerText = "Low: " + String(minTemp).slice(0,2) + String.fromCharCode(176) +" F";
     let highP = document.createElement("p");
-    highP.innerText = "High: " + String(maxTemp).slice(0,2) + " F";
+    highP.innerText = "High: " + String(maxTemp).slice(0,2) + String.fromCharCode(176) +" F";
     tempDiv.appendChild(tempsTitle);
     tempDiv.appendChild(currentP);
     tempDiv.appendChild(lowP);
@@ -438,6 +450,47 @@ function populateWeatherDiv(data) {
     weatherDiv.appendChild(a2);
     weatherDiv.appendChild(a3);
     weatherDiv.appendChild(a4);
+}
+
+/**
+ * This function creates the HTML for the Trail System List page Weather bubble
+ * @param data is the response from the openWeatherMap API fetch from fetchWeather
+ */
+function populateSystemWeather(data){
+
+    let currentWeather = data.list[0];
+    console.log(currentWeather);
+
+    //grab HTML trailStats element
+    let trailStats = document.getElementById("trailStats");
+    let trailCard = document.getElementById("trailCard");
+    trailStats.classList.remove("card");
+    trailCard.classList.remove("card");
+
+    //weather div variables
+    let currentTemp = currentWeather.main.temp;
+    let archiveIcon = chooseWeatherIcon(currentWeather.weather[0].main);
+
+    //create HTML elements
+    let weatherBox = document.createElement("div");
+    weatherBox.classList.add("trailListWeather");
+    let h2 = document.createElement("h2");
+    h2.classList.add("trailListWeatherH2")
+    h2.innerText = 'Current weather at ' + activeTrail.trailSystem.name;
+    let iconDiv = document.createElement("div");
+    let icon = document.createElement("img");
+    icon.classList.add("weatherIconList");
+    icon.src = archiveIcon;
+    iconDiv.appendChild(icon);
+    let temp = document.createElement("h1");
+    temp.classList.add("trailListWeatherH1")
+    temp.innerText = String(currentTemp).slice(0,2) + String.fromCharCode(176) + "F";
+
+    weatherBox.appendChild(h2);
+    weatherBox.appendChild(iconDiv);
+    weatherBox.appendChild(temp);
+    //add to HTML
+    trailStats.appendChild(weatherBox);
 
 }
 
@@ -449,8 +502,6 @@ function populateWeatherDiv(data) {
 function chooseWeatherIcon(weatherIcon){
 
     let icon = weatherIcon.toLowerCase();
-
-    console.log(icon);
 
     let cloudy = ["cloudy","cloudy-gusts","smog","tornado","hurricane","day-haze","fog", "clouds"];
     let rain = ["storm-showers","thunderstorm","sprinkle","rain","rain-mix"];
@@ -485,6 +536,7 @@ function homePageButton() {
 
 /**
  * This method dynamically generates trail names from trail API to populate drop down list (side nav)
+ * This method also populates the LeafLet map with all unique TrailSystems in database
  * @param data Trail objects from /api/v1/trail
  */
 function trailNameDropDown(data) {
@@ -523,6 +575,7 @@ function trailNameDropDown(data) {
 
         //add trailSystems to leaflet Map
         trailObjectList.forEach(trailSystem => addTrailSystemToMap(trailSystem));
+        fetchWeather("home"); //set homepage weather to current visible trailSystem on map
     }
 }
 
@@ -669,7 +722,6 @@ function fetchTrailList(data, type) {
     trailCard.classList.add("card");
     trailCard.classList.add("SystemListCard");
     trailCard.classList.remove("removeBorderRad");
-    trailStats.classList.remove("card");
 
     let div = document.createElement("div");
     div.classList.add("trailListBySystem", "card-header");
@@ -677,12 +729,22 @@ function fetchTrailList(data, type) {
     try {
         if (type === "systems") {
             div.innerText = 'Trails at "' + data[0].trailSystem.name + '" trail system';
+
+            //populate trailStats card with weather for trail system
+            userLat = data[0].trailSystem.lat;
+            userLong = data[0].trailSystem.lon;
+
+            activeTrail = data[0];//this might break something
+
+            fetchWeather("systemsList");
+
         }
     } catch (e) {
         trailCard.innerHTML = "There are no trails at this system :(";
     }
 
     if (type === "ratings") {
+        trailStats.classList.remove("card"); //hide stats card styles
         div.innerText = 'All Trails with a "' + data[0].difficulty + '" rating';
     }
     trailCard.appendChild(div);
@@ -721,6 +783,7 @@ function singleTrail(data) {
     trailStats.innerHTML = "";
 
     let trail = data;
+    activeTrail = trail //set for getReviews method
 
     //create all elements for img card
     let section = document.createElement("section");
