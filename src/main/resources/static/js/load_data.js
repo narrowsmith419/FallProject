@@ -42,7 +42,7 @@ homeButton.addEventListener("click", homePageButton);
  */
 window.onload = function () {
     //create trail objects to make with a GET request
-    let trailUri = "http://localhost:8080/api/v1/trail";
+    let trailUri = "http://localhost:8082/api/v1/trail";
     let params = {
         method: "get"
     };
@@ -587,7 +587,7 @@ function trailNameDropDown(data) {
  */
 function getTrailByName(value, type) {
 
-    let trailUri = "http://localhost:8080/api/v1/trail/" + type + "/" + value;
+    let trailUri = "http://localhost:8082/api/v1/trail/" + type + "/" + value;
     let params = {
         method: "get"
     };
@@ -769,6 +769,36 @@ function fetchTrailList(data, type) {
 
 }
 
+function getDifficultyImage(data){
+
+    let difficulty = data;
+
+    if(difficulty === "GREEN")
+    {
+        return "../images/greenCircle.png";
+    }
+    if(difficulty === "BLUE")
+    {
+        return "../images/blueSquare.png";
+    }
+    if(difficulty === "BLACK")
+    {
+        return "../images/blackDiamond.png";
+    }
+    if(difficulty === "DOUBLE_BLACK")
+    {
+        return "../images/doubleBlack.png";
+    }
+    if(difficulty === "PRO")
+    {
+        return "../images/proTriangle.png";
+    }
+    else{
+        console.log("Trail Difficulty ERROR");
+    }
+
+}
+
 /**
  * This function populates the trail stats with the single trail values from Trail object and
  * this function also handles all action buttons found under the stats list
@@ -797,6 +827,12 @@ function singleTrail(data) {
     let statsLi3 = document.createElement("li");
     let statsLi4 = document.createElement("li");
     let statsLi5 = document.createElement("li");
+
+    let ratingIcon = getDifficultyImage(trail.difficulty);
+    let diffImage = document.createElement("img");
+    diffImage.src = ratingIcon;
+    diffImage.classList.add("ratingIcon");
+
     const listItems = [statsLi, statsLi1, statsLi2, statsLi3, statsLi4, statsLi5];
 
     //add image description
@@ -804,7 +840,12 @@ function singleTrail(data) {
 
     statsLi.innerText = "Trail System: " + trail.trailSystem.name;
     statsLi1.innerText = "State: " + trail.state;
-    statsLi2.innerText = "Difficulty: " + trail.difficulty;
+
+    //difficulty with difficulty icon
+    statsLi2.innerText = "Difficulty: ";
+    statsLi2.classList.add("ratingList");
+    statsLi2.appendChild(diffImage);
+
     statsLi3.innerText = "Length: " + trail.length + "ft";
     statsLi4.innerText = "Elevation: " + trail.elevation + "ft";
     statsLi5.innerText = "BiDirectional: " + trail.multiDirectional;
@@ -872,7 +913,7 @@ function getReviews(event) {
 
     event.preventDefault();
 
-    let trailUri = "http://localhost:8080/api/v1/review/" + activeTrail.name;
+    let trailUri = "http://localhost:8082/api/v1/review/" + activeTrail.name;
     let params = {
         method: "get"
     };
@@ -898,7 +939,7 @@ function removeTrail(event) {
 
     let data = {trailID: activeTrail.trailID};
 
-    let trailUri = "http://localhost:8080/api/v1/trail/";
+    let trailUri = "http://localhost:8082/api/v1/trail/";
     let params = {
         method: "delete",
         headers: {
@@ -922,7 +963,7 @@ function removeReview(data) {
 
     let id = {reviewID: data};
 
-    let trailUri = "http://localhost:8080/api/v1/review/";
+    let trailUri = "http://localhost:8082/api/v1/review/";
     let params = {
         method: "delete",
         headers: {
@@ -978,6 +1019,7 @@ function editTrailModal() {
     let labelDifficulty2 = document.createElement("label");
     let labelDifficulty3 = document.createElement("label");
     let labelDifficulty4 = document.createElement("label");
+    let labelDifficulty5 = document.createElement("label");
 
     //TODO classlist.adds to a forLoop
     let inputDiv1 = document.createElement("div");
@@ -1007,6 +1049,7 @@ function editTrailModal() {
     let inputDifficulty2 = document.createElement("input");
     let inputDifficulty3 = document.createElement("input");
     let inputDifficulty4 = document.createElement("input");
+    let inputDifficulty5 = document.createElement("input");
     //radio div
     let difficultyDiv = document.createElement("div");
     let directionDiv = document.createElement("div");
@@ -1084,6 +1127,11 @@ function editTrailModal() {
     inputDifficulty4.setAttribute("value", "DOUBLE_BLACK");
     inputDifficulty4.setAttribute("type", "radio");
     inputDifficulty4.classList.add("radioButtonInput");
+    labelDifficulty5.innerText = "Pro ";
+    inputDifficulty5.setAttribute("name", "difficulty");
+    inputDifficulty5.setAttribute("value", "PRO");
+    inputDifficulty5.setAttribute("type", "radio");
+    inputDifficulty5.classList.add("radioButtonInput");
 
     //construct radio divs
     difficultyDiv.appendChild(labelDifficulty);
@@ -1096,6 +1144,8 @@ function editTrailModal() {
     difficultyDiv.appendChild(labelDifficulty3);
     labelDifficulty4.appendChild(inputDifficulty4);
     difficultyDiv.appendChild(labelDifficulty4);
+    labelDifficulty5.appendChild(inputDifficulty5);
+    difficultyDiv.appendChild(labelDifficulty5);
     //direction divs
     directionDiv.appendChild(labelDirection);
     directionDiv.classList.add("radioDiv");
@@ -1386,7 +1436,7 @@ function addReviewFormData(event){
     }
 
     //prepare fetch() data
-    let url = "http://localhost:8080/api/v1/review";
+    let url = "http://localhost:8082/api/v1/review";
     let params = {
         method: "post",
         //required mim type for post request
@@ -1463,7 +1513,7 @@ function editTrailFormData(event){
         }
 
         //prepare fetch() data
-        url = "http://localhost:8080/api/v1/trail";
+        url = "http://localhost:8082/api/v1/trail";
         params = {
             method: "post",
             //required mim type for post request
@@ -1498,7 +1548,7 @@ function editTrailFormData(event){
         }
 
         //prepare fetch() data
-        url = "http://localhost:8080/api/v1/trail";
+        url = "http://localhost:8082/api/v1/trail";
         params = {
             method: "put",
             //required mim type for post request

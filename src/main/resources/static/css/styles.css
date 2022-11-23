@@ -93,7 +93,20 @@ body{
     padding-right: 0;
     text-align: left;
     border-radius: 0; !important;
+}
 
+.ratingList{
+    list-style-type: none;
+    display: inline-block;
+    margin-right: 0;
+    padding-right: 0;
+    max-width: 200px;
+}
+.ratingIcon{
+    float: right;
+    max-width: 15%;
+    margin: 0;
+    padding: 0;
 }
 
 #mapContainer{
