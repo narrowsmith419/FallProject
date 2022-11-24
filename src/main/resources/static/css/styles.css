@@ -109,6 +109,13 @@ body{
     padding: 0;
 }
 
+.ratingIconNav{
+    float: right;
+    max-width: 15%;
+    margin: 0;
+    padding: 0;
+}
+
 #mapContainer{
     grid-column-start: 3;
     grid-column-end: 6;
@@ -258,7 +265,6 @@ body{
     color: #9ac9ff;
 }
 
-
 #homePage{
     grid-column-start: 2;
     grid-column-end: 3;
@@ -308,6 +314,7 @@ body{
 .trailSystems:hover{
     color: #0101b7;
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .trailStatsList li:nth-child(2n){
@@ -326,13 +333,16 @@ body{
     color: white;
     padding: 8px;
     font-size: 16px;
-    /*min-width: 125px;*/
     width: 100%;
 }
 
 /*side nav drop down button hover and focus*/
 .dropBtn:hover, .dropBtn:focus{
     background-color: #2980B9;
+    cursor: pointer;
+}
+.dropBtn:enabled{
+    border-color: #1a5677;
 }
 
 /*side nav drop down content (hidden by default)*/
@@ -344,6 +354,9 @@ body{
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
+.dropdown-content p:nth-child(2n){
+    background-color: #e7e7e7;
+}
 
 /*contents within dropdown*/
 .dropdown-content p, .trailSystemList li, .trailStatsList li {
@@ -354,7 +367,14 @@ body{
 
 /*change color of dropdown content on hover*/
 .dropdown-content p:hover, .trailSystemList li:hover {
-    background-color: #ddd;
+    background-color: #c56600;
+    color: #fefefe;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.trailNames, .trailSystems, .trailDifficulties {
+    margin-bottom: 0;
 }
 
 .show{

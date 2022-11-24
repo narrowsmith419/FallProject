@@ -55,7 +55,6 @@ window.onload = function () {
             return response.json(); //ask for response to be converted to json
         })
         .then(function (data) { //receive the text when promise is complete
-            console.log(data[0].trailSystem.name);
             trailNameDropDown(data);
         });
 
@@ -459,7 +458,6 @@ function populateWeatherDiv(data) {
 function populateSystemWeather(data){
 
     let currentWeather = data.list[0];
-    console.log(currentWeather);
 
     //grab HTML trailStats element
     let trailStats = document.getElementById("trailStats");
@@ -495,7 +493,7 @@ function populateSystemWeather(data){
 }
 
 /**
- * This function parses the openWeather API icon title and matches it to a relevant icon in images folder
+ * This function narrows down the openWeather API icon title and matches it to a relevant icon in images folder
  * @param weatherIcon openWeather API icon name
  * @returns {string} image source path of relevant icon
  */
@@ -564,14 +562,22 @@ function trailNameDropDown(data) {
             p2.classList.add("trailSystems");
             trailDropDownSystem.appendChild(p2);
         }
-        if (!difficultySet.has(trail.difficulty)) { //if difficulty doesn't already exist, add it to list
+        if (!difficultySet.has(trail.difficulty)) { //if difficulty doesn't already exist, add it to set
             difficultySet.add(trail.difficulty);
             let p3 = document.createElement("p");
+
+            let ratingIcon = getDifficultyImage(trail.difficulty);
+            let diffImage = document.createElement("img");
+            diffImage.src = ratingIcon;
+            diffImage.classList.add("ratingIconNav");
             p3.innerText = trail.difficulty;
             p3.classList.add("trailDifficulties");
+            p3.appendChild(diffImage);
             trailDropDownDifficulty.appendChild(p3);
         }
         trailDropDown.appendChild(p);
+
+
 
         //add trailSystems to leaflet Map
         trailObjectList.forEach(trailSystem => addTrailSystemToMap(trailSystem));
@@ -597,8 +603,6 @@ function getTrailByName(value, type) {
             return response.json();
         })
         .then(function (data) {
-            console.log("Get trail by name output:")
-            console.log(data);
             if (type === "names") {
                 fetchTrail(data);
             } else {
@@ -734,7 +738,7 @@ function fetchTrailList(data, type) {
             userLat = data[0].trailSystem.lat;
             userLong = data[0].trailSystem.lon;
 
-            activeTrail = data[0];//this might break something
+            activeTrail = data[0];
 
             fetchWeather("systemsList");
 
@@ -793,9 +797,6 @@ function getDifficultyImage(data){
     {
         return "../images/proTriangle.png";
     }
-    else{
-        console.log("Trail Difficulty ERROR");
-    }
 
 }
 
@@ -841,7 +842,7 @@ function singleTrail(data) {
     statsLi.innerText = "Trail System: " + trail.trailSystem.name;
     statsLi1.innerText = "State: " + trail.state;
 
-    //difficulty with difficulty icon
+    //difficulty displays difficulty icon
     statsLi2.innerText = "Difficulty: ";
     statsLi2.classList.add("ratingList");
     statsLi2.appendChild(diffImage);
@@ -1003,7 +1004,6 @@ function editTrailModal() {
 
     //create all form elements
     //labels & inputs //TODO: create these elements in a loop
-
     let labelName = document.createElement("label");
     let labelSystem = document.createElement("label");
     let labelLat = document.createElement("label");
@@ -1020,6 +1020,7 @@ function editTrailModal() {
     let labelDifficulty3 = document.createElement("label");
     let labelDifficulty4 = document.createElement("label");
     let labelDifficulty5 = document.createElement("label");
+
 
     //TODO classlist.adds to a forLoop
     let inputDiv1 = document.createElement("div");
@@ -1522,7 +1523,6 @@ function editTrailFormData(event){
             },
             body: JSON.stringify(jsonObj)
         }
-        console.log(JSON.stringify(jsonObj));
     }
 
     //edit trail process
