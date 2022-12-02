@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 /**
  * A Controller class that will define routes to future pages
  * We will also connect with Services here
+ * @author Nathan Arrowsmith
+ * @version 1.0
  */
 
 @Controller

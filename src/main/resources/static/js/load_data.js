@@ -7,6 +7,7 @@
 //TODO: HIDE THIS KEY
 let apiKey = "e3a64f2a4f555438567f7813bd27447b";
 
+let host = window.location.origin;
 let activeTrail;
 let activeReviews = [];
 let formType;
@@ -42,7 +43,8 @@ homeButton.addEventListener("click", homePageButton);
  */
 window.onload = function () {
     //create trail objects to make with a GET request
-    let trailUri = "http://localhost:8082/api/v1/trail";
+    /*let trailUri = "http://localhost:8082/api/v1/trail";*/
+    let trailUri = host + "/api/v1/trail";
     let params = {
         method: "get"
     };
@@ -593,7 +595,7 @@ function trailNameDropDown(data) {
  */
 function getTrailByName(value, type) {
 
-    let trailUri = "http://localhost:8082/api/v1/trail/" + type + "/" + value;
+    let trailUri = host + "/api/v1/trail/" + type + "/" + value;
     let params = {
         method: "get"
     };
@@ -914,7 +916,7 @@ function getReviews(event) {
 
     event.preventDefault();
 
-    let trailUri = "http://localhost:8082/api/v1/review/" + activeTrail.name;
+    let trailUri = host + "/api/v1/review/" + activeTrail.name;
     let params = {
         method: "get"
     };
@@ -940,7 +942,7 @@ function removeTrail(event) {
 
     let data = {trailID: activeTrail.trailID};
 
-    let trailUri = "http://localhost:8082/api/v1/trail/";
+    let trailUri = host + "/api/v1/trail/";
     let params = {
         method: "delete",
         headers: {
@@ -964,7 +966,7 @@ function removeReview(data) {
 
     let id = {reviewID: data};
 
-    let trailUri = "http://localhost:8082/api/v1/review/";
+    let trailUri = host + "/api/v1/review/";
     let params = {
         method: "delete",
         headers: {
@@ -1437,7 +1439,7 @@ function addReviewFormData(event){
     }
 
     //prepare fetch() data
-    let url = "http://localhost:8082/api/v1/review";
+    let url = host + "/api/v1/review";
     let params = {
         method: "post",
         //required mim type for post request
@@ -1514,7 +1516,7 @@ function editTrailFormData(event){
         }
 
         //prepare fetch() data
-        url = "http://localhost:8082/api/v1/trail";
+        url = host + "/api/v1/trail";
         params = {
             method: "post",
             //required mim type for post request
@@ -1548,7 +1550,7 @@ function editTrailFormData(event){
         }
 
         //prepare fetch() data
-        url = "http://localhost:8082/api/v1/trail";
+        url = host + "/api/v1/trail";
         params = {
             method: "put",
             //required mim type for post request

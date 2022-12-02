@@ -25,13 +25,15 @@ public class ReviewService
             new TrailReview(2,"Bill B", LocalDate.now(),false,true,
                     "Forbidden Druid", "Wet", "Afternoon/Overcast", "Paramount"),
             new TrailReview(4,"Charles M", LocalDate.now(),true,true,
-                    "Santa Cruz Nomad", "Loam", "Evening/Sunny", "Paramount"),
+                    "Santa Cruz Nomad", "Loam", "Evening/Sunny", "Voodoo Child"),
             new TrailReview(2,"Nathan A", LocalDate.now(),true,true,
-                    "Trek Remedy", "Dry", "Afternoon/Sunny", "Paramount"),
+                    "Trek Remedy", "Dry", "Afternoon/Sunny", "Feedback"),
             new TrailReview(5,"Nathan A", LocalDate.now(),true,true,
-                    "Trek Remedy", "Dry", "Evening/Sunny", "Paramount"),
+                    "Trek Remedy", "Dry", "Evening/Sunny", "Ground Control"),
             new TrailReview(5,"Nathan A", LocalDate.now(),true,true,
-                    "Trek Remedy", "Dry", "Evening/Sunny", "Semper Dirticus")
+                    "Trek Remedy", "Dry", "Evening/Sunny", "Semper Dirticus"),
+            new TrailReview(5,"Nathan A", LocalDate.now(),true,true,
+                    "Trek Remedy", "Dry", "Evening/Sunny", "Johnny Royale")
     ));
 
     /**
