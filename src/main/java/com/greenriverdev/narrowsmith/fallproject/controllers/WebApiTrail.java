@@ -17,6 +17,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("api/v1/trail")
+@CrossOrigin(origins= "*")
 public class WebApiTrail
 {
 

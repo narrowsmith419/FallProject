@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * a RESTful Controller that provides access to TrailReview objects through HTTP
@@ -18,6 +17,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("api/v1/review")
+@CrossOrigin(origins= "*")
 public class WebApiReview
 {
     private ReviewService service;
