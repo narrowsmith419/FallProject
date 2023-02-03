@@ -5,7 +5,7 @@
  */
 
 //TODO: HIDE THIS KEY
-let apiKey = "e3a64f2a4f555438567f7813bd27447b";
+let apiKey = "***";
 
 let host = window.location.origin;
 let activeTrail;
